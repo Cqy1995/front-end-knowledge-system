@@ -21,6 +21,7 @@ apply,call,bind可以改变this指向
 
 ## git基本操作
 #### 文件名（泛指文件路径+文件名）例如'/home/index.html'
+#### commit指git log时commit后的id
 git status 查看当前状态
 git fetch/git pull     拉取代码<br/>
 git add .              所有代码添加到暂存区<br/>
@@ -34,4 +35,5 @@ git diff   查看文件不同（针对改动少）<br/>
 git checkout -- '文件名'   当前文件还原到上一次提交的状态（已追踪时无效，在暂存区属于已追踪）<br/>
 git reset HEAD '文件名'    撤销文件的追踪<br/>
 git reset --hard HEAD^     回到上一版本（两个^^就是回退到前两个版本）<br/>
-git reset --hard 'id'      回到指定版本（id为git log时commit后的id）
+git reset --hard 'commitid'      回到指定版本
+git checkout 'commitid' -- '文件名' 将指定文件回退到指定版本
