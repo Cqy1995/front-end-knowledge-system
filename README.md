@@ -26,7 +26,7 @@ git status 查看当前状态
 git fetch/git pull     拉取代码<br/>
 git add .              所有代码添加到暂存区<br/>
 git commit -m '信息'   暂存区提交<br/>
-git push               提交到远程</br>
+git push  origin master    提交到远程</br>
 git rm '文件名'         删除<br/>
 git mv '文件名'         重命名/移动文件<br/>
 git log --pretty=oneline '文件名'     查看文件前后变化（用得到的id，git show 得到的id ，也能看见具体的变化）<br/>
