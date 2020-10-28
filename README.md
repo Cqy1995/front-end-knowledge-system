@@ -30,4 +30,5 @@ git mv '文件名'         重命名/移动文件<br/>
 git log --pretty=oneline '文件名'     查看文件前后变化（用得到的id，git show 得到的id ，也能看见具体的变化）<br/>
 git log -p '文件名'                   具体修改的内容<br/>
 git diff   查看文件不同（针对改动少）<br/>
-git checkout -- '文件名'   当前文件还原到上一次提交的状态<br/>
+git checkout -- '文件名'   当前文件还原到上一次提交的状态（已追踪时无效，在暂存区属于已追踪）<br/>
+git reset HEAD '文件名'    撤销文件的追踪<br/>
