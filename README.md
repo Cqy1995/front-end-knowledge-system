@@ -33,5 +33,5 @@ git log -p '文件名'                   具体修改的内容<br/>
 git diff   查看文件不同（针对改动少）<br/>
 git checkout -- '文件名'   当前文件还原到上一次提交的状态（已追踪时无效，在暂存区属于已追踪）<br/>
 git reset HEAD '文件名'    撤销文件的追踪<br/>
-git reset --hard HEAD^     回到上一版本（两个^^就是回退到前两个版本）
+git reset --hard HEAD^     回到上一版本（两个^^就是回退到前两个版本）<br/>
 git reset --hard 'id'      回到指定版本（id为git log时commit后的id）
