@@ -32,25 +32,27 @@ git push  origin master    提交到远程</br>
 git rm '文件名'         删除<br/>
 git mv '文件名'         重命名/移动文件<br/>
 git log --pretty=oneline '文件名'     查看文件前后变化（用得到的id，git show 得到的id ，也能看见具体的变化）<br/>
+git log --oneline  查看简写的提交记录<br/>
+git log --oneline --graph 查看版本路线<br/>
 git log -p '文件名'                   具体修改的内容<br/>
 git diff   查看文件不同（针对改动少）<br/>
 git checkout -- '文件名'   当前文件还原到上一次提交的状态（已追踪时无效，在暂存区属于已追踪）<br/>
 git reset HEAD '文件名'    撤销文件的追踪<br/>
 git reset --hard HEAD^     回到上一版本（两个^^就是回退到前两个版本）<br/>
-git reset --hard 'commitid'      回到指定版本
-git checkout 'commitid' -- '文件名' 将指定文件回退到指定版本
-git tag '标签名' 创建标签
-git tag  查看标签
-git tag '标签名' 'commitid'  为之前的项目创建标签
-git tag -d '标签名' 删除标签
-git push origin '标签名' 标签名推送到远程仓库
-git branch '分支名' 创建分支
-git branch  查看分支
-git checkout '分支名' 切换分支
-git branch -d '分支名' 删除分支（不能删除当前所在分支）
-git checkout -b test 创建并切换分支
-git branch -D '分支名' 强制删除分支
-git merge '分支名' 合并分支（合并分支，需要切换到要合并分支上，例如dev分支合并到master分支,要切换到master分支，在执行此合并命令）
+git reset --hard 'commitid'      回到指定版本<br/>
+git checkout 'commitid' -- '文件名' 将指定文件回退到指定版本<br/>
+git tag '标签名' 创建标签<br/>
+git tag  查看标签<br/>
+git tag '标签名' 'commitid'  为之前的项目创建标签<br/>
+git tag -d '标签名' 删除标签<br/>
+git push origin '标签名' 标签名推送到远程仓库<br/>
+git branch '分支名' 创建分支<br/>
+git branch  查看分支<br/>
+git checkout '分支名' 切换分支<br/>
+git branch -d '分支名' 删除分支（不能删除当前所在分支）<br/>
+git checkout -b test 创建并切换分支<br/>
+git branch -D '分支名' 强制删除分支<br/>
+git merge '分支名' 合并分支（合并分支，需要切换到要合并分支上，例如dev分支合并到master分支,要切换到master分支，在执行此合并命令）<br/>
 ###### 合并冲突时：
 * git merge --abort 保留当前分支的代码，忽略其他分支的代码。
 * 手动解决冲突：
