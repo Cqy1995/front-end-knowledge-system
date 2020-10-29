@@ -50,10 +50,11 @@ git branch '分支名' 创建分支<br/>
 git branch  查看分支<br/>
 git checkout '分支名' 切换分支<br/>
 git branch -d '分支名' 删除分支（不能删除当前所在分支）<br/>
+git push origin --delete '分支名' 删除远程分支
 git checkout -b test 创建并切换分支<br/>
 git branch -D '分支名' 强制删除分支<br/>
 git merge '分支名' 合并分支（合并分支，需要切换到要合并分支上，例如dev分支合并到master分支,要切换到master分支，在执行此合并命令）
 ###### 合并冲突时：
 * git merge --abort 保留当前分支的代码，忽略其他分支的代码。
 * 手动解决冲突：
-去掉前后及中间等号，保留想要的代码 => git status查看一下是不是同时修改了一个文件=> git add . => git commit => 进入可编辑界面 => i 进入可编辑状态输入解决状态的备注 => :wq 保存退出 => git commit 如果没有冲突后 => git commit -m '解决冲突后的代码' => git push origin master 推送到远程分支
+去掉前后及中间等号，保留想要的代码 => git status查看一下是不是同时修改了一个文件=> git add . => git commit => 进入可编辑界面 => i 进入可编辑状态输入解决状态的备注 => :wq 保存退出 => git commit 如果没有冲突后 => git commit -m '解决冲突后的代码' => git push origin master 推送到远程分支<br/>
