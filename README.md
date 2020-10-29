@@ -52,7 +52,7 @@ git checkout '分支名' 切换分支<br/>
 git branch -d '分支名' 删除分支（不能删除当前所在分支）<br/>
 git checkout -b test 创建并切换分支<br/>
 git branch -D '分支名' 强制删除分支<br/>
-git merge '分支名' 合并分支（合并分支，需要切换到要合并分支上，例如dev分支合并到master分支,要切换到master分支，在执行此合并命令）<br/>
+git merge '分支名' 合并分支（合并分支，需要切换到要合并分支上，例如dev分支合并到master分支,要切换到master分支，在执行此合并命令）
 ###### 合并冲突时：
 * git merge --abort 保留当前分支的代码，忽略其他分支的代码。
 * 手动解决冲突：
