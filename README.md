@@ -22,7 +22,7 @@ apply,call,bind可以改变this指向
 #### 综上所述,😊闭包是词法作用域和函数是JavaScript的第一公民相互所用自然而然产生的现象。
 ### 原型与继承
 每个函数都有prototype属性，指向原型对象</br>
-每个对象有个__proto__属性，指向该对象的原型。（普通对象没有）</br>
+每个对象有个__proto__属性，指向该对象的原型。（普通对象没有prototype属性）</br>
 function Person() {}</br>
 var person = new Person();</br>
 person.__proto__ === Person.prototype</br></br>
