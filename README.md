@@ -29,8 +29,9 @@ person.__proto__ === Person.prototype</br></br>
 实例的 __proto__ 指向构造函数的 prototype </br>
 原型的概念：对象创建，就会与之关联另一个对象，这个对象就是原型，每一个对象都会从原型中“继承”属性。</br>
 每个原型都有一个constructor属性，指向该关联的构造函数。</br>
-Person===Person.prototype.constructor</br>
-
+Person===Person.prototype.constructor(constructor是prototype上的属性，这一点很容易被忽略掉。)</br>
+person instanceof Person ==> true </br>
+constructor和instanceof 的作用是不同的，感性地来说，constructor的限制比较严格，它只能严格对比对象的构造函数是不是指定的值；而instanceof比较松散，只要检测的类型在原型链上，就会返回true。
 
 ## git基本操作
 #### 文件名（泛指文件路径+文件名）例如'/home/index.html'
