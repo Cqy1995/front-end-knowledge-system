@@ -32,7 +32,15 @@ person.__proto__ === Person.prototype</br></br>
 Person===Person.prototype.constructor(constructor是prototype上的属性，这一点很容易被忽略掉。)</br>
 person instanceof Person ==> true </br>
 constructor和instanceof 的作用是不同的，感性地来说，constructor的限制比较严格，它只能严格对比对象的构造函数是不是指定的值；而instanceof比较松散，只要检测的类型在原型链上，就会返回true。
-
+### 异步函数与promise
+宏任务：同步script（整体代码），setTimeout回调函数，setInterval回调函数，I/O,UI renderding。
+微任务： process.nextTick, Promise 回调函数，Object.observe，MutationObserver。
+代码执行顺序：</br>
+1，执行整体代码。进入栈中。
+2，如果发现微任务，把微任务放在微任务队列中。
+3，继续执行同步代码，同步代码（本次宏任务）执行完毕后，执行微任务，微任务队列清空。
+4，上一个宏任务出栈，进入下一个宏任务。
+5，如此循环，直到宏任务与微任务清空。
 ## git基本操作
 #### 文件名（泛指文件路径+文件名）例如'/home/index.html'
 #### commit指git log时commit后的id,取前七位即可
