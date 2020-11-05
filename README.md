@@ -68,7 +68,22 @@ false > -1 // true</br>
 var a = {}
 a > 2 // false</br>
 
-
+### 其他常见考点
+##### enerator 函数
+特殊的函数，声明的时候function*，会返回多次，yield控制一次次返回。</br>
+它的使用场景是：使用特定的规则，生成数据。比如生成 ID，生成编号等等.</br>
+##### encodeURL和encodeURLComponent
+encodeURI用来处理整个 URI，所以它不会转义&, ?, /, =等完整URI必备字符，而encodeURIComponent会转义那些特殊字符，所以通常只用它来转义URI的参数。比如手工拼URI时对键值对使用encodeURIComponent进行转义。
+##### 立即执行函数 (IIFE)
+IIFE,立即执行函数使用场景，函数只执行一次没有必要给它起名字。
+##### 函数在 JavaScript 中是第一公民 (first-class)
+可以作为函数的参数，也可以作为函数的返回值，也可以作为普通对象有自己的键值对，也可以push到数组中。**函数可以当成普通对象看待**</br>
+#####  arguments 参数是类数组
+arguments对象有length等属性，但它是伪数组，不能使用数组的方法。
+可以使用三种方法，将伪数组转换成数组。
+const arrArgs = Array.from(arguments) </br>
+const arrArgs = [...arguments]</br>
+const arrArgs = Array.protype.call(arguments)
 
 
 
