@@ -79,8 +79,8 @@ IIFE,立即执行函数使用场景，函数只执行一次没有必要给它起
 ##### 函数在 JavaScript 中是第一公民 (first-class)
 可以作为函数的参数，也可以作为函数的返回值，也可以作为普通对象有自己的键值对，也可以push到数组中。**函数可以当成普通对象看待**</br>
 #####  arguments 参数是类数组
-arguments对象有length等属性，但它是伪数组，不能使用数组的方法。
-可以使用三种方法，将伪数组转换成数组。
+arguments对象有length等属性，但它是伪数组，不能使用数组的方法。</br>
+可以使用三种方法，将伪数组转换成数组。</br>
 const arrArgs = Array.from(arguments) </br>
 const arrArgs = [...arguments]</br>
 const arrArgs = Array.protype.call(arguments)
