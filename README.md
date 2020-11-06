@@ -47,7 +47,7 @@ constructor和instanceof 的作用是不同的，感性地来说，constructor�
 判断：</br>
 typeof检测基本类型，都会得到相应的类型（除了null，所有判断变量是否是null：(!a && typeof a == 'object')）。</br>
 typeof检测引用类型，基本都是object,除了function.</br>
-**Object.prototype.toString.call(）**可以判断任何类型</br>
+**Object.prototype.toString.call(）**可以判断任何类型**</br>
 转换：</br>
 类型的转换总是得到number,string,boolean.</br>
 string=>number:Number('10'),+'10',ParseInt('10a'),parseInt允许传入非数字字符 (例如px)，其从左往右解析，遇到非数字字符就会停下。而Number不允许传入非数字字符。</br>
