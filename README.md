@@ -44,28 +44,28 @@ constructor和instanceof 的作用是不同的，感性地来说，constructor�
 ### 类型与类型转换
 基本类型：Number,String,Boolean,Null,Undefined,Symbol,Bigint.（按值访问）</br>
 引用类型：Array,Object,Function,RegExp(正则)。（按引用访问）</br>
-判断：</br>
+##### 判断:
 typeof检测基本类型，都会得到相应的类型（除了null，所有判断变量是否是null：(!a && typeof a == 'object')）。</br>
 typeof检测引用类型，基本都是object,除了function.</br>
-**Object.prototype.toString.call(）**可以判断任何类型**</br>
-转换：</br>
+Object.prototype.toString.call()可以判断任何类型</br>
+##### 转换：
 类型的转换总是得到number,string,boolean.</br>
 string=>number:Number('10'),+'10',ParseInt('10a'),parseInt允许传入非数字字符 (例如px)，其从左往右解析，遇到非数字字符就会停下。而Number不允许传入非数字字符。</br>
 number=>string:String(10),10+'',10.tostring().</br>
 任何值=>boolean:Boolean(值)，!!值。</br>
-隐式转换：</br>
+##### 隐式转换：
 +操作符: 1+'a'=>'1a' ,1+false=>1 ,'1'+false=>'1false' ,false+true=>1.</br>
 -、*、\操作符: 1 * '23' => 23, 1 * false => 0, 1 / 'aa' => NaN</br>
 ==操作符: 3 == true // false, 3 转为number为3，true转为number为1,'0' == false //true, '0'转为number为0，false转为number为0,'0' == 0 // '0'转为number为0</br>
-<和>比较符:
-如果两边都是字符串，则比较字母表顺序：
-'ca' < 'bd' // false
+<和>比较符:</br>
+如果两边都是字符串，则比较字母表顺序：</br>
+'ca' < 'bd' // false</br>
 'a' < 'b' // true</br>
-其他情况下，转换为数字再比较：
-'12' < 13 // true
+其他情况下，转换为数字再比较：</br>
+'12' < 13 // true</br>
 false > -1 // true</br>
-以上说的是基本类型的隐式转换，而对象会被**ToPrimitive**转换为基本类型再进行转换：
-var a = {}
+以上说的是基本类型的隐式转换，而对象会被ToPrimitive转换为基本类型再进行转换：</br>
+var a = {}</br>
 a > 2 // false</br>
 
 ### 其他常见考点
