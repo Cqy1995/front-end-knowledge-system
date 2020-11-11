@@ -1,7 +1,7 @@
 # 前端知识点体系梳理
 前端知识体系，从头到尾分为各个模块，打通奇经八脉。
 
-## javascript
+## Javascript
 
 ### 函数的调用
 作为独立函数调用，在非严格模式下this指向windows，严格模式下指向underfind。
@@ -86,7 +86,35 @@ const arrArgs = [...arguments]</br>
 const arrArgs = Array.protype.call(arguments)
 
 
+## CSS😏
+### css基础
+#### 优先级规则
+优先级由高到低：</br>
 
+!important</br>
+匹配优先级计算，详情见下文</br>
+若以上规则都无法解决，后来者优先级高</br>
+user agent stylesheet</br>
+
+优先级计算：A:内联样式 B:id选择器 C:类选择器/属性选择器/伪类 D：标签选择器/伪元素</br>
+⚠️少使用!important尤其是在npm这种。伪类是单:，伪元素是双::</br>
+user agent stylesheet是浏览器默认的样式，不同浏览器不通
+
+#### 盒模型
+标准模式下，box-sizing的值为content-box，当给一个盒子设置宽高后，实际是给content设置宽高，所有的 padding、border 再往外扩展</br>
+IE下：box-sizing的值为border-box,当给一个盒子设置宽高后，指定的宽高是包含 border 和 padding
+#### margin
+对于行内替换元素来说，4 个方向的margin都是起作用的；</br>
+对于行内非替换元素来说，只有margin-left和margin-right起作用，margin-top和margin-bottom是不起作用的。
+#### vertical-align在display:inline与table-cell起作用。
+#### 元素垂直居中
+
+当不需要指定元素的高度时，可以直接给一个相同的padding-top和padding-bottom，让元素和padding一起撑起来容器；</br>
+需要指定容器高度，或者不能使用padding的时候，设置元素display: table-cell 和 vertical-align: middle；</br>
+不需要严格的兼容，可以用 flexbox 的话，就使用flexbox；</br>
+内容只有一行文本时，把容器的line-height属性设置为和容器的高度一样；</br>
+上面的方法都不能用时，如果知道容器和元素的高度，用绝对定位；</br>
+如果不知道元素的高度时，结合定位和transform一起用。</br>
 
 ## git基本操作
 #### 文件名（泛指文件路径+文件名）例如'/home/index.html'
