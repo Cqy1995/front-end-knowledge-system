@@ -84,8 +84,31 @@ arguments对象有length等属性，但它是伪数组，不能使用数组的�
 const arrArgs = Array.from(arguments) </br>
 const arrArgs = [...arguments]</br>
 const arrArgs = Array.protype.call(arguments)
-
-
+##### 防抖与节流
+//节流函数</br>
+const throttle = (fn, delay=3000) => {</br>
+  let pre = 0;</br>
+  return (...args) => {</br>
+    let now = new Date().getTime();</br>
+    if (now - pre > delay) {</br>
+      fn.apply(this, args);</br>
+      pre = now;</br>
+    }</br>
+  };</br>
+}</br>
+let throttlefn = throttle(function(){console.log('执行的内容')},2000)</br>
+//防抖函数</br>
+const debounce = (func, time) => {</br>
+  let timer = null;</br>
+  return (...args) => {</br>
+    let This = this;</br>
+    clearTimeout(timer);</br>
+    timer = setTimeout(() => {</br>
+      func.call(This, args);</br>
+      timer = null;</br>
+    })</br>
+  }</br>
+}</br>
 ## CSS😏
 ### css基础
 #### 优先级规则
