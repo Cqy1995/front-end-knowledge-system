@@ -98,17 +98,18 @@ const throttle = (fn, delay=3000) => {</br>
 }</br>
 let throttlefn = throttle(function(){console.log('执行的内容')},2000)</br>
 //防抖函数</br>
-const debounce = (func, time) => {</br>
-  let timer = null;</br>
-  return (...args) => {</br>
-    let This = this;</br>
-    clearTimeout(timer);</br>
-    timer = setTimeout(() => {</br>
-      func.call(This, args);</br>
-      timer = null;</br>
-    })</br>
-  }</br>
-}</br>
+`const debounce = (func, time) => {
+  let timer = null;
+  return (...args) => {
+    let This = this;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func.call(This, args);
+      timer = null;
+    })
+  }
+}
+`
 ## CSS😏
 ### css基础
 #### 优先级规则
