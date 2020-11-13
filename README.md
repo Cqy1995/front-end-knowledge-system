@@ -4,10 +4,10 @@
 ## Javascript
 
 ### 函数的调用
-作为独立函数调用，在非严格模式下this指向windows，严格模式下指向underfind。
-作为对象的方法调用，this指向该对象。
-作为构造函数调用，看是独立函数调用还是属于方法调用。
-apply,call,bind可以改变this指向。
+作为独立函数调用，在非严格模式下this指向windows，严格模式下指向underfind。  
+作为对象的方法调用，this指向该对象。  
+作为构造函数调用，看是独立函数调用还是属于方法调用。  
+apply,call,bind可以改变this指向。  
 箭头函数
 ### 闭包
 变量：用于存储数据的容器；
@@ -42,8 +42,8 @@ constructor和instanceof 的作用是不同的，感性地来说，constructor�
 4，上一个宏任务出栈，进入下一个宏任务。
 5，如此循环，直到宏任务与微任务清空。
 ### 类型与类型转换
-基本类型：Number,String,Boolean,Null,Undefined,Symbol,Bigint.（按值访问）</br>
-引用类型：Array,Object,Function,RegExp(正则)。（按引用访问）</br>
+基本类型：Number,String,Boolean,Null,Undefined,Symbol,Bigint.（按值访问）  
+引用类型：Array,Object,Function,RegExp(正则)。（按引用访问）  
 ##### 判断:
 typeof检测基本类型，都会得到相应的类型（除了null，所有判断变量是否是null：(!a && typeof a == 'object')）。</br>
 typeof检测引用类型，基本都是object,除了function.</br>
