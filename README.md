@@ -98,7 +98,8 @@ const throttle = (fn, delay=3000) => {</br>
 }</br>
 let throttlefn = throttle(function(){console.log('执行的内容')},2000)</br>
 //防抖函数</br>
-`const debounce = (func, time) => {
+```
+const debounce = (func, time) => {
   let timer = null;
   return (...args) => {
     let This = this;
@@ -109,7 +110,7 @@ let throttlefn = throttle(function(){console.log('执行的内容')},2000)</br>
     })
   }
 }
-`
+```
 ## CSS😏
 ### css基础
 #### 优先级规则
