@@ -85,19 +85,21 @@ const arrArgs = Array.from(arguments) </br>
 const arrArgs = [...arguments]</br>
 const arrArgs = Array.protype.call(arguments)
 ##### 防抖与节流
-//节流函数</br>
-const throttle = (fn, delay=3000) => {</br>
-  let pre = 0;</br>
-  return (...args) => {</br>
-    let now = new Date().getTime();</br>
-    if (now - pre > delay) {</br>
-      fn.apply(this, args);</br>
-      pre = now;</br>
-    }</br>
-  };</br>
-}</br>
-let throttlefn = throttle(function(){console.log('执行的内容')},2000)</br>
-//防抖函数</br>
+节流函数
+```
+const throttle = (fn, delay=3000) => {
+  let pre = 0;
+  return (...args) => {
+    let now = new Date().getTime();
+    if (now - pre > delay) {
+      fn.apply(this, args);
+      pre = now;
+    }
+  };
+}
+let throttlefn = throttle(function(){console.log('执行的内容')},2000)
+```
+防抖函数
 ```
 const debounce = (func, time) => {
   let timer = null;
