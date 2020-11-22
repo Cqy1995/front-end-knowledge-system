@@ -185,6 +185,16 @@ HTML元素层级是所谓的文档流,CSS层叠上下文是文档流的子层叠
 1rem等于根元素的字体大小。  
 em适用于大小跟着字体的变化而变化的属性上，例如padding,margin,width,height.元素根据继承不同字体的大小，跟着变化。  
 
+#### meta标签
+```
+<meta name="viewport" content="width=divice-width" initail-scale="1">
+```
+viewport是指浏览器看见web内容的窗口区域。
+width=divice-width是指浏览器视口的大小要与移动设备的宽度保持一致。  
+initail-scale=1是指初始化比例保持不变（响应式必要要有这个属性）  
+
+
+
 ### 客户端
 
 #### 性能优化常见考点
