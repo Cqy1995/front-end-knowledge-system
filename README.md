@@ -309,6 +309,24 @@ git merge '分支名' 合并分支（合并分支，需要切换到要合并分�
 7. beforeDestory：组件销毁前触发，此时watchers，子组件和事件销毁。  
 8. Destoryed：组件销毁后触发。 
 
+### 双向绑定原理
+```
+var obj={};
+Object.definePropety(obj,'tex',{
+   get:function(){
+      return obj.tex;
+   }
+   set:function(newval){
+      document.getElementById('输入框id').value=newval;
+      document.getElementById('绑定的id').innerhtml=newval;
+   }
+}
+document.addEventListener('keyup',function(e){
+   obj.tex = e.target.value;
+})
+```
+🌿重点理解：Object.definePropety可以设置对象的属性这一特性。  
+
 
 ## 面试
 自我介绍：  
