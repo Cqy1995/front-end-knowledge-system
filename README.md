@@ -145,6 +145,37 @@ const debounce = (func, time) => {
   }
 }
 ```
+手写promise
+```
+const PENDING = Symbol();
+const REJECT = Symbol();
+const FULLFILLED = Symbol();
+
+const MyPromise = function(){
+    this.state = PENDING;
+    this.value = '';
+    const resolve = (val)=>{
+        this.state = FULLFILLED;
+        this.value=val;
+    }
+    const rejcect = (err)=>{
+        this.state = REJECT;
+        this.value = err;
+    }
+    this.then = (onfullfilled,onreject)=>{
+        if (this.state == FULLFILLED) {
+            onfullfilled(this.value)
+        }else{
+            onreject(this.value)
+        }
+    }
+    try {
+        fn(resolve,rejcect)
+    } catch (error) {
+        rejcect(err)
+    }
+}
+```
 ## CSS😏
 ### css基础
 #### 优先级规则
@@ -255,6 +286,16 @@ Memory Cache
 Memory Cache 就是内存缓存，它的效率最快，但是存活时间最短，你一关掉浏览器 Memory Cache 里的文件就被清空了。  
 Disk Cache  
 Cache 资源被存储在硬盘上，存活时间比 Memory Cache 要持久很多。  
+
+#### 什么是XSS攻击？如何防止XSS攻击？
+XSS是跨站脚本攻击，是web应用计算机安全漏洞，通过代码嵌入页面当中。  
+防止攻击的方法：  
+1. 在输入时进行转码，如html中<>标签等特殊符号。  
+2. Cookie设置httponly，防止用户通过document.cookie获取到cookie，⚠️此http头由服务端设置。  
+3. 重url获取值的时候一定要进行格式检查。  
+4. 不是用eval解析运行不确定的数据，json解析请使用JSON.parse。  
+5. 服务端也应该做的关键字的过滤。  
+
 
 
 ## git基本操作
