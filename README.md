@@ -369,6 +369,89 @@ document.addEventListener('keyup',function(e){
 ```
 🌿重点理解：Object.definePropety可以设置对象的属性这一特性。  
 
+### 组件传值
+1. 通过propos传递  
+2. 通过$emit触发自定义事件
+3. 使用ref
+4. EventBus
+bus.js  
+```
+// 创建一个中央时间总线类
+class Bus {
+  constructor() {
+    this.callbacks = {};   // 存放事件的名字
+  }
+  $on(name, fn) {
+    this.callbacks[name] = this.callbacks[name] || [];
+    this.callbacks[name].push(fn);
+  }
+  $emit(name, args) {
+    if (this.callbacks[name]) {
+      this.callbacks[name].forEach((cb) => cb(args));
+    }
+  }
+}
+
+// main.js
+Vue.prototype.$bus = new Bus() // 将$bus挂载到vue实例的原型上
+// 另一种方式
+Vue.prototype.$bus = new Vue() // Vue已经实现了Bus的功能
+```
+children1.vue  
+```
+this.$bus.$emit('foo')
+```
+children2.vue
+```
+this.$bus.$on('foo',this.handle);
+```
+5. parent或root
+兄弟组件  
+```
+this.$parent.emit('add')
+```
+另一个兄弟组件  
+```
+this.$parent.on('add',this.add)
+```
+6. attrs与listeners
+```
+//child:并未在props中声明foo
+<p>{{$attrs.foo}}</p>
+//parent 
+<HelloWord foo="foo"/>
+```
+```
+// 给Grandson隔代传值，communication/index.vue
+<Child2 msg="lalala" @some-event="onSomeEvent"></Child2>
+
+// Child2做展开
+<Grandson v-bind="$attrs" v-on="$listeners"></Grandson>
+
+// Grandson使⽤
+<div @click="$emit('some-event', 'msg from grandson')">
+{{msg}}
+</div>
+```
+7. Provide与Inject
+祖先组件定义   
+```
+provide(){
+    return {
+        foo:'foo'
+    }
+}
+```
+后代组件  
+```
+inject:['foo']
+```
+8. Vuex
+小结  
+父子关系的组件数据传递选择 props  与 $emit进行传递，也可选择ref  
+兄弟关系的组件数据传递可选择$bus，其次可以选择$parent进行传递  
+祖先与后代组件数据传递可选择attrs与listeners或者 Provide与 Inject  
+复杂关系的组件数据传递可以通过vuex存放共享的变量  
 
 ## 面试
 自我介绍：  
