@@ -116,35 +116,7 @@ arguments对象有length等属性，但它是伪数组，不能使用数组的�
 const arrArgs = Array.from(arguments)  
 const arrArgs = [...arguments]  
 const arrArgs = Array.protype.call(arguments)
-##### 防抖与节流
-节流函数
-```
-const throttle = (fn, delay=3000) => {
-  let pre = 0;
-  return (...args) => {
-    let now = new Date().getTime();
-    if (now - pre > delay) {
-      fn.apply(this, args);
-      pre = now;
-    }
-  };
-}
-let throttlefn = throttle(function(){console.log('执行的内容')},2000)
-```
-防抖函数
-```
-const debounce = (func, time) => {
-  let timer = null;
-  return (...args) => {
-    let This = this;
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      func.call(This, args);
-      timer = null;
-    })
-  }
-}
-```
+
 手写promise
 ```
 const PENDING = Symbol();
@@ -274,12 +246,12 @@ initail-scale=1是指初始化比例保持不变（响应式必要要有这个�
 Last-Modified:HTTP response headers中返回Last-modified返回头标识了此资源最后在服务端请求的时间。  
 Etag：服务端针对这个资源通过算法返回一个唯一的值。  
 
-浏览器缓存全过程  
+##### 浏览器缓存全过程  
 1. 浏览器第一次加载资源，返回200，重服务端获取资源，把资源保存到本地以及response header.     
 2. 第二次加载资源，先走强缓存，cache-control的max-age有没有超时，如果没有超时，直接走强制缓存。  
 3. 没走强缓存，则进行协商缓存，根据etag值，判断是否和上次请求一样，如果一样返回304，如果不一样返回200，重新加载资源。 
 
-缓存保存到哪里？
+##### 缓存保存到哪里？
 Service Worker  
 Service Worker 运行在 JavaScript 主线程之外，虽然由于脱离了浏览器窗体无法直接访问 DOM，但是它可以完成离线缓存、消息推送、网络代理等功能。  
 Memory Cache  
@@ -287,6 +259,45 @@ Memory Cache 就是内存缓存，它的效率最快，但是存活时间最短�
 Disk Cache  
 Cache 资源被存储在硬盘上，存活时间比 Memory Cache 要持久很多。  
 
+##### 说说你所知道的性能优化的方法？
+1. 使用cdn，通过dns负载均衡技术请求最近的chache服务器，以最快的速度请求服务器内容，也可以放一些静态资源放在cdn服务器上。  
+2. 合理利用缓存，使用chache-control与etag设置。  
+3. 使用雪碧图，合并js方法，减少请求数量。
+4. 合并css，js，减少请求的体积，服务端可以使用Gzip压缩。  
+5. 使用外联css与js，css放在头部（浏览器会等css加载后在渲染，避免重排，放在尾部会出现白屏），js放在尾部，减少页面阻塞并发请求，使用代码拆分及延迟加载
+6. 频繁操作demo时使用fragment，减少重排。
+7. 图片颜色复杂体积大优先使用jpg，图片小不复杂例如图标优先使用PNG8，图片颜色复杂半透明效果使用PNG24.
+8. 减少回流与重排，重绘。
+
+##### 防抖与节流
+节流函数
+```
+const throttle = (fn, delay=3000) => {
+  let pre = 0;
+  return (...args) => {
+    let now = new Date().getTime();
+    if (now - pre > delay) {
+      fn.apply(this, args);
+      pre = now;
+    }
+  };
+}
+let throttlefn = throttle(function(){console.log('执行的内容')},2000)
+```
+防抖函数
+```
+const debounce = (func, time) => {
+  let timer = null;
+  return (...args) => {
+    let This = this;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func.call(This, args);
+      timer = null;
+    })
+  }
+}
+```
 #### 什么是XSS攻击？如何防止XSS攻击？
 XSS是跨站脚本攻击，是web应用计算机安全漏洞，通过代码嵌入页面当中。  
 防止攻击的方法：  
