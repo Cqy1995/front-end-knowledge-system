@@ -217,6 +217,13 @@ initail-scale=1是指初始化比例保持不变（响应式必要要有这个�
 1. 在不同的像素密度下，使用不同精度的图片。  
 2. 在不同的屏幕大小下，使用rem,em,vw,vh等单位开发。
 
+#### rem如何计算
+1. 看设计图比例，（如设计图是宽750px，750/100=7.5）,根据比例（7.5）计算出html的fontsize,此时1rem == 100px  
+   document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px'   
+2. 因为1vw等于视口宽的1/100,（如设计图是宽750px，1vw == 7.5px,1px == 0.13333333333rem,100px == 13.333333vw）    
+   document.documentElement.style.fontSize = 13.333333vw   
+   
+   
 #### 所有元素设置成百分比，可以实现移动端相应式布局么？ 
 不可以  
 因为width,height,padding,margin是参考值是块元素而不是屏幕，font-size的参考值是父元素，border-radius与box-shadow只是部分支持百分比。
