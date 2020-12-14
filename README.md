@@ -345,6 +345,21 @@ strage不与服务器交互，
 cookie尽量精简，只携带与服务端交互所需要的信息，例如token验证登录信息     
 strage保存浏览器需要的本地数据，例如购物车信息等。  
 
+### 跨域
+#### JSONP 
+本质不是ajax请求，而是通过script标签，ajax有同源策略的限制，script标签不会限制🚫    
+```
+function msg(content){
+   console.log(content)
+}
+function jsonp(req){
+    var script = document.createEletment('script');
+    var url = `${req.url}?callback=${req.callbackname}`;
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+}
+jsonp({url:'http://demojsonp.com/test',callbackname:msg})
+```
 
 ## git基本操作
 #### 文件名（泛指文件路径+文件名）例如'/home/index.html'
