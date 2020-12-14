@@ -360,6 +360,10 @@ function jsonp(req){
 }
 jsonp({url:'http://demojsonp.com/test',callbackname:msg})
 ```
+过程描述：
+客户端发送script请求，参数中带着返回数据回调函数的名字。     
+服务端收到请求，返回（回调函数名字+参数）的立即执行函数（如上例子：msg（‘I am server information’））   
+
 
 ## git基本操作
 #### 文件名（泛指文件路径+文件名）例如'/home/index.html'
