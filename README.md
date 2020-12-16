@@ -9,18 +9,18 @@
 作为构造函数调用，看是独立函数调用还是属于方法调用。  
 apply,call,bind可以改变this指向。  
 箭头函数，继承父的this  
-
 **立即执行函数：函数创建后立即执行，作用就是能创建一个独立的作用域**
+
 ### 闭包
 变量：用于存储数据的容器；  
 标识符：代码中用来标识变量、函数、或属性的字符序列。  
-执行上下文：评估和执行 JavaScript 代码的环境的抽象概念。（全局，函数，eval函数）。  
-词法作用域：JavaScript 从标识符到变量的映射机制，在词法分析阶段生成的作用域，词法分析阶段，就可以理解为写代码阶段。  
+执行上下文：评估和执行 JavaScript 代码的环境的抽象概念。（全局，函数，eval函数）。     
+词法作用域：JavaScript 从标识符到变量的映射机制，在词法分析阶段生成的作用域，词法分析阶段，就可以理解为写代码阶段。    
 闭包：由于浏览器的垃圾回收机制，在JavaScript中，函数是第一公民，所以函数可以被当作一个普通的变量传递，所以函数在运行时可能会看起来已经脱离了原来的词法作用域。但是由于函数的作用域早就在词法分析时就确定了，所以函数无论在哪里执行，都会记住被定义时的作用域。这种现象就叫作闭包。  
 闭包就是函数能够记住并访问它的词法作用域，即使当这个函数在它的词法作用域之外执行时。  
 本来是函数执行完毕，执行环境销毁，对应的变量对象销毁，但是当A函数内的B函数将A函数的活动对象添加到他的活动对象，当B被全局变量接受不了后，A函数内部的活动对象就不会消失，因此就可以访问到A函数内部变量；  
-注意：它只能取得这个变量的最后最终值  
-重点：一定要函数返回配合匿名函数；    
+注意：它只能取得这个变量的最后最终值     
+重点：一定要函数返回配合匿名函数；      
 备注：垃圾回收机制：为了防止内存泄漏，浏览器会周期性的清理用不到的内存（变量）。
 
 闭包的使用场景：封装功能是（需要私有变量方法时）。  
@@ -49,6 +49,7 @@ person instanceof Person ==> true
 constructor和instanceof 的作用是不同的，感性地来说，constructor的限制比较严格，它只能严格对比对象的构造函数是不是指定的值；    
 而instanceof比较松散，只要检测的类型在原型链上，就会返回true。
 ```
+
 ### 异步函数与promise
 宏任务：同步script（整体代码），setTimeout回调函数，setInterval回调函数，I/O,UI renderding。  
 微任务： process.nextTick, Promise 回调函数，Object.observe，MutationObserver。  
@@ -58,18 +59,22 @@ constructor和instanceof 的作用是不同的，感性地来说，constructor�
 3，继续执行同步代码，同步代码（本次宏任务）执行完毕后，执行微任务，微任务队列清空。  
 4，上一个宏任务出栈，进入下一个宏任务。  
 5，如此循环，直到宏任务与微任务清空。  
+
 ### 类型与类型转换
 基本类型：Number,String,Boolean,Null,Undefined,Symbol,Bigint.（按值访问）  
 引用类型：Array,Object,Function,RegExp(正则)。（按引用访问）  
+
 ##### 判断:
 typeof检测基本类型，都会得到相应的类型（除了null，所有判断变量是否是null：(!a && typeof a == 'object')）。  
 typeof检测引用类型，基本都是object,除了function.  
 Object.prototype.toString.call()可以判断任何类型  
+
 ##### 转换：
 类型的转换总是得到number,string,boolean.  
 string=>number:Number('10'),+'10',ParseInt('10a'),parseInt允许传入非数字字符 (例如px)，其从左往右解析，遇到非数字字符就会停下。而Number不允许传入非数字字符。  
 number=>string:String(10),10+'',10.tostring().  
 任何值=>boolean:Boolean(值)，!!值。  
+
 ##### 隐式转换：
 +操作符: 
 ```
@@ -99,17 +104,22 @@ false > -1 // true
 以上说的是基本类型的隐式转换，而对象会被ToPrimitive转换为基本类型再进行转换：  
 var a = {}  
 a > 2 // false  
-```
+```  
+
 ### 其他常见考点
 ##### enerator 函数
 特殊的函数，声明的时候function*，会返回多次，yield控制一次次返回。  
-它的使用场景是：使用特定的规则，生成数据。比如生成 ID，生成编号等等.  
+它的使用场景是：使用特定的规则，生成数据。比如生成 ID，生成编号等等. 
+
 ##### encodeURL和encodeURLComponent
-encodeURI用来处理整个 URI，所以它不会转义&, ?, /, =等完整URI必备字符，而encodeURIComponent会转义那些特殊字符，所以通常只用它来转义URI的参数。比如手工拼URI时对键值对使用encodeURIComponent进行转义。
+encodeURI用来处理整个 URI，所以它不会转义&, ?, /, =等完整URI必备字符，而encodeURIComponent会转义那些特殊字符，所以通常只用它来转义URI的参数。比如手工拼URI时对键值对使用encodeURIComponent进行转义。  
+
 ##### 立即执行函数 (IIFE)
 IIFE,立即执行函数使用场景，函数只执行一次没有必要给它起名字。  
+
 ##### 函数在 JavaScript 中是第一公民 (first-class)
 可以作为函数的参数，也可以作为函数的返回值，也可以作为普通对象有自己的键值对，也可以push到数组中。**函数可以当成普通对象看待**  
+
 #####  arguments 参数是类数组
 arguments对象有length等属性，但它是伪数组，不能使用数组的方法。  
 可以使用三种方法，将伪数组转换成数组。  
@@ -147,12 +157,13 @@ const MyPromise = function(){
         rejcect(err)
     }
 }
-```
+```  
+
 ## CSS😏
 ### css基础
+
 #### 优先级规则
 优先级由高到低：  
-
 1. !important  
 2. 匹配优先级计算，详情见下文  
 3. 若以上规则都无法解决，后来者优先级高  
@@ -165,12 +176,14 @@ user agent stylesheet是浏览器默认的样式，不同浏览器不通
 #### 盒模型
 标准模式下，box-sizing的值为content-box，当给一个盒子设置宽高后，实际是给content设置宽高，所有的 padding、border 再往外扩展  
 IE下：box-sizing的值为border-box,当给一个盒子设置宽高后，指定的宽高是包含 border 和 padding  
+
 #### margin
 对于行内替换元素来说，4 个方向的margin都是起作用的  
 对于行内非替换元素来说，只有margin-left和margin-right起作用，margin-top和margin-bottom是不起作用的  
-#### vertical-align在display:inline与table-cell起作用。
-#### 元素垂直居中
 
+#### vertical-align在display:inline与table-cell起作用。
+
+#### 元素垂直居中
 当不需要指定元素的高度时，可以直接给一个相同的padding-top和padding-bottom，让元素和padding一起撑起来容器；  
 需要指定容器高度，或者不能使用padding的时候，设置元素display: table-cell 和 vertical-align: middle；  
 不需要严格的兼容，可以用 flexbox 的话，就使用flexbox；  
@@ -181,11 +194,13 @@ IE下：box-sizing的值为border-box,当给一个盒子设置宽高后，指定
 ### CSS层叠上下文
 HTML元素层级是所谓的文档流,CSS层叠上下文是文档流的子层叠。  
 一个页面中可能会有很多个层叠上下文，而层叠上下文之间是独立的。层叠上下文里有一套自己的排列规则  
+
 #### 层叠上下文之间如何排列?
 1.对于未定位元素，按照在元素在 HTML 文档中出现的顺序决定，越后面的元素越会覆盖在上面   
 2.先渲染未定位元素，再渲染定位元素   
 ***当一个元素被设置 z-index，它的所有后代和本元素形成一个层叠栈，也就是层叠上下文*** 
-*层叠上下文的后代元素只参与和根元素的对比，不参与和根元素以外的元素对比。*
+*层叠上下文的后代元素只参与和根元素的对比，不参与和根元素以外的元素对比。*  
+
 #### 层叠上下文内部如何排序?(由上到下)⚠️只有定位元素才可以比较z-index
 1.z-index为正值的定位元素。  
 2.z-index为auto的定位元素。  
@@ -194,7 +209,6 @@ HTML元素层级是所谓的文档流,CSS层叠上下文是文档流的子层叠
 5.层叠上下文的根元素。  
 
 ### 移动端CSS
-
 #### em与rem
 1em等于本元素的字体大小。  
 1rem等于根元素的字体大小。  
