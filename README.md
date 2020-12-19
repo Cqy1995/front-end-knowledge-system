@@ -12,6 +12,7 @@ apply,call,bind
 不同点：apply,call是对函数的直接调用，bind是返回一个函数，不直接调用，需要再次调用。  
 
 箭头函数   
+写法简洁，this指向不同，arguments对象指向父级作用域的arguments对象，不存在变量提升，没有new.target   
 
 **立即执行函数：函数创建后立即执行，作用就是能创建一个独立的作用域**
 
