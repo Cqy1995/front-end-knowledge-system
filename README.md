@@ -182,6 +182,20 @@ user agent stylesheet是浏览器默认的样式，不同浏览器不通
 标准模式下，box-sizing的值为content-box，当给一个盒子设置宽高后，实际是给content设置宽高，所有的 padding、border 再往外扩展  
 IE下：box-sizing的值为border-box,当给一个盒子设置宽高后，指定的宽高是包含 border 和 padding  
 
+#### 格式化上下文
+
+#### 块级格式化上下文  BFC
+1. 垂直方向依次排列。 
+2. 上下的间距由margin，同一BFC的子盒子会重叠。  
+3. BFC里面的内容不会影响外部，反之也是。  
+4. 每个元素与bfc内容左侧相邻，float也是。  
+5. BFC不会与float重叠。  
+6. 计算高度float也会计算在内。  
+#### 行内格式化上下文 IFC
+1. 水平方向依次排列。 
+2. 超出后换行。  
+3. 计算高度以子元素最大高度为准。  
+
 #### margin
 对于行内替换元素来说，4 个方向的margin都是起作用的  
 对于行内非替换元素来说，只有margin-left和margin-right起作用，margin-top和margin-bottom是不起作用的  
