@@ -1,3 +1,4 @@
+// 实现节流函数
 const throtlle = (fn, time = 300) => {
     let timecha = 0;
     return (...args) => {
@@ -8,3 +9,5 @@ const throtlle = (fn, time = 300) => {
         }
     }
 }
+
+// 时间复杂度随着数据规模增大而增大
