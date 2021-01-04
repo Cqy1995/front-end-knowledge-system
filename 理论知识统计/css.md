@@ -60,18 +60,25 @@ HTML 元素层级是所谓的文档流,CSS 层叠上下文是文档流的子层�
 
 #### 层叠上下文之间如何排列?
 
-1.对于未定位元素，按照在元素在 HTML 文档中出现的顺序决定，越后面的元素越会覆盖在上面  
-2.先渲染未定位元素，再渲染定位元素  
+1. 对于未定位元素，按照在元素在 HTML 文档中出现的顺序决定，越后面的元素越会覆盖在上面  
+2. 先渲染未定位元素，再渲染定位元素  
 **_当一个元素被设置 z-index，它的所有后代和本元素形成一个层叠栈，也就是层叠上下文_**
 _层叠上下文的后代元素只参与和根元素的对比，不参与和根元素以外的元素对比。_
 
 #### 层叠上下文内部如何排序?(由上到下)⚠️ 只有定位元素才可以比较 z-index
 
-1.z-index 为正值的定位元素。  
-2.z-index 为 auto 的定位元素。  
-3.未定位的元素。  
-4.z-index 为负值的定位元素。  
-5.层叠上下文的根元素。
+1. z-index 为正值的定位元素。  
+2. z-index 为 auto 的定位元素。  
+3. 未定位的元素。  
+4. z-index 为负值的定位元素。  
+5. 层叠上下文的根元素。
+
+#### css换行属性
+1. white-space(白色-空间  空格空白的意思):normal | pre | nowrap; （备注：text-overflow:clip/不显示省略号| ellipsis/显示省略号 ）  
+2. word-break:nomal | break-all(中文使用这个) | keep-all   
+3. word-wrap:nomal | break-word  
+4. overflow,overflow-x,overflow-y:visible | auto | hidden | scroll   
+
 
 ### 移动端 CSS
 
