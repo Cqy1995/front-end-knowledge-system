@@ -1,7 +1,10 @@
 #WebPack
 
 ## 资源处理流程  
-从入口文件开始检索，将具有依赖关系的模块生成一个依赖树，最终生成一个chunk（代码块），chunk与bundle（包）是对应的。  
+从入口文件开始检索，将具有依赖关系的模块生成一个依赖树，最终生成一个chunk（代码块），chunk与bundle（包）是对应的。
+
+###chunk
+一组有依赖关系的模块的封装
 
 ## loader 
 loader就像webpack翻译官，webpack本身只能处理JavaScript，为了能处理其他资源，必须把资源转译为webpack能够理解的资源。  
