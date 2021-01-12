@@ -42,7 +42,7 @@ apply,call,bind
 
 ### 原型与继承
 
-!['Prototype'](https://raw.githubusercontent.com/Cqy1995/front-end-knowledge-system/main/images/prototype.png)
+!['Prototype img'](https://raw.githubusercontent.com/Cqy1995/front-end-knowledge-system/main/images/prototype.png)
 每个函数都有 prototype 属性，指向原型对象。  
 每个对象有个**proto**属性，指向该对象的原型。（普通对象没有 prototype 属性）。
 
@@ -61,6 +61,23 @@ Person===Person.prototype.constructor(constructor是prototype上的属性，这�
 person instanceof Person ==> true
 constructor和instanceof 的作用是不同的，感性地来说，constructor的限制比较严格，它只能严格对比对象的构造函数是不是指定的值；
 而instanceof比较松散，只要检测的类型在原型链上，就会返回true。
+```
+#### 最优继承
+```
+function Person(name){
+   this.name = name;
+}
+Person.prototype.say = function(){
+   console.log(`my name is ${this.name}`)
+}
+function Student(){
+   Person.call(this,name)
+}
+Student.prototype = Object.create(Person.prototype);
+Student.prototype.constrcuctor = Student;
+
+var stu = new Stuent("tom");
+stu.say() //my name is tom 
 ```
 
 ### 异步函数与 promise
