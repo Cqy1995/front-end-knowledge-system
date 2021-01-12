@@ -42,7 +42,7 @@ apply,call,bind
 
 ### 原型与继承
 
-!['Prototype img'](https://raw.githubusercontent.com/Cqy1995/front-end-knowledge-system/main/images/prototype.png)
+!['Prototype img'](https://raw.githubusercontent.com/Cqy1995/front-end-knowledge-system/main/images/prototype.png)   
 每个函数都有 prototype 属性，指向原型对象。  
 每个对象有个**proto**属性，指向该对象的原型。（普通对象没有 prototype 属性）。
 
@@ -73,7 +73,9 @@ Person.prototype.say = function(){
 function Student(){
    Person.call(this,name)
 }
+//创建新对象，使现有对象来提供新创建对象的__proto__
 Student.prototype = Object.create(Person.prototype);
+//修改构造函数指向
 Student.prototype.constrcuctor = Student;
 
 var stu = new Stuent("tom");
