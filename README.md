@@ -42,6 +42,7 @@ apply,call,bind
 
 ### 原型与继承
 
+!['Prototype'](https://raw.githubusercontent.com/Cqy1995/front-end-knowledge-system/main/images/prototype.png)
 每个函数都有 prototype 属性，指向原型对象。  
 每个对象有个**proto**属性，指向该对象的原型。（普通对象没有 prototype 属性）。
 
