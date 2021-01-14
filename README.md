@@ -73,9 +73,9 @@ Person.prototype.say = function(){
 function Student(){
    Person.call(this,name)
 }
-//创建新对象，使现有对象来提供新创建对象的__proto__
+//创建新对象,student的原型对象变成Person的原型对象，也就有了person的say方法。
 Student.prototype = Object.create(Person.prototype);
-//修改构造函数指向
+//修改构造函数指向（上面修改prototype,同时constrcuctor也被修改成proson的构造函数（因为constrcuctor是prototype上面的一个属性），所以要把constructor变成学生自己的构造函数）
 Student.prototype.constrcuctor = Student;
 
 var stu = new Stuent("tom");
