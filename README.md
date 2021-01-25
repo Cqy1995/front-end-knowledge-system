@@ -175,6 +175,19 @@ const arrArgs = Array.from(arguments)
 const arrArgs = [...arguments]  
 const arrArgs = Array.protype.call(arguments)
 
+## HTML
+### 渲染原理过程
+解析html以构建dom树 -> 构建render树 -> 布局render树 -> 绘制render树   
+
+DOM Tree：浏览器将HTML解析成树形的数据结构。  
+CSS Rule Tree：浏览器将CSS解析成树形的数据结构。  
+Render Tree: DOM和CSSOM合并后生成Render Tree。  
+layout: 有了Render Tree，浏览器已经能知道网页中有哪些节点、各个节点的CSS定义以及他们的从属关系，从而去计算出每个节点在屏幕中的位置。    
+painting: 按照算出来的规则，通过显卡，把内容画到屏幕上。  
+
+#### 重排与重绘
+重排(Reflow)：元素的位置发生变动时发生重排，也叫回流。此时在关键渲染路径中的 Layout 阶段，计算每一个元素在设备视口内的确切位置和大小。当一个元素位置发生变化时，其父元素及其后边的元素位置都可能发生变化，代价极高
+重绘(Repaint): 元素的样式发生变动，但是位置没有改变。此时在关键渲染路径中的 Paint 阶段，将渲染树中的每个节点转换成屏幕上的实际像素，这一步通常称为绘制或栅格化
 
 ## CSS😏
 
