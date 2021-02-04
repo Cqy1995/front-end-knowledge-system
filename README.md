@@ -98,6 +98,15 @@ stu.say() //my name is tom
 基本类型：Number,String,Boolean,Null,Undefined,Symbol,Bigint.（按值访问）  
 引用类型：Array,Object,Function,RegExp(正则)。（按引用访问）
 
+#### array所有的方法
+```
+push unshift pop shift concat  splice slice fill  reverse  toString toLocaleString  toSource values
+join  indexOf lastIndexOf copyWithin find findIndex includes
+entries 
+foreach map filter every keys  reduce reduceRight sort 
+some  flat flatMap 
+from of  isArray 
+```
 ##### 判断:
 
 typeof 检测基本类型，都会得到相应的类型（除了 null，所有判断变量是否是 null：(!a && typeof a == 'object')）。  
