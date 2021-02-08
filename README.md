@@ -100,12 +100,21 @@ stu.say() //my name is tom
 
 #### array所有的方法
 ```
-push unshift pop shift concat  splice slice fill  reverse  toString toLocaleString  toSource values
-join  indexOf lastIndexOf copyWithin find findIndex includes
-entries 
-foreach map filter every keys  reduce reduceRight sort 
-some  flat flatMap 
-from of  isArray 
+/*es3方法*/
+push  pop shift unshift reverse sort splice //改变原数组
+slice concat toString join valueof
+
+/*es5*/
+indexOf lastIndexOf isArray
+foreach | map filter (every some) (reduce reduceRight) //迭代方法
+
+/*es6*/
+...拓展运算符
+from  of  copyWithin 
+find findIndex includes
+fill  toLocaleString  toSource 
+entries values keys
+flat flatMap 
 ```
 ##### 判断:
 
