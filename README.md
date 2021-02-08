@@ -73,9 +73,9 @@ Person.prototype.say = function(){
 function Student(){
    Person.call(this,name)
 }
-//创建新对象，使现有对象来提供新创建对象的__proto__
+//创建新对象,student的原型对象变成Person的原型对象，也就有了person的say方法。
 Student.prototype = Object.create(Person.prototype);
-//修改构造函数指向
+//修改构造函数指向（上面修改prototype,同时constrcuctor也被修改成proson的构造函数（因为constrcuctor是prototype上面的一个属性），所以要把constructor变成学生自己的构造函数）
 Student.prototype.constrcuctor = Student;
 
 var stu = new Stuent("tom");
@@ -98,6 +98,15 @@ stu.say() //my name is tom
 基本类型：Number,String,Boolean,Null,Undefined,Symbol,Bigint.（按值访问）  
 引用类型：Array,Object,Function,RegExp(正则)。（按引用访问）
 
+#### array所有的方法
+```
+push unshift pop shift concat  splice slice fill  reverse  toString toLocaleString  toSource values
+join  indexOf lastIndexOf copyWithin find findIndex includes
+entries 
+foreach map filter every keys  reduce reduceRight sort 
+some  flat flatMap 
+from of  isArray 
+```
 ##### 判断:
 
 typeof 检测基本类型，都会得到相应的类型（除了 null，所有判断变量是否是 null：(!a && typeof a == 'object')）。  
@@ -175,6 +184,19 @@ const arrArgs = Array.from(arguments)
 const arrArgs = [...arguments]  
 const arrArgs = Array.protype.call(arguments)
 
+## HTML
+### 渲染原理过程
+解析html以构建dom树 -> 构建render树 -> 布局render树 -> 绘制render树   
+
+DOM Tree：浏览器将HTML解析成树形的数据结构。  
+CSS Rule Tree：浏览器将CSS解析成树形的数据结构。  
+Render Tree: DOM和CSSOM合并后生成Render Tree。  
+layout: 有了Render Tree，浏览器已经能知道网页中有哪些节点、各个节点的CSS定义以及他们的从属关系，从而去计算出每个节点在屏幕中的位置。    
+painting: 按照算出来的规则，通过显卡，把内容画到屏幕上。  
+
+#### 重排与重绘
+重排(Reflow)：元素的位置发生变动时发生重排，也叫回流。此时在关键渲染路径中的 Layout 阶段，计算每一个元素在设备视口内的确切位置和大小。当一个元素位置发生变化时，其父元素及其后边的元素位置都可能发生变化，代价极高
+重绘(Repaint): 元素的样式发生变动，但是位置没有改变。此时在关键渲染路径中的 Paint 阶段，将渲染树中的每个节点转换成屏幕上的实际像素，这一步通常称为绘制或栅格化
 
 ## CSS😏
 
@@ -423,6 +445,56 @@ jsonp({url:'http://demojsonp.com/test',callbackname:msg})
 
 
 
+## git 基本操作
+
+#### 文件名（泛指文件路径+文件名）例如'/home/index.html'
+
+#### commit 指 git log 时 commit 后的 id,取前七位即可
+
+#### 标签名即为名称例如'v1.0
+
+#### 分支名也为名称除了 master 以外
+
+git status 查看当前状态  
+git fetch/git pull 拉取代码  
+git add . 所有代码添加到暂存区  
+git commit -m '信息' 暂存区提交  
+git push origin master 提交到远程  
+git rm '文件名' 删除  
+git mv '文件名' 重命名/移动文件  
+git log --pretty=oneline '文件名' 查看文件前后变化（用得到的 id，git show 得到的 id ，也能看见具体的变化）  
+git log --oneline 查看简写的提交记录  
+git log --oneline --graph 查看版本路线  
+git log -p '文件名' 具体修改的内容  
+git diff 查看文件不同（针对改动少）  
+git checkout -- '文件名' 当前文件还原到上一次提交的状态（已追踪时无效，在暂存区属于已追踪）  
+git reset HEAD '文件名' 撤销文件的追踪  
+git reset --hard HEAD^ 回到上一版本（两个^^就是回退到前两个版本）  
+git reset --hard 'commitid' 回到指定版本  
+git checkout 'commitid' -- '文件名' 将指定文件回退到指定版本  
+git tag '标签名' 创建标签  
+git tag 查看标签  
+git tag '标签名' 'commitid' 为之前的项目创建标签  
+git tag -d '标签名' 删除标签  
+git push origin '标签名' 标签名推送到远程仓库  
+git branch '分支名' 创建分支  
+git branch 查看分支  
+git checkout '分支名' 切换分支  
+git branch -d '分支名' 删除分支（不能删除当前所在分支）  
+git push origin --delete '分支名' 删除远程分支  
+git checkout -b test 创建并切换分支  
+git branch -D '分支名' 强制删除分支  
+git merge '分支名' 合并分支（合并分支，需要切换到要合并分支上，例如 dev 分支合并到 master 分支,要切换到 master 分支，在执行此合并命令）
+
+###### 合并冲突时：
+
+- git merge --abort 保留当前分支的代码，忽略其他分支的代码。
+- 手动解决冲突：  
+  去掉前后及中间等号，保留想要的代码 => git status 查看一下是不是同时修改了一个文件=> git add . => git commit => 进入可编辑界面 => i 进入可编辑状态输入解决状态的备注 => :wq 保存退出 => git commit 如果没有冲突后 => git commit -m '解决冲突后的代码' => git push origin master 推送到远程分支
+- git merge --abort 保留当前分支的代码，忽略其他分支的代码。
+- git merge --abort 保留当前分支的代码，忽略其他分支的代码。
+
+
 
 ## VUE
 
@@ -554,7 +626,7 @@ inject:['foo']
 
 8. 小结  
    父子关系的组件数据传递选择 props 与 $emit进行传递，也可选择ref  
-   兄弟关系的组件数据传递可选择$bus，其次可以选择$parent 进行传递  
+兄弟关系的组件数据传递可选择$bus，其次可以选择$parent 进行传递  
    祖先与后代组件数据传递可选择 attrs 与 listeners 或者 Provide 与 Inject  
    复杂关系的组件数据传递可以通过 vuex 存放共享的变量
 
@@ -564,70 +636,27 @@ inject:['foo']
 2. 新的 value 时$emit 触发 input 事件
 
 
-## WebPack
-
-### 资源处理流程  
-从入口文件开始检索，将具有依赖关系的模块生成一个依赖树，最终生成一个chunk（代码块），chunk与bundle（包）是对应的。
-
-###chunk
-一组有依赖关系的模块的封装
-
-### loader 
-loader就像webpack翻译官，webpack本身只能处理JavaScript，为了能处理其他资源，必须把资源转译为webpack能够理解的资源。  
-配置loader实际上是定义模块的规则，需要注意两点。  
-1. 对哪些模块生效（test，include，exclude）。  
-2. 使用哪些loader。 
-
-loader可以是链式的，每一个拥有自己的配置。  
-loader本身是一个函数，第一loader的输入是源文件，之后所有的输入都是上一个的输出，最后一个直接输出给webpack。
-
-
-## git 基本操作
-
-#### 文件名（泛指文件路径+文件名）例如'/home/index.html'
-
-#### commit 指 git log 时 commit 后的 id,取前七位即可
-
-#### 标签名即为名称例如'v1.0
-
-#### 分支名也为名称除了 master 以外
-
-git status 查看当前状态  
-git fetch/git pull 拉取代码  
-git add . 所有代码添加到暂存区  
-git commit -m '信息' 暂存区提交  
-git push origin master 提交到远程  
-git rm '文件名' 删除  
-git mv '文件名' 重命名/移动文件  
-git log --pretty=oneline '文件名' 查看文件前后变化（用得到的 id，git show 得到的 id ，也能看见具体的变化）  
-git log --oneline 查看简写的提交记录  
-git log --oneline --graph 查看版本路线  
-git log -p '文件名' 具体修改的内容  
-git diff 查看文件不同（针对改动少）  
-git checkout -- '文件名' 当前文件还原到上一次提交的状态（已追踪时无效，在暂存区属于已追踪）  
-git reset HEAD '文件名' 撤销文件的追踪  
-git reset --hard HEAD^ 回到上一版本（两个^^就是回退到前两个版本）  
-git reset --hard 'commitid' 回到指定版本  
-git checkout 'commitid' -- '文件名' 将指定文件回退到指定版本  
-git tag '标签名' 创建标签  
-git tag 查看标签  
-git tag '标签名' 'commitid' 为之前的项目创建标签  
-git tag -d '标签名' 删除标签  
-git push origin '标签名' 标签名推送到远程仓库  
-git branch '分支名' 创建分支  
-git branch 查看分支  
-git checkout '分支名' 切换分支  
-git branch -d '分支名' 删除分支（不能删除当前所在分支）  
-git push origin --delete '分支名' 删除远程分支  
-git checkout -b test 创建并切换分支  
-git branch -D '分支名' 强制删除分支  
-git merge '分支名' 合并分支（合并分支，需要切换到要合并分支上，例如 dev 分支合并到 master 分支,要切换到 master 分支，在执行此合并命令）
-
-###### 合并冲突时：
-
-- git merge --abort 保留当前分支的代码，忽略其他分支的代码。
-- 手动解决冲突：  
-  去掉前后及中间等号，保留想要的代码 => git status 查看一下是不是同时修改了一个文件=> git add . => git commit => 进入可编辑界面 => i 进入可编辑状态输入解决状态的备注 => :wq 保存退出 => git commit 如果没有冲突后 => git commit -m '解决冲突后的代码' => git push origin master 推送到远程分支
-- git merge --abort 保留当前分支的代码，忽略其他分支的代码。
-- git merge --abort 保留当前分支的代码，忽略其他分支的代码。
-
+## 正则表达式
+正则表达式有两种基本的用途，查找和替换。（给定一个正则表达式，要么匹配一些文本，要么匹配一些文本后替换文本）    
+` 正则表达式是用来匹配和处理文本的字符串（它有自己特殊的语法与指令）`  
++ 匹配单个字符
+   + .匹配任意字符
+   + \对字符进行转义（有特殊含义的总是以\开头）
++ 匹配多个字符
+   + []和，匹配该集合里字符之一（ ex:[1,2,3,4,5,6,7,8,9] ）
+   + -区间，（ex:[1-9]）⚠️在[]外只是普通字符，与-本身想匹配
+   + ^非，除了该集合里的字符，其他字符都匹配。（ex:[^1-9]）
++ 空白元字符
+   + [\b] 回退（删除）一个字符
+   + \n 换行
+   + \f 换页
+   + \r 回车
+   + \t tab键
+   + \v 垂直制表符
++ 特定字符类别
+   + \d 任何一个数字（[0-9]）
+   + \D 任何一个非数字（^[0-9]）
+   + \w 任何一个字母数字或下划线字符（[a-zA-Z0-9_]）
+   + \W 任何一个非字母数字或下划线([^a-zA-Z0-9])
+   + \s 任何一个空白字符([\f\n\r\t\v])
+   + \S 任何一个非空白字符([^\f\n\r\t\v])
