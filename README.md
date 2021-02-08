@@ -110,11 +110,18 @@ foreach | map filter (every some) (reduce reduceRight) //迭代方法
 
 /*es6*/
 ...拓展运算符
-from  of  copyWithin 
-find findIndex includes
-fill  toLocaleString  toSource 
+from伪数组转数组  of创建有可变参数的数组
+find findIndex 找到测试第一个值和第一个值的索引 includes判断一个数组是否包含一个值返回布尔
+toLocaleString  toSource 
 entries values keys
-flat flatMap 
+flat扁平化  flatMap循环后扁平化 
+copyWithin fill//改变原数组
+//**个别实例
+let ar = [1,2,3,4,5]
+ar.copyWithin(3,0,2) => [1, 2, 3, 1, 2]//要替换的位置，开始复制地方，结束的复制的地方
+
+let ar = [1,2,3,4,5]
+ar.fill(8,0,2)=>[8, 8, 3, 4, 5]//要填充内容，开始填充的位置，结束填充的位置
 ```
 ##### 判断:
 
