@@ -262,12 +262,17 @@ IE 下：box-sizing 的值为 border-box,当给一个盒子设置宽高后，指
 
 #### 元素垂直居中
 
-当不需要指定元素的高度时，可以直接给一个相同的 padding-top 和 padding-bottom，让元素和 padding 一起撑起来容器；  
-需要指定容器高度，或者不能使用 padding 的时候，设置元素 display: table-cell 和 vertical-align: middle；  
-不需要严格的兼容，可以用 flexbox 的话，就使用 flexbox；  
-内容只有一行文本时，把容器的 line-height 属性设置为和容器的高度一样；  
-上面的方法都不能用时，如果知道容器和元素的高度，用绝对定位；  
-如果不知道元素的高度时，结合定位和 transform 一起用。
+在项目中是非常常见的
+最开始我使用
+1. 内容只有一行文本时，把容器的 line-height 属性设置为和容器的高度一样；  
+2. 上面的方法都不能用时，如果知道容器和元素的高度，用绝对定位；  
+3. 如果不知道元素的高度时，结合定位和 transform 一起用。
+后来不需要严格的兼容，
+4. 可以用 flexbox 的话，就使用 flexbox；
+有时候看文章也有
+5. 当不需要指定元素的高度时，可以直接给一个相同的 padding-top 和 padding-bottom，让元素和 padding 一起撑起来容器；  
+6. 需要指定容器高度，或者不能使用 padding 的时候，设置元素 display: table-cell 和 vertical-align: middle；  
+  
 
 ### CSS 层叠上下文
 
