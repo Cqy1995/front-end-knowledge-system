@@ -16,6 +16,27 @@ apply,call,bind
 箭头函数  
 写法简洁，this 指向不同，arguments 对象指向父级作用域的 arguments 对象，不存在变量提升，没有 new.target
 
+**拓展**
+_new 都发生了什么？？_
+1. 创建一个新对象
+2. 构造函数的作用域给了新对象
+3. 执行构造函数中的代码
+4. 返回新对象
+```
+   function Person(name){this.name = name}
+   const lydia = new Person('zs')
+   const sarah = Person('ls')
+   console.log(lydia,sarah) 
+   /*
+   *返回结果
+   *Person {name: "zs"} undefined
+   */ 
+   let newobj = {};
+   newobj._proto_ = Person.prototype(this指向了新对象)
+   this.name = 'zs'
+   return {name:'zs'}
+   //注意:不添加new 它指的是全局对象,global.name = 'ls',本身没有返回值，所以是undefined
+```
 **立即执行函数：函数创建后立即执行，作用就是能创建一个独立的作用域**
 
 ### 闭包
