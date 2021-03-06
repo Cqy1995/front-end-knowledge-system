@@ -16,3 +16,20 @@ function deepclone(obj) {
         return obj
     }
 }
+
+function deepclone(obj){
+    if(!obj && typeof obj !=='object' ) return obj;
+    let cloneobj = Array.isArray(obj) ? [] :{};
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const element = obj[key];
+            if (element && typeof element == 'object') {
+                cloneobj[key] =  deepclone(element)
+            }else{
+                cloneobj[key] = element
+            }
+        }
+    }
+    return cloneobj
+}
+
