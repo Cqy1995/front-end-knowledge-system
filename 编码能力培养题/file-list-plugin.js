@@ -22,3 +22,15 @@ class FileListPlugin {
   }
   
   module.exports = FileListPlugin
+  //每个plugin都是一个class类
+  class myplugin{
+      constructor({filename}){
+        this.filename = filename
+      }
+      //在原型上面定义apply方法，在安装plugin时触发，回调时compiler
+      apply(compiler){
+        //compiler可指定事件钩子，在不同的时机，处理额外的逻辑，在webpack内部做一些额外的操作
+        //功能完成后可以调用回调
+
+      }
+  }
