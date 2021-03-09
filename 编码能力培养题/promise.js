@@ -26,3 +26,20 @@ const MyPromise = function(){
         rejcect(err)
     }
 }
+
+let arr = [13,25,12,27,31,119];
+// 方法一
+arr.sort();
+arr.sort((a,b)=> a-b)
+// 方法二,冒泡
+for (let index = 0; index < arr.length; index++) {
+    const item = arr[index];
+    for (let j = 0; j < arr.length; j++) {
+        const jitem = array[j+1];
+        if (item > jitem) {
+           let pre = arr[j];
+            arr[j] =arr[j+1];
+            arr[j+1] = pre
+        }
+    }
+}

@@ -33,3 +33,22 @@ function deepclone(obj){
     return cloneobj
 }
 
+let newTree = deepclone(tree)
+
+//面试题变一维数组，回头要确认一下代码的正确性
+function getonearr (newTree){
+let oneArr = [];
+for (let index = 0; index < newTree.length; index++) {
+    const element = newTree[index];
+    if (element.children) {
+        oneArr.push({
+            id:element.id,
+            name:element.name
+        })
+        getonearr(element.children)
+    }else{
+        oneArr.push(element)
+    }
+}
+return [...oneArr]
+}
