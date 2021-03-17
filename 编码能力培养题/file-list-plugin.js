@@ -20,7 +20,6 @@ class FileListPlugin {
       })
     }
   }
-  
   module.exports = FileListPlugin
   //每个plugin都是一个class类
   class myplugin{

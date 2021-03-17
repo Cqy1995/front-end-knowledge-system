@@ -1,0 +1,198 @@
+<!-- 核心思想
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手动实现vue原理</title>
+</head>
+<body>
+    <input type="text"  id="a">
+    <div id="b"></div>
+    <script>
+        var obj = {};
+        Object.defineProperty(obj,'text',{
+            set:function(newnodeval){
+                document.getElementById('a').value = newnodeval;
+                document.getElementById('b').innerHTML = newnodeval;
+            },
+        })
+        document.addEventListener('keyup',function(e){
+            obj.text = e.target.value
+        })
+    </script>
+</body>
+</html>
+-->
+<!-- 
+    VUE双向绑定原理
+    vue在编译的时候，
+    第一个是监听数据：observe(data)，
+    使用object.defineProperty➡监听对象属性，在监听数据的过程中，会为 data 中的每一个属性生成一个主题对象 dep。
+    第二个是编译 HTML：nodeToFragement(id)。会为每个与数据绑定相关的节点生成一个订阅者 watcher，watcher 会将自己添加到相应属性的 dep 中
+    将挂载目标下面所有子节点劫持，通过DocumentFragment（文档片段），统一处理后，添加到挂载的目标。
+        *上面所说的统一处理就是编译模版，把{{}}插值表达式和v-model等与data数据进行绑定。
+        *如何绑定的呢：判断节点类型，如果*节点为元素，遍历这个节点，找到这个节点的v-model，取出v-model的val，根据val找到data下面的值，赋给该node，
+        *如果*节点为文本，匹配{{}},把值赋给它
+    
+    修改输入框内容 
+    => 在事件回调函数中修改属性值 
+    => 触发属性的set方法使view到model的变化 
+    => model的变化使发布者发出通知，dep.notify()，因为：在监听数据的过程中，会为 data 中的每一个属性生成一个主题对象 dep
+    => 接收到通知后，触发订阅者的 update 方法 ，因为：每个与数据绑定相关的节点生成一个订阅者 watcher
+    => 从而更新视图。
+ -->
+ 
+
+  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Two-way-data-binding</title>
+</head>
+<body>
+  
+  <div id="app">
+    <input type="text" v-model="text">
+    {{ text }}
+  </div>
+
+  <script>
+    function observe (obj, vm) {
+      Object.keys(obj).forEach(function (key) {
+        defineReactive(vm, key, obj[key]);
+      })
+    }
+
+    function defineReactive (obj, key, val) {
+      var dep = new Dep();
+
+      Object.defineProperty(obj, key, {
+        get: function () {
+          // 添加订阅者 watcher 到主题对象 Dep
+          if (Dep.target) dep.addSub(Dep.target);
+          return val
+        },
+        set: function (newVal) {
+          if (newVal === val) return
+          val = newVal;
+          // 作为发布者发出通知
+          dep.notify();
+        }
+      });
+    }
+
+    function nodeToFragment (node, vm) {
+      var flag = document.createDocumentFragment();
+      var child;
+      // 许多同学反应看不懂这一段，这里有必要解释一下
+      // 首先，所有表达式必然会返回一个值，赋值表达式亦不例外
+      // 理解了上面这一点，就能理解 while (child = node.firstChild) 这种用法
+      // 其次，appendChild 方法有个隐蔽的地方，就是调用以后 child 会从原来 DOM 中移除
+      // 所以，第二次循环时，node.firstChild 已经不再是之前的第一个子元素了
+      while (child = node.firstChild) {
+        compile(child, vm);
+        flag.appendChild(child); // 将子节点劫持到文档片段中
+      }
+
+      return flag
+    }
+
+    function compile (node, vm) {
+      var reg = /\{\{(.*)\}\}/;
+      // 节点类型为元素
+      if (node.nodeType === 1) {
+        var attr = node.attributes;
+        // 解析属性
+        for (var i = 0; i < attr.length; i++) {
+          if (attr[i].nodeName == 'v-model') {
+            var name = attr[i].nodeValue; // 获取 v-model 绑定的属性名
+            node.addEventListener('input', function (e) {
+              // 给相应的 data 属性赋值，进而触发该属性的 set 方法
+              vm[name] = e.target.value;
+            });
+            node.value = vm[name]; // 将 data 的值赋给该 node
+            node.removeAttribute('v-model');
+          }
+        };
+
+        new Watcher(vm, node, name, 'input');
+      }
+      // 节点类型为 text
+      if (node.nodeType === 3) {
+        if (reg.test(node.nodeValue)) {
+          var name = RegExp.$1; // 获取匹配到的字符串
+          name = name.trim();
+
+          new Watcher(vm, node, name, 'text');
+        }
+      }
+    }
+
+    function Watcher (vm, node, name, nodeType) {
+      Dep.target = this;
+      this.name = name;
+      this.node = node;
+      this.vm = vm;
+      this.nodeType = nodeType;
+      this.update();
+      Dep.target = null;
+    }
+
+    Watcher.prototype = {
+      update: function () {
+        this.get();
+        if (this.nodeType == 'text') {
+          this.node.nodeValue = this.value;
+        }
+        if (this.nodeType == 'input') {
+          this.node.value = this.value;
+        }
+      },
+      // 获取 data 中的属性值
+      get: function () {
+        this.value = this.vm[this.name]; // 触发相应属性的 get
+      }
+    }
+
+    function Dep () {
+      this.subs = []
+    }
+
+    Dep.prototype = {
+      addSub: function(sub) {
+        this.subs.push(sub);
+      },
+
+      notify: function() {
+        this.subs.forEach(function(sub) {
+          sub.update();
+        });
+      }
+    }
+
+    function Vue (options) {
+      this.data = options.data;
+      var data = this.data;
+
+      observe(data, this);
+
+      var id = options.el;
+      var dom = nodeToFragment(document.getElementById(id), this);
+
+      // 编译完成后，将 dom 返回到 app 中
+      document.getElementById(id).appendChild(dom); 
+    }
+
+    var vm = new Vue({
+      el: 'app',
+      data: {
+        text: 'hello world'
+      }
+    })
+
+  </script>
+</body>
+</html>
+
