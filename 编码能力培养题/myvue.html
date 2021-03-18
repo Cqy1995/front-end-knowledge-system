@@ -43,6 +43,18 @@
     => 从而更新视图。
  -->
  
+ <!-- VUE双向绑定原理
+    vue在编译的时候，
+    第一个是监听数据：observe(data)，
+    使用object.defineProperty➡监听对象属性，在监听数据的过程中，会为 data 中的每一个属性生成一个发布者。
+    第二个是编译 HTML：通过DocumentFragment统一处理后，添加到挂载的目标。并会为每个与数据绑定相关的节点，生成一个订阅者 watcher，watcher 会将自己添加到相应属性的 发布者中
+    例如：    
+    修改输入框内容 
+    => 在事件回调函数中修改属性值 
+    => 触发属性的set方法使view到model的变化 
+    => model的变化使发布者发出通知，dep.notify()，因为：在监听数据的过程中，会为 data 中的每一个属性生成一个主题对象 dep
+    => 接收到通知后，触发订阅者的 update 方法 ，因为：每个与数据绑定相关的节点生成一个订阅者 watcher
+    => 从而更新视图 -->
 
   
 <!DOCTYPE html>
@@ -60,9 +72,11 @@
 
   <script>
     function observe (obj, vm) {
+    
       Object.keys(obj).forEach(function (key) {
         defineReactive(vm, key, obj[key]);
       })
+
     }
 
     function defineReactive (obj, key, val) {
@@ -188,7 +202,8 @@
     var vm = new Vue({
       el: 'app',
       data: {
-        text: 'hello world'
+        text: 'hello world',
+        arr:[1,2,3]
       }
     })
 
@@ -196,3 +211,9 @@
 </body>
 </html>
 
+<!-- 
+    vue在初始化的时候做两件事，监听数据和编译模版。
+    监听数据的时候，使用objectdefinedpropye,设置set与get方法，同时为每个数据增加一个dep，在数据变化时传输通知
+    编译模版时，使用documentpragment容器对象统一处理节点，添加到挂载节点。同时为节点增加watcher，
+    所以在改变视图的时候，通过监听回调，触发set方法，这是view到model这么一个过程，同时触发通知，节点watcher收到通知，改变自身节点，这是model到view的过程
+ -->

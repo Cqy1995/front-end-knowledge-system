@@ -52,3 +52,20 @@ for (let index = 0; index < newTree.length; index++) {
 }
 return [...oneArr]
 }
+
+
+
+
+function deepclone(obj){
+    if (obj && typeof obj == 'object') {
+        let newobj = Array.isArray(obj) ? [] :{};
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                const element = obj[key];
+                 
+                
+                
+            }
+        }
+    }
+}
