@@ -39,6 +39,13 @@ _new 都发生了什么？？_
 ```
 **立即执行函数：函数创建后立即执行，作用就是能创建一个独立的作用域**
 
+#### 内置函数
+在代码执行前，js定义在全局作用域的内置的属性，函数与构造函数。  
+全局属性常见的有NaN，Undefined  
+全局函数有parseFloat,parseInt  
+全局构造函数有Object，Date,Math  
+
+
 ### 闭包
 
 变量：用于存储数据的容器；  
@@ -118,6 +125,15 @@ stu.say() //my name is tom
 
 基本类型：Number,String,Boolean,Null,Undefined,Symbol,Bigint.（按值访问）  
 引用类型：Array,Object,Function,RegExp(正则)。（按引用访问）
+
+undefined已经声明但没有赋值,代表未定义，不是保留字，有可能会被赋值，所以可以使用 void 0 代替。⚠️undeclared在作业域中未声明的对象  
+null空对象  
+NaN,typeof NaN是number，特殊的数字，isNaN（）会先转换参数为数字在判断，是NaN为true反之false，Number.isNaN()不会转换直接判断，对判断会更加严格。  
+
+**判断空对象的反复**
+Object.keys(obj).length的长度
+JSON.Stringify()与"{}"对比
+
 
 #### array所有的方法
 ```
