@@ -1,4 +1,5 @@
 ![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=Cqy1995&show_icons=true&theme=radical)
+[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=Cqy1995&repo=github-readme-stats)](https://github.com/Cqy1995/front-end-knowledge-system)
 # 前端知识点体系梳理
 
 前端知识体系，从头到尾分为各个模块，打通奇经八脉。
