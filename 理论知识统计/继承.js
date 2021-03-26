@@ -160,3 +160,5 @@ prototype(Child,Parent);
 
 var child1 = new Child('xiaopao', 18);
 console.log(child1); 
+
+
