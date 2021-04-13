@@ -133,3 +133,23 @@ link:建立与资源的连接
     - Content-Type:实体的媒体类型
     - **Expires:告诉客户端资源失效的日期(如不想缓存,最好吧expires字段写入与首部字段Date相同的时间值)**
     - **Last-Modified:资源最终修改的时间**
+- 为Cookie服务的首部字段,Cookie工作机制是用户识别及状态管理.
+    - Set-Cookie:开始状态管理所使用的Cookie信息(响应首部字段)
+        - NAME=VALUE,赋予Cookie名称与值
+        - expires=DATE,有效期
+        - path=PATH,服务器上文件目录作为cookie的适用对象
+        - domain=域名,作为cookie适用对象的域名
+        - Secure,仅在https安全通信才会发送cookie
+        - HttpOnly,加以限制,使cookie不能被JavaScript脚本访问
+    - Cookie:服务端接受到的Cookie信息(请求首部字段)
+- 其他首部字段
+    - X-Frame-Options,控制网站内容在其他网站的Frame标签内显示.(响应首部)
+        - DENY:拒绝
+        - SAMEORIGIN:仅在同源域名下的页面匹配时许可
+    - X-XSS-Protection:针对跨站脚本攻击的对策.(响应首部)
+        - 0:将XSS过滤设置成无效
+        - 1:将XSS过滤设置成有效
+    - DNT:拒绝个人信息被收集,表示拒绝被精准广告追踪(请求首部)
+        - 0:同意被追踪
+        - 1:拒绝被追踪
+    - P3P:让web网站上的个人隐私变成一种仅供程序理解的形式,从而保护用户隐私
