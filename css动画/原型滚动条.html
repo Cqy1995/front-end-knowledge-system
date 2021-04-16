@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原型滚动条</title>
+    <style>
+        .left,
+        .right {
+            position: relative;
+            height: 220px;
+            width: 110px;
+            overflow: hidden;
+            float: left;
+            background-color: aquamarine;
+        }
+
+        .leftcircle,
+        .rightcircle {
+            position: absolute;
+            top: 0;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 10px solid transparent;
+        }
+
+        .leftcircle {
+            border-left: 10px solid #ccc;
+            border-bottom: 10px solid #ccc;
+            transform: rotate(-135deg);
+            left: 0;
+            animation: left_right 3s linear infinite;
+        }
+
+        .rightcircle {
+            border-top: 10px solid #ccc;
+            border-right: 10px solid #ccc;
+            transform: rotate(-135deg);
+            right: 0;
+            animation: 3s circle_right linear infinite;
+        }
+
+        @keyframes circle_right {
+            0% {
+                transform: rotate(-135deg)
+            }
+
+            50%,
+            100% {
+                transform: rotate(45deg)
+            }
+        }
+
+        @keyframes left_right {
+
+            0%,
+            50% {
+                transform: rotate(-135deg)
+            }
+
+            100% {
+                transform: rotate(45deg)
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="left">
+        <div class="leftcircle"></div>
+    </div>
+    <div class="right">
+        <div class="rightcircle"></div>
+    </div>
+</body>
+
+</html>
