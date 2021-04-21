@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css世界</title>
+    <style>
+        .content{
+            width: 1000px;
+            height: 200px;
+            background-color: aquamarine;
+            position: relative;
+        }
+        .children{
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            height: 100px;
+            background-color: chartreuse;
+        }
+        .ao,.to{
+            display: inline-block;
+            width: 0;
+            margin-left: 100px;
+            color: #fff;
+        }
+        .ao::after{
+            content:'love你love';
+            outline: 2px solid #cd0000;
+        }
+        .to{
+            direction: rtl;
+        }
+        .to::after{
+            content:'我love你';
+            outline: 2px solid #cd0000;
+        }
+
+        .element{
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .25s;
+        }
+        :checked ~ .element{
+            max-height: 66px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="children">
+            写页面要讲究,宽度分离原则
+            .father {　  width: 102px;}<br>
+            .son {　  border: 1px solid;　  padding: 20px;}
+        </div>
+        <p>高度百分比生效,1设置显示高度值,2使用绝对定位(但会脱离文档流)</p>
+    </div>
+    <p>box-sizing:border-box 发明出来最大的初衷应该是解决替换元素宽度自适应问题 / input, textarea, img, video, object {　 box-sizing: border-box;}    </p>
+    <div style="background-color: coral;width: 20px;height: 100px;">
+        <div style="display: inline-block;">dispaly:inline-block</div>
+    </div>
+    <div class="ao">
+
+    </div>
+    <div class="to">
+
+    </div>
+    <div>
+        <h2>浏览器渲染原理</h2> 
+        <p>
+            先下载文档内容,加载头部的样式资源,然后按照从上到下,自外到内的顺序渲染DOM内容
+        </p>
+    </div>
+    <div>
+        <input id="check" type="checkbox">
+        <p>个人觉得,display:table-cell,最强应用是可以任意个数列表的等宽效果</p>
+        <div class="element">
+            <p>dispaly:table-cell其他一些应用,例如,两栏自适应布局,垂直居中效果等等,都是可以模拟出来的,但是根据列表个数等宽效果,其他css很难模拟,尤其是当ie8兼容时候</p>
+        </div>
+        <label for="check" class="check-in">更多</label>
+        <label for="check" class="check-out">收起</label>
+    </div>
+
+</body>
+</html>
