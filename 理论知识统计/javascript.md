@@ -12,16 +12,44 @@ apply,call,bind
 箭头函数  
 写法简洁，this 指向不同，arguments 对象指向父级作用域的 arguments 对象，不存在变量提升，没有 new.target
 
+**拓展**
+_new 都发生了什么？？_
+1. 创建一个新对象
+2. 构造函数的作用域给了新对象
+3. 执行构造函数中的代码
+4. 返回新对象
+```
+   function Person(name){this.name = name}
+   const lydia = new Person('zs')
+   const sarah = Person('ls')
+   console.log(lydia,sarah) 
+   /*
+   *返回结果
+   *Person {name: "zs"} undefined
+   */ 
+   let newobj = {};
+   newobj._proto_ = Person.prototype(this指向了新对象)
+   this.name = 'zs'
+   return {name:'zs'}
+   //注意:不添加new 它指的是全局对象,global.name = 'ls',本身没有返回值，所以是undefined
+```
 **立即执行函数：函数创建后立即执行，作用就是能创建一个独立的作用域**
+
+#### 内置函数
+在代码执行前，js定义在全局作用域的内置的属性，函数与构造函数。  
+全局属性常见的有NaN，Undefined  
+全局函数有parseFloat,parseInt  
+全局构造函数有Object，Date,Math  
+
 
 ### 闭包
 
 变量：用于存储数据的容器；  
 标识符：代码中用来标识变量、函数、或属性的字符序列。  
 执行上下文：评估和执行 JavaScript 代码的环境的抽象概念。（全局，函数，eval 函数）。  
-词法作用域：JavaScript 从标识符到变量的映射机制，在词法分析阶段生成的作用域，词法分析阶段，就可以理解为写代码阶段。  
+词法作用域：JavaScript **从标识符到变量的映射机制**，在词法分析阶段生成的作用域，词法分析阶段，就可以理解为写代码阶段。  
 闭包：由于浏览器的垃圾回收机制，在 JavaScript 中，函数是第一公民，所以函数可以被当作一个普通的变量传递，所以函数在运行时可能会看起来已经脱离了原来的词法作用域。但是由于函数的作用域早就在词法分析时就确定了，所以函数无论在哪里执行，都会记住被定义时的作用域。这种现象就叫作闭包。  
-闭包就是函数能够记住并访问它的词法作用域，即使当这个函数在它的词法作用域之外执行时。  
+***闭包就是函数能够记住并访问它的词法作用域，即使当这个函数在它的词法作用域之外执行时。***  
 本来是函数执行完毕，执行环境销毁，对应的变量对象销毁，但是当 A 函数内的 B 函数将 A 函数的活动对象添加到他的活动对象，当 B 被全局变量接受不了后，A 函数内部的活动对象就不会消失，因此就可以访问到 A 函数内部变量；  
 注意：它只能取得这个变量的最后最终值  
 重点：一定要函数返回配合匿名函数；  
@@ -38,6 +66,7 @@ apply,call,bind
 
 ### 原型与继承
 
+!['Prototype img'](https://raw.githubusercontent.com/Cqy1995/front-end-knowledge-system/main/images/prototype.png)   
 每个函数都有 prototype 属性，指向原型对象。  
 每个对象有个**proto**属性，指向该对象的原型。（普通对象没有 prototype 属性）。
 
@@ -57,6 +86,25 @@ person instanceof Person ==> true
 constructor和instanceof 的作用是不同的，感性地来说，constructor的限制比较严格，它只能严格对比对象的构造函数是不是指定的值；
 而instanceof比较松散，只要检测的类型在原型链上，就会返回true。
 ```
+#### 最优继承
+```
+function Person(name){
+   this.name = name;
+}
+Person.prototype.say = function(){
+   console.log(`my name is ${this.name}`)
+}
+function Student(){
+   Person.call(this,name)
+}
+//创建新对象,student的原型对象变成Person的原型对象，也就有了person的say方法。
+Student.prototype = Object.create(Person.prototype);
+//修改构造函数指向（上面修改prototype,同时constrcuctor也被修改成proson的构造函数（因为constrcuctor是prototype上面的一个属性），所以要把constructor变成学生自己的构造函数）
+Student.prototype.constrcuctor = Student;
+
+var stu = new Stuent("tom");
+stu.say() //my name is tom 
+```
 
 ### 异步函数与 promise
 
@@ -74,6 +122,40 @@ constructor和instanceof 的作用是不同的，感性地来说，constructor�
 基本类型：Number,String,Boolean,Null,Undefined,Symbol,Bigint.（按值访问）  
 引用类型：Array,Object,Function,RegExp(正则)。（按引用访问）
 
+undefined已经声明但没有赋值,代表未定义，不是保留字，有可能会被赋值，所以可以使用 void 0 代替。⚠️undeclared在作业域中未声明的对象  
+null空对象  
+NaN,typeof NaN是number，特殊的数字，isNaN（）会先转换参数为数字在判断，是NaN为true反之false，Number.isNaN()不会转换直接判断，对判断会更加严格。  
+
+**判断空对象的反复**
+Object.keys(obj).length的长度
+JSON.Stringify()与"{}"对比
+
+
+#### array所有的方法
+```
+/*es3方法*/
+push  pop shift unshift reverse sort splice //改变原数组
+slice concat toString join valueof
+
+/*es5*/
+indexOf lastIndexOf isArray
+foreach | map filter (every some) (reduce reduceRight) //迭代方法
+
+/*es6*/
+...拓展运算符
+from伪数组转数组  of创建有可变参数的数组
+find findIndex 找到测试第一个值和第一个值的索引 includes判断一个数组是否包含一个值返回布尔
+toLocaleString  toSource 
+entries values keys
+flat扁平化  flatMap循环后扁平化 
+copyWithin fill//改变原数组
+//**个别实例
+let ar = [1,2,3,4,5]
+ar.copyWithin(3,0,2) => [1, 2, 3, 1, 2]//要替换的位置，开始复制地方，结束的复制的地方
+
+let ar = [1,2,3,4,5]
+ar.fill(8,0,2)=>[8, 8, 3, 4, 5]//要填充内容，开始填充的位置，结束填充的位置
+```
 ##### 判断:
 
 typeof 检测基本类型，都会得到相应的类型（除了 null，所有判断变量是否是 null：(!a && typeof a == 'object')）。  
