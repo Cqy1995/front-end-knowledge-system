@@ -39,8 +39,22 @@
    return {name:'zs'}
    //注意:不添加new 它指的是全局对象,global.name = 'ls',本身没有返回值，所以是undefined
 ```
-**立即执行函数：**
-   函数创建后立即执行，作用就是能创建一个独立的作用域  
+
+##### 立即执行函数 (IIFE)
+
+IIFE,函数只执行一次没有必要给它起名字,函数创建后立即执行，作用就是能创建一个独立的作用域 。
+
+##### 函数在 JavaScript 中是第一公民 (first-class)
+
+可以作为函数的参数，也可以作为函数的返回值，也可以作为普通对象有自己的键值对，也可以 push 到数组中。**函数可以当成普通对象看待**
+
+##### arguments 参数是伪数组
+
+arguments 对象有 length 等属性，但它是伪数组，不能使用数组的方法。  
+可以使用三种方法，将伪数组转换成数组。  
+const arrArgs = Array.from(arguments)  
+const arrArgs = [...arguments]  
+const arrArgs = Array.protype.call(arguments)
    
 **内置函数**
 -  在代码执行前，js定义在全局作用域的内置的属性，函数与构造函数。  
@@ -263,18 +277,3 @@ a > 2 // false
 
 encodeURI 用来处理整个 URI，所以它不会转义&, ?, /, =等完整 URI 必备字符，而 encodeURIComponent 会转义那些特殊字符，所以通常只用它来转义 URI 的参数。比如手工拼 URI 时对键值对使用 encodeURIComponent 进行转义。
 
-##### 立即执行函数 (IIFE)
-
-IIFE,立即执行函数使用场景，函数只执行一次没有必要给它起名字。
-
-##### 函数在 JavaScript 中是第一公民 (first-class)
-
-可以作为函数的参数，也可以作为函数的返回值，也可以作为普通对象有自己的键值对，也可以 push 到数组中。**函数可以当成普通对象看待**
-
-##### arguments 参数是类数组
-
-arguments 对象有 length 等属性，但它是伪数组，不能使用数组的方法。  
-可以使用三种方法，将伪数组转换成数组。  
-const arrArgs = Array.from(arguments)  
-const arrArgs = [...arguments]  
-const arrArgs = Array.protype.call(arguments)
