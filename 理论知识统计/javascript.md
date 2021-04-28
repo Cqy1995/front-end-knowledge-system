@@ -113,7 +113,7 @@ var stu = new Stuent("tom");
 stu.say() //my name is tom 
 ```
 
-### 异步函数与Promise 
+### JavaScript执行机制(EvenLoop)
 
 宏任务：同步 script（整体代码），setTimeout 回调函数，setInterval 回调函数，I/O,UI renderding。  
 微任务： process.nextTick, [Promise](#promise) 回调函数，Object.observe，MutationObserver。  
@@ -124,6 +124,43 @@ stu.say() //my name is tom
 4，上一个宏任务出栈，进入下一个宏任务。  
 5，如此循环，直到宏任务与微任务清空。
 
+<h3 id="promise">Promise<h3>
+
+- Promise相当一个容器,它存放着未来要发生事件的结果
+- 有三种状态:pendding/resolve/reject,两种改变状态方式:进行中→成功与进行中→失败.状态一旦已决议将不能在改变,在进行中无法判断是请求开始还是快要结束
+- 有两个参数,第一参数resolve成功时调用,第二个参数reject失败是调用,成功调用then,失败调用catch
+
+**手写Promise**
+```
+   const PENDDING = new Symbol('pendding');
+   const FULLFILLED = new Symbol('resolve');
+   const REJECT = new Symbol('reject');
+   function Promise(fn){   
+      this.status = PENDDING;
+      this.val = '';
+      const resolve = (val)=>{
+         this.status = FULLFILLED
+         this.val = val
+      }
+      const rejcet = (err)=>{
+         this.status = REJECT
+         this.val = err
+      }
+      this.then = (onresolve,onrejcet){
+         if(this.stauts == FULLFILLED){
+            onresolve(this.val)
+         }else{
+            onrejcet(this.val)
+         }
+      }
+      try{
+         fn(resolve,rejcet)
+      }catch(error){
+         rejcet(error)
+      }
+      
+   }
+```
 ### 类型与类型转换
 
 基本类型：Number,String,Boolean,Null,Undefined,Symbol,Bigint.（按值访问）  
