@@ -2,7 +2,7 @@ const PENDING = Symbol();
 const REJECT = Symbol();
 const FULLFILLED = Symbol();
 
-const MyPromise = function(){
+const MyPromise = function(fn){
     this.state = PENDING;
     this.value = '';
     const resolve = (val)=>{
