@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* css变量扩展 */
+
+        :root {
+            --color: #987fff;
+        }
+
+        div {
+            --color: #6fcc53;
+        }
+
+        #alert {
+            --color: #ec6c30;
+        }
+
+        * {
+            color: var(--color);
+        }
+        /* 拓展结束 */
+        .mouse-cursor-gradient-tracking {
+            position: relative;
+            background: #7983ff;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            overflow: hidden;
+            margin: 50px auto;
+            display: block;
+        }
+
+        .mouse-cursor-gradient-tracking span {
+            position: relative;
+            color: white;
+        }
+
+        .mouse-cursor-gradient-tracking:before {
+            --size: 0;
+            content: '';
+            position: absolute;
+            left: var(--x);
+            top: var(--y);
+            width: var(--size);
+            height: var(--size);
+            background: radial-gradient(circle closest-side, pink, transparent);
+            transform: translate(-50%, -50%);
+            transition: width 0.2s ease, height 0.2s ease;
+        }
+
+        .mouse-cursor-gradient-tracking:hover:before {
+            --size: 200px;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <button class="mouse-cursor-gradient-tracking">
+        <span>Hover me</span>
+    </button>
+    <p>作用域问题:蓝色</p>
+    <div>绿色</div>
+    <div id="alert">红色</div>
+</body>
+<script>
+    let btn = document.querySelector('.mouse-cursor-gradient-tracking');
+    btn.addEventListener('mousemove', e => {
+        let rect = e.target.getBoundingClientRect();//获取某个元素相对于视窗的位置集合
+        let x = e.clientX - rect.left;//点击位置距离当前body可视区域的x坐标 - 
+        let y = e.clientY - rect.top;//点击位置距离当前body可视区域的y坐标
+        btn.style.setProperty('--x', x + 'px');
+        btn.style.setProperty('--y', y + 'px');
+
+        // 设置变量
+        // document.body.style.setProperty('--primary', '#7F583F');
+
+        // // 读取变量
+        // document.body.style.getPropertyValue('--primary').trim();
+        // // '#7F583F'
+
+        // // 删除变量
+        // document.body.style.removeProperty('--primary');
+    });
+</script>
+
+</html>
