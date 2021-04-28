@@ -40,7 +40,8 @@
    //注意:不添加new 它指的是全局对象,global.name = 'ls',本身没有返回值，所以是undefined
 ```
 **立即执行函数：**
-   函数创建后立即执行，作用就是能创建一个独立的作用域
+   函数创建后立即执行，作用就是能创建一个独立的作用域  
+   
 **内置函数**
 -  在代码执行前，js定义在全局作用域的内置的属性，函数与构造函数。  
 -  全局属性常见的有NaN，Undefined  
@@ -116,7 +117,7 @@ stu.say() //my name is tom
 ### JavaScript执行机制(EvenLoop)
 
 宏任务：同步 script（整体代码），setTimeout 回调函数，setInterval 回调函数，I/O,UI renderding。  
-微任务： process.nextTick, [Promise](#promise) 回调函数，Object.observe，MutationObserver。  
+微任务： process.nextTick, Promise 回调函数，Object.observe，MutationObserver。  
 代码执行顺序：  
 1，执行整体代码。进入栈中。  
 2，如果发现微任务，把微任务放在微任务队列中。  
@@ -124,13 +125,13 @@ stu.say() //my name is tom
 4，上一个宏任务出栈，进入下一个宏任务。  
 5，如此循环，直到宏任务与微任务清空。
 
-<h3 id="promise">Promise<h3>
+#### Promise
 
 - Promise相当一个容器,它存放着未来要发生事件的结果
 - 有三种状态:pendding/resolve/reject,两种改变状态方式:进行中→成功与进行中→失败.状态一旦已决议将不能在改变,在进行中无法判断是请求开始还是快要结束
 - 有两个参数,第一参数resolve成功时调用,第二个参数reject失败是调用,成功调用then,失败调用catch
 
-**手写Promise**
+#### 手写Promise
 ```
    const PENDDING = new Symbol('pendding');
    const FULLFILLED = new Symbol('resolve');
@@ -163,12 +164,13 @@ stu.say() //my name is tom
 ```
 ### 类型与类型转换
 
-基本类型：Number,String,Boolean,Null,Undefined,Symbol,Bigint.（按值访问）  
-引用类型：Array,Object,Function,RegExp(正则)。（按引用访问）
-
-undefined已经声明但没有赋值,代表未定义，不是保留字，有可能会被赋值，所以可以使用 void 0 代替。⚠️undeclared在作业域中未声明的对象  
-null空对象  
-NaN,typeof NaN是number，特殊的数字，isNaN（）会先转换参数为数字在判断，是NaN为true反之false，Number.isNaN()不会转换直接判断，对判断会更加严格。  
+- 基本类型：Number,String,Boolean,Null,Undefined,Symbol,Bigint.（按值访问）  
+   - undefined已经声明但没有赋值,代表未定义，不是保留字，有可能会被赋值，所以可以使用 void 0 代替。  
+   - ⚠️undeclared在作业域中未声明的对象    
+   - null空对象    
+   - NaN,typeof NaN是number，特殊的数字，isNaN（）会先转换参数为数字在判断，是NaN为true反之false，Number.isNaN()不会转换直接判断，对判断会更加严格。  
+- 引用类型：Array,Object,Function,RegExp(正则)。（按引用访问）
+  
 
 **判断空对象的反复**
 Object.keys(obj).length的长度
@@ -202,16 +204,16 @@ ar.fill(8,0,2)=>[8, 8, 3, 4, 5]//要填充内容，开始填充的位置，结�
 ```
 ##### 判断:
 
-typeof 检测基本类型，都会得到相应的类型（除了 null，所有判断变量是否是 null：(!a && typeof a == 'object')）。  
-typeof 检测引用类型，基本都是 object,除了 function.  
-Object.prototype.toString.call()可以判断任何类型
+- typeof 检测基本类型，都会得到相应的类型（除了 null，所有判断变量是否是 null：(!a && typeof a == 'object')）。  
+- typeof 检测引用类型，基本都是 object,除了 function.  
+- Object.prototype.toString.call()可以判断任何类型
 
 ##### 转换：
 
 类型的转换总是得到 number,string,boolean.  
-string=>number:Number('10'),+'10',ParseInt('10a'),parseInt 允许传入非数字字符 (例如 px)，其从左往右解析，遇到非数字字符就会停下。而 Number 不允许传入非数字字符。  
-number=>string:String(10),10+'',10.tostring().  
-任何值=>boolean:Boolean(值)，!!值。
+- string=>number:Number('10'),+'10',ParseInt('10a'),parseInt 允许传入非数字字符 (例如 px)，其从左往右解析，遇到非数字字符就会停下。而 Number 不允许传入非数字字符。  
+- number=>string:String(10),10+'',10.tostring().  
+- 任何值=>boolean:Boolean(值)，!!值。
 
 ##### 隐式转换：
 
