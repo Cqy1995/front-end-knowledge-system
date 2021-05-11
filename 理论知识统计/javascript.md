@@ -164,7 +164,8 @@ stu.say() //my name is tom
 ```
 ### async与await
 async是一个装饰器，默认返回一个promise对象resolve的值，因此可以对async对象直接使用then方法。
-await也是一个装饰器，放在async函数里面。作用是获取promise对象的决议值。
+await也是一个装饰器，放在async函数里面。作用是获取promise对象的决议值。遇到await会阻塞后面代码执行，直到async外同步代码执行后，执行await后的代码。
+
 
 ### 类型与类型转换
 
