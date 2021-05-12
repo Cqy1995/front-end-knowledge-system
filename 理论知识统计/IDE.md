@@ -44,3 +44,17 @@ $ nvm ls
 // 3. 切换版本
 $ nvm use v14.16.1
 ```
+### vscode 
+安装某开发环境，如vue，可以使用插件中搜索vue extension pack，如node，node extension pack。就能安装所有的环境了。
+
+### 真机调试
+- Chrome+Android/Safari+ios（原始）
+    - Safari+ios
+        1. 电脑的Safari的偏好设置中高级，把在菜单栏中显示开发勾选上
+        2. 手机的设置中找到Safari，在高级中把web检查器打开
+        3. 根据ifconfig查询到en0:192开头的ip，两端根据ip访问，
+        4. 电脑的开发选项中，会找到自己的手机，点选后就会出现真机调试的窗口。
+        
+- Fiddler/Charles（劫持类型工具，劫持数据请求，前面是window后面是mac）
+- Weinre,Spy-Debugger,vConsole（npm包，安装到项目，启动代理，手机上设置ip端口号，通过局域网访问服务，达到数据劫持和调试作用）
+
