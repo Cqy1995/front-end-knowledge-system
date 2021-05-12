@@ -49,12 +49,17 @@ $ nvm use v14.16.1
 
 ### 真机调试
 - Chrome+Android/Safari+ios（原始）
+    - Chrome+Android
+        1. 在地址栏中输入：chrome://inspect/#device
+        2. 安卓手机设置：进入开发者模式，打开开发者选项，打开保持唤醒与usb调试
+        3. 使用同一个网络，手机访问，
+        4. 在电脑中，点击inspect，注意打不开，查看手机和电脑chrome版本号，开起谷歌虚拟专有网络
     - Safari+ios
         1. 电脑的Safari的偏好设置中高级，把在菜单栏中显示开发勾选上
         2. 手机的设置中找到Safari，在高级中把web检查器打开
         3. 根据ifconfig查询到en0:192开头的ip，两端根据ip访问，
         4. 电脑的开发选项中，会找到自己的手机，点选后就会出现真机调试的窗口。
-        
+
 - Fiddler/Charles（劫持类型工具，劫持数据请求，前面是window后面是mac）
 - Weinre,Spy-Debugger,vConsole（npm包，安装到项目，启动代理，手机上设置ip端口号，通过局域网访问服务，达到数据劫持和调试作用）
 
