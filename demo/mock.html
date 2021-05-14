@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mock.js的使用</title>
+</head>
+
+<body>
+    <div id='textbox'></div>
+    <script type="text/javascript" src="http://mockjs.com/dist/mock.js"></script>
+    <script>
+        // 使用 Mock
+        var Random = Mock.Random
+        Random.ctitle(3, 5)
+        let mockdataitem = {
+            'StoreNo|1-10': '',
+            'DisplayName': '@ctitle(3, 5)',
+            'BusinessArea|1-10.1-2': 1,
+            'FloorArea|1-10.1-2': 1,
+            'InsideArea|1-10.1-2': 1,
+            'SharedArea|1-10.1-2': 1,
+            'SoldName|1': ['未售', '已售'],
+            'SoldLeaseStateName|1': ['未租', '已租'],
+            'AreaCode|1': ['车间区', '厂房区'],
+            'BuildingName|1': ['1号', '2号'],
+            'FloorName|1': ['1层', '2层'],
+            'StoreTypeName|1': ['门面店', '外卖窗口'],
+        }, mockArr = [];
+        for (let index = 0; index < 10; index++) {
+            mockArr.push(mockdataitem)
+        }
+        var datavv = Mock.mock(mockArr)
+        // 输出结果
+
+       document.getElementById('textbox').innerText = JSON.stringify(datavv, null, 4)
+        
+    </script>
+</body>
+
+</html>
