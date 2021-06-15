@@ -10,23 +10,6 @@
 7. beforeDestory：组件销毁前触发，此时watchers，子组件和事件销毁。  
 8. Destoryed：组件销毁后触发。 
 
-### 双向绑定原理
-```
-var obj={};
-Object.definePropety(obj,'tex',{
-   get:function(){
-      return obj.tex;
-   }
-   set:function(newval){
-      document.getElementById('输入框id').value=newval;
-      document.getElementById('绑定的id').innerhtml=newval;
-   }
-}
-document.addEventListener('keyup',function(e){
-   obj.tex = e.target.value;
-})
-```
-🌿重点理解：Object.definePropety可以设置对象的属性这一特性。  
 
 ### 组件传值
 1. 通过propos传递  
@@ -114,6 +97,32 @@ inject:['foo']
 ### 组件上实现v-modle
 1. props接收value属性
 2. 新的value时$emit触发input事件
+
+### 双向绑定原理
+通过object.definepropety的数据劫持+发布订阅实现
+
+new  vue实例的时候，主要做两件事
+1. 数据劫持：通过添加订阅者，和object.definepropety进行数据劫持 
+2. 模版的编译：当ui发生变化时，触发dep，dep统一发生信息，监听者改变
+
+
+
+```
+var obj={};
+Object.definePropety(obj,'tex',{
+   get:function(){
+      return obj.tex;
+   }
+   set:function(newval){
+      document.getElementById('输入框id').value=newval;
+      document.getElementById('绑定的id').innerhtml=newval;
+   }
+}
+document.addEventListener('keyup',function(e){
+   obj.tex = e.target.value;
+})
+```
+🌿重点理解：Object.definePropety可以设置对象的属性这一特性。  
 
 ### 双向绑定之数组
 ```
