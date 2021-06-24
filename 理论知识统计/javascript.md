@@ -292,6 +292,36 @@ a > 2 // false
    - target返回触发事件的元素,不一定是绑定的元素
    - currentTarget返回绑定事件元素
 
+#####  DOM操作 
+创建新节点
+```
+creatDocumentFragment()//创建一个dom片段
+createElement()//创建一个具体元素
+createTextNode()//创建一个文本节点
+```
+添加，移除，替换，插入
+```
+appendChild()
+removeChild()
+replaceChild(new,old)
+insertBefore(new,old)
+```
+查找
+```
+getElementById()
+getElementByName()
+getElementByTagName()
+getElementByClassName()
+querySelector()
+querySelectorAll()
+```
+属性操作
+```
+getAttribute(key)
+setAttribute(key,value)
+hasAttribute(key)
+removeAttribute(key)
+```
 ### 其他常见考点
 
 ##### enerator 函数
