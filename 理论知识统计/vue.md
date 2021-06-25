@@ -98,31 +98,61 @@ inject:['foo']
 1. props接收value属性
 2. 新的value时$emit触发input事件
 
-### 双向绑定原理
-通过object.definepropety的数据劫持+发布订阅实现
+### vue双向绑定原理
+vue采用数据劫持+发布-订阅模式实现,通过Object.defineProperty()来劫持各个属性的getter,setter,在数据变化时发布消息给订阅者,触发相应的监听回调.
 
-new  vue实例的时候，主要做两件事
-1. 数据劫持：通过添加订阅者，和object.definepropety进行数据劫持 
-2. 模版的编译：当ui发生变化时，触发dep，dep统一发生信息，监听者改变
+mvvm 的双向绑定:
+1. 数据劫持,实现数据监听器Observer,对数据对象所有属性进行监听,一旦改变拿到最新值并通知订阅者
+2. 模版的编译,实现指令解析器complie,对每个节点指令进行扫描和解析,根据指令模板替换数据,已经绑定相应的更新函数 
+3. 实现一个Watcher,作为Observer和complie的桥梁,
+    - 能够订阅并接收每个属性变动的通知(在自身实例化时往属性订阅器(dep)里面添加自己)
+    - 执行指令绑定相应的回调函数(待属性变化dep.notify()通知时,调用自身update,并且触发compile绑定的回调)
+    - 更新视图(自身必须有一个update方法)
+4. 收集订阅者,通知订阅者更新
 
-
+![vue mvvm](https://raw.githubusercontent.com/Cqy1995/front-end-knowledge-system/main/images/vue-mvvm.png)
 
 ```
-var obj={};
-Object.definePropety(obj,'tex',{
-   get:function(){
-      return obj.tex;
-   }
-   set:function(newval){
-      document.getElementById('输入框id').value=newval;
-      document.getElementById('绑定的id').innerhtml=newval;
-   }
-}
-document.addEventListener('keyup',function(e){
-   obj.tex = e.target.value;
-})
+// 上文省略...
+defineReactive(obj,key,value){
+    // 递归遍历
+    this.observe(value)
+    const dep = new Dep()
+    Object.defineProperty(obj,key,{
+      enumerable: true,
+      configurable: false,
+      get(){
+        // 订阅数据属性时，往Dep中添加观察者，进行依赖收集
+        Dep.target && dep.addSub(Dep.target)
+        return value
+      },
+      // 通过箭头函数改变this指向到class Observer
+      set:(newVal)=>{
+        this.observe(newVal)
+        if(newVal !== value){
+          value = newVal
+          // 如果新旧值不同，则告诉Dep通知变化
+          dep.notify()
+        }
+      }
+    })
+  }
+
 ```
-🌿重点理解：Object.definePropety可以设置对象的属性这一特性。  
+🌿再次梳理：   
+最开始，我们实现了 Compile 来解析指令，找到 {{xxx}}、指令、事件、绑定等等，然后再初始化视图。但此时还有一件事情没做，就是当数据发生变化的时候，在更新数据之前，我们还要订阅数据变化，绑定更新函数，此时就需要加入订阅者Watcher了。当订阅者观察到数据变化时，就会触发Updater来更新视图。   
+
+当然，创建 Watcher的前提时要进行数据劫持来监听所有属性，所以创建了 Observer.js 文件。在 get方法中，需要给 Dep 通知变化，此时就需要将 Dep 的依赖收集关联起来，并且添加订阅者 Watcher（这个 Watcher 在 Complie 订阅数据变化，绑定更新函数时就已经创建了的）。此时 Dep 订阅器里就有很多个 Watcher 了，有多少个属性就对应有多少个 Watcher。  
+
+那么，我们举一个简单例子来走一下上述流程图：   
+
+假设原本 data 数据中有一个 a:1，此时我们进行更新为 a:10，由于早已经对我们的数据进行了数据劫持并且监听了所有属性，此时就会触发 set 方法，在 set方法里就会通知 Dep 订阅器发生了变化，然后就会通知相关 Watcher 触发 update 函数来更新视图。而这些订阅者 Watcher 在 Complie 订阅数据变化，绑定更新函数时就已经创建了。
+
+🌿最终梳理:
+
+vue.js 则是采用数据劫持结合发布者-订阅者模式的方式，通过 Object.defineProperty()来劫持各个属性的getter，setter，在数据变动时发布消息给订阅者，触发相应的监听回调。   
+
+MVVM作为数据绑定的入口，整合Observer、Compile 和 Watcher 三者，通过Observer来监听自己的model数据变化，通过Compile来解析编译模板指令，最终利用Watcher搭起Observer和Compile之间的通信桥梁，达到数据变化 -> 视图更新；视图交互变化(input) -> 数据model变更的双向绑定效果。   
 
 ### 双向绑定之数组
 ```
