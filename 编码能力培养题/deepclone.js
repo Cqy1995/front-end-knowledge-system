@@ -1,3 +1,16 @@
+//浅拷贝
+function simpleclone(obj){
+    let objnew =Array.isArray(obj) ? [] : {};
+    for (const i in object) {
+        if (Object.hasOwnProperty.call(object, i)) {
+            const element = object[i];
+            objnew[i] = element
+        }
+    }
+    return objnew
+}
+const simpleclone = Object.create(obj)
+
 // 实现深拷贝
 function deepclone(obj) {
     if (obj && typeof obj == 'object') {
@@ -35,6 +48,9 @@ function deepclone(obj){
 
 let newTree = deepclone(tree)
 
+//一维对象的深拷贝
+JSON.parse(JSON.stringify(obj))
+
 //面试题变一维数组，回头要确认一下代码的正确性
 function getonearr (newTree){
 let oneArr = [];
@@ -56,16 +72,3 @@ return [...oneArr]
 
 
 
-function deepclone(obj){
-    if (obj && typeof obj == 'object') {
-        let newobj = Array.isArray(obj) ? [] :{};
-        for (const key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                const element = obj[key];
-                 
-                
-                
-            }
-        }
-    }
-}

@@ -181,8 +181,10 @@ async是一个装饰器，默认返回一个promise对象resolve的值，因此�
 await也是一个装饰器，放在async函数里面。作用是获取promise对象的决议值。遇到await会阻塞后面代码执行，直到async外同步代码执行后，执行await后的代码。
 
 
-### 类型与类型转换
-
+### 类型(堆栈)与类型转换
+- 计算机内存
+   - 栈:计算机为**原始类型**开辟一块内存空间
+   - 堆:计算机为**引用类型**开辟的一块内存空间,存的是引用地址.
 - 基本类型：Number,String,Boolean,Null,Undefined,Symbol,Bigint.（按值访问）  
    - undefined已经声明但没有赋值,代表未定义，不是保留字，有可能会被赋值，所以可以使用 void 0 代替。  
    - ⚠️undeclared在作业域中未声明的对象    
@@ -191,41 +193,22 @@ await也是一个装饰器，放在async函数里面。作用是获取promise对
 - 引用类型：Array,Object,Function,RegExp(正则)。（按引用访问）
   
 
+
 **判断空对象的反复**
 Object.keys(obj).length的长度
 JSON.Stringify()与"{}"对比
 
-
-#### array所有的方法
-```
-/*es3方法*/
-push  pop shift unshift reverse sort splice //改变原数组
-slice concat toString join valueof
-
-/*es5*/
-indexOf lastIndexOf isArray
-foreach | map filter (every some) (reduce reduceRight) //迭代方法
-
-/*es6*/
-...拓展运算符
-from伪数组转数组  of创建有可变参数的数组
-find findIndex 找到测试第一个值和第一个值的索引 includes判断一个数组是否包含一个值返回布尔
-toLocaleString  toSource 
-entries values keys
-flat扁平化  flatMap循环后扁平化 
-copyWithin fill//改变原数组
-//**个别实例
-let ar = [1,2,3,4,5]
-ar.copyWithin(3,0,2) => [1, 2, 3, 1, 2]//要替换的位置，开始复制地方，结束的复制的地方
-
-let ar = [1,2,3,4,5]
-ar.fill(8,0,2)=>[8, 8, 3, 4, 5]//要填充内容，开始填充的位置，结束填充的位置
-```
 ##### 判断:
-
+**typeof:检测数据类型,返回字符串**
 - typeof 检测基本类型，都会得到相应的类型（除了 null，所有判断变量是否是 null：(!a && typeof a == 'object')）。  
+   - 少null:检查数据类型,是以机器码码后三位,后三位是000的话就是object(null的机器码都是0)
 - typeof 检测引用类型，基本都是 object,除了 function.  
+   - 多function:function比object多了内部的一个[[call]]方法
 - Object.prototype.toString.call()可以判断任何类型
+**instanceof**
+- instanceof,检测A对象是否是B对象实例化出来的,返回布尔,true/false
+- instanceof 原型链 A instantceof B => true, B instanceof C => true, A instanceof C => true
+
 
 ##### 转换：
 
@@ -270,6 +253,53 @@ false > -1 // true
 var a = {}
 a > 2 // false
 ```
+
+&& 和 || 操作符:
+```
+&&（逻辑与）,从字面上来说，只有前后都是true的时候才返回true，否则返回false。
+||（逻辑或）,从字面上来说，只有前后都是false的时候才返回false，否则返回true。
+```
+**js舍入误差**
+0.1+0.2=0.3000000000000004  
+计算是通过二进制进行计算,计算后二进制转10进制会存在舍入精度丢失
+解决方案:
+- parseFloat((0.1+0.2).toFixed(2))//数据小的时候可以这样
+- 
+```
+function(num1,num2){
+   m = Math.pow(10,2)
+   return (num1 * m + num2 * m)/m
+}
+```
+
+
+
+#### array所有的方法
+```
+/*es3方法*/
+push  pop shift unshift reverse sort splice //改变原数组
+slice concat toString join valueof
+
+/*es5*/
+indexOf lastIndexOf isArray
+foreach | map filter (every some) (reduce reduceRight) //迭代方法
+
+/*es6*/
+...拓展运算符
+from伪数组转数组  of创建有可变参数的数组
+find findIndex 找到测试第一个值和第一个值的索引 includes判断一个数组是否包含一个值返回布尔
+toLocaleString  toSource 
+entries values keys
+flat扁平化  flatMap循环后扁平化 
+copyWithin fill//改变原数组
+//**个别实例
+let ar = [1,2,3,4,5]
+ar.copyWithin(3,0,2) => [1, 2, 3, 1, 2]//要替换的位置，开始复制地方，结束的复制的地方
+
+let ar = [1,2,3,4,5]
+ar.fill(8,0,2)=>[8, 8, 3, 4, 5]//要填充内容，开始填充的位置，结束填充的位置
+```
+
 
 ### 事件与事件流
 事件:文档与浏览器窗口的交互瞬间.也就是通过事件实现Javascript与HTML交互.  
