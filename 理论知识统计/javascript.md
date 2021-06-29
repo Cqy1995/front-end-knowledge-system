@@ -131,6 +131,11 @@ person.__proto__ === Person.prototype
 - 挂载在内部和原型上的方法都可以通过实例去调用
 - 一般来说,如果需要访问构造函数内部的私有变量,我们可以定义在函数内部,其他情况我们可以定义在函数的原型上
 
+Object与Function
+- Function是顶层构造器,Object是顶层对象
+- 原型上:Function继承了Object.prototype
+- 构造器上:Function构造了Object 
+
 ```
 Person===Person.prototype.constructor(constructor是prototype上的属性，这一点很容易被忽略掉。)
 person instanceof Person ==> true
