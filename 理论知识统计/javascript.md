@@ -63,6 +63,7 @@ const arrArgs = Array.protype.call(arguments)
 -  全局构造函数有Object，Date,Math  
 
 
+
 ### 闭包
 
 -  变量：用于存储数据的容器；  
@@ -192,6 +193,25 @@ await也是一个装饰器，放在async函数里面。作用是获取promise对
    - NaN,typeof NaN是number，特殊的数字，isNaN（）会先转换参数为数字在判断，是NaN为true反之false，Number.isNaN()不会转换直接判断，对判断会更加严格。  
 - 引用类型：Array,Object,Function,RegExp(正则)。（按引用访问）
   
+##### 内置对象
+-  基本类型:string,number,boolean => 通过String,Number,Boolean构造函数生成
+   - 装箱,拆箱
+-  其他内置对象
+   - Array Function Date ... Math
+
+
+###### 装箱(基本类型 => 引用类型)
+1. 通过相应的基本类型构造函数,创建不过的变量
+2. 调用这个变量的方法
+3. 清空第一步创建的变量
+4. 返回值
+
+###### 拆箱(引用类型 => 基本类型),valueOf方法,Primitive执行过程：
+1. 如果input是原始值，直接返回这个值；
+2. 否则，如果input是对象，调用input.valueOf()，如果结果是原始值，返回结果；
+3. 否则，调用input.toString()。如果结果是原始值，返回结果；
+4. 否则，抛出错误。
+如果转换的类型是String，2和3会交换执行，即先执行toString()方法。
 
 
 **判断空对象的反复**
@@ -216,6 +236,9 @@ JSON.Stringify()与"{}"对比
 - string=>number:Number('10'),+'10',ParseInt('10a'),parseInt 允许传入非数字字符 (例如 px)，其从左往右解析，遇到非数字字符就会停下。而 Number 不允许传入非数字字符。  
 - number=>string:String(10),10+'',10.tostring().  
 - 任何值=>boolean:Boolean(值)，!!值。
+
+- valueOf():原始类型值?有=>返回 : 没有=>返回对象本身
+- toString():原始=>字符串类型;对象=>[object type]
 
 ##### 隐式转换：
 
