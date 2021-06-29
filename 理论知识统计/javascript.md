@@ -1,6 +1,6 @@
 ## Javascript
 
-### 函数的调用
+### 函数的调用(this)
 
 -  作为独立函数调用，在非严格模式下 this 指向 windows，严格模式下指向 underfind。  
 -  作为对象的方法调用，this 指向该对象。  
@@ -21,9 +21,9 @@
 <div id="new">new 都发生了什么？？<div>
 
 1. 创建一个新对象
-2. 构造函数的作用域给了新对象
+2. 构造函数的原型对象给了新对象的proto属性
 3. 执行构造函数中的代码
-4. 返回新对象
+4. 返回新对象,如果执行后的结果是对象,返回对象,不是对象返回新创建的obj
 ```
    function Person(name){this.name = name}
    const lydia = new Person('zs')
@@ -35,8 +35,12 @@
    */ 
    let newobj = {};
    newobj._proto_ = Person.prototype(this指向了新对象)
-   this.name = 'zs'
-   return {name:'zs'}
+   let result = Person.call(newobj)
+   if(typeof result === 'object'){
+      return result
+   }else{
+      return newobj
+   }
    //注意:不添加new 它指的是全局对象,global.name = 'ls',本身没有返回值，所以是undefined
 ```
 
@@ -69,9 +73,22 @@ const arrArgs = Array.protype.call(arguments)
 -  变量：用于存储数据的容器；  
 -  标识符：代码中用来标识变量、函数、或属性的字符序列。  
 -  <span id="zhixing">执行上下文<span>：评估和执行 JavaScript 代码的环境的抽象概念。（全局，函数，eval 函数）。  
--  词法作用域：JavaScript **从标识符到变量的映射机制**，在词法分析阶段生成的作用域，词法分析阶段，就可以理解为写代码阶段。  
+-  词法作用域：JavaScript **从标识符到变量的映射机制**，在词法分析阶段生成的作用域，词法分析阶段，就可以理解为写代码阶段。
+   - 作用域(scope):一个变量的可用范围
+   - 作用域链(scope chain):以当前作用域的scope属性为起点,依次引用每个AO,直到window结束,形成多级引用关系
+   - 两类:全域作用域和函数作用域
+   - js执行时,严格按照作用域机制scope来执行,并且js的变量和函数作用域是定义时决定的,而不是执行时决定
+   
 -  闭包：由于浏览器的垃圾回收机制，在 JavaScript 中，函数是第一公民，所以函数可以被当作一个普通的变量传递，所以函数在运行时可能会看起来已经脱离了原来的词法作用域。但是由于函数的作用域早就在词法分析时就确定了，所以函数无论在哪里执行，都会记住被定义时的作用域。这种现象就叫作闭包。  
+
+- 形成闭包的流程
+   - 首先创建一个全局的执行上下文(EC)
+   - 然后函数执行,创建一个局部的执行上下文,返回了一个函数
+   - 函数执行的时候,由于之前局部上下文中作用域已经决定了变量
+   - 所以产生了闭包(信息驻留)
+
 **闭包就是函数能够记住并访问它的词法作用域，即使当这个函数在它的词法作用域之外执行时。**  
+
 本来是函数执行完毕，执行环境销毁，对应的变量对象销毁，但是当 A 函数内的 B 函数将 A 函数的活动对象添加到他的活动对象，当 B 被全局变量接受不了后，A 函数内部的活动对象就不会消失，因此就可以访问到 A 函数内部变量；  
    - 注意：它只能取得这个变量的最后最终值  
    - 重点：一定要函数返回配合匿名函数；  
@@ -93,6 +110,7 @@ const arrArgs = Array.protype.call(arguments)
 - 每个函数都有 prototype 属性，指向原型对象。  
 - 每个对象有个**proto**属性，指向该对象的原型。（普通对象没有 prototype 属性）。
 
+
 ```
 function Person() {}
 var person = new Person();
@@ -100,8 +118,18 @@ person.__proto__ === Person.prototype
 实例的 __proto__ 指向构造函数的 prototype 
 ```
 
-原型的概念：对象创建，就会与之关联另一个对象，这个对象就是原型，每一个对象都会从原型中“继承”属性。  
-每个原型都有一个 constructor 属性，指向该关联的构造函数。
+原型的概念：保存所有子对象中共有属性和方法的父对象
+- 万物皆对象,万物皆空
+- 对象创建，就会与之关联另一个对象，这个对象就是原型，每一个对象都会从原型中“继承”属性。  
+- 每个原型都有一个 constructor 属性，指向该关联的构造函数。
+
+
+原型链:由各级子对象的_proto_属性连续引用形成的结构
+
+- 挂载在函数内部的方法,实例化对象内部会复制构造函数的方法
+- 挂载在原型上的方法,不会去复制
+- 挂载在内部和原型上的方法都可以通过实例去调用
+- 一般来说,如果需要访问构造函数内部的私有变量,我们可以定义在函数内部,其他情况我们可以定义在函数的原型上
 
 ```
 Person===Person.prototype.constructor(constructor是prototype上的属性，这一点很容易被忽略掉。)
@@ -329,13 +357,16 @@ ar.fill(8,0,2)=>[8, 8, 3, 4, 5]//要填充内容，开始填充的位置，结�
 可以使用监听器预定事件(观察者模式)
 - DOM0规范
    - 可以内联直接绑定到HTML标签中,(不符合问w3c内容与行为分离的标准)
-   - 通过在JS中选中某个节点，然后给节点添加onclick属性(document.getElementById("btn").onclik = funciton(){})
+   - 事件绑定:通过在JS中选中某个节点，然后给节点添加onclick属性(document.getElementById("btn").onclik = funciton(){})
    - **注意:只有冒泡阶段,并且只能绑定一个事件**
+   - 事件绑定为什么只能绑定一个事件?
+      - js不支持事件重载,绑定事件相当于一个变量存储的是函数的地址,如果在绑定一个事件,相当于变量指向另一个函数地址
+      - 事件监听相当于订阅发布者,改变数据,触发事件,订阅这个事件的函数被执行
 - DOM2/DOM3
-   - addEventListener() ---添加事件侦听器/removeEventListener() ---删除事件侦听器
+   - 事件监听:addEventListener() ---添加事件侦听器/removeEventListener() ---删除事件侦听器
    - 函数均有3个参数， 第一个参数是要处理的事件名 第二个参数是作为事件处理程序的函数 第三个参数是一个boolean值，默认false表示使用冒泡机制，true表示捕获机制
    - **先执行捕获阶段的处理程序，后执行冒泡阶段的处理程序**
-   - stopPropagation函数,阻止冒泡。
+   - stopPropagation函数,阻止冒泡。IE8:e.cancelBubble =true
    - **注意:有捕获阶段/冒泡阶段,并且能绑定多个事件,监听方法一样会覆盖**
 
 ##### 事件委托
@@ -361,11 +392,11 @@ insertBefore(new,old)
 ```
 查找
 ```
-getElementById()
+getElementById() 获取动态集合,每一次在Javascript函数中使用这个变量的时候都会再去访问一下这个变量对应的html元素。
 getElementByName()
 getElementByTagName()
 getElementByClassName()
-querySelector()
+querySelector() 获取静态集合,获取到元素之后，不论html元素再怎么改变，这个变量并不会随之发生改变(获取指定选择器或选择器组匹配的第一个html元素Element,没有匹配选择null)
 querySelectorAll()
 ```
 属性操作
@@ -377,6 +408,11 @@ removeAttribute(key)
 ```
 ### 其他常见考点
 
+##### 面向对象OOP (js万物皆对象)
+- 封装:定义各种公共的方法
+- 继承:子继承父
+- 多态:重载,重写:继承时可重写父类的方法
+
 ##### enerator 函数
 
 特殊的函数，声明的时候 function\*，会返回多次，yield 控制一次次返回。  
@@ -385,4 +421,12 @@ removeAttribute(key)
 ##### encodeURL 和 encodeURLComponent
 
 encodeURI 用来处理整个 URI，所以它不会转义&, ?, /, =等完整 URI 必备字符，而 encodeURIComponent 会转义那些特殊字符，所以通常只用它来转义 URI 的参数。比如手工拼 URI 时对键值对使用 encodeURIComponent 进行转义。
+
+decodeURI decodeURIComponent相应的进行解密
+
+##### 重载与多态
+- 重载:相同的函数名,根据不同的参数,形成不同功能的函数
+   - 在函数调用时,自动识别不同的参数,实现相同的函数名,不同的调用
+   - js本身没有重载,可以通过arguments来实现重载
+- 多态:同一个东西表现不同的状态(重写与重载)
 
