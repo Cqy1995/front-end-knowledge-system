@@ -25,11 +25,12 @@ IE 下：box-sizing 的值为 border-box,当给一个盒子设置宽高后，指
 #### 块级格式化上下文 BFC
 
 1. 垂直方向依次排列。
-2. 上下的间距由 margin，同一 BFC 的子盒子会重叠。
+2. 上下的间距由 margin，同一 BFC 的子盒子margin会重叠。
 3. BFC 里面的内容不会影响外部，反之也是。
 4. 每个元素与 bfc 内容左侧相邻，float 也是。
 5. BFC 不会与 float 重叠。
 6. 计算高度 float 也会计算在内。
+
 
 #### 行内格式化上下文 IFC
 
@@ -41,6 +42,15 @@ IE 下：box-sizing 的值为 border-box,当给一个盒子设置宽高后，指
 
 对于行内替换元素来说，4 个方向的 margin 都是起作用的  
 对于行内非替换元素来说，只有 margin-left 和 margin-right 起作用，margin-top 和 margin-bottom 是不起作用的
+
+##### margin纵向重叠,只会取最大margin值
+
+##### margin为负值的时候,top,bottom,right,left分别有什么效果
+- top为负,都会向上移动
+- bottom为负,除了第一个都会向上移动
+- left为负,向左移动
+- right为负,不移动(如果宽度是屏幕100%时,会出现滚动条)
+
 
 #### vertical-align 在 display:inline 与 table-cell 起作用。
 
@@ -77,6 +87,10 @@ _层叠上下文的后代元素只参与和根元素的对比，不参与和根�
 3.未定位的元素。  
 4.z-index 为负值的定位元素。  
 5.层叠上下文的根元素。
+
+
+#### 圣杯布局和双飞翼布局
+
 
 ### 移动端 CSS
 

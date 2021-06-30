@@ -25,3 +25,10 @@ painting: 按照算出来的规则，通过显卡，把内容画到屏幕上。
 - 纯表现的元素：basefont、big、center、font、s、strike、tt、u
 - 对可用性产生负面影响的元素：frame、frameset、noframes
 
+#### HTML语义化
+- 可读性强,便于开发与维护
+- 让搜索引擎更容易理解(seo)
+
+#### 默认情况下,哪些是块级元素,哪些是行内元素
+- dispaly:block/table;有div,h1,h2,table,ul,ol,p;
+- dispaly:inline/inline-block;有span img button input 
