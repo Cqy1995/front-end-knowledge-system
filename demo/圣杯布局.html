@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圣杯布局</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-width: 1000px;
+        }
+
+        header,
+        footer {
+            width: 100%;
+            height: 100px;
+            background-color: aquamarine;
+            text-align: center;
+        }
+
+        main {
+            height: calc(100vh - 200px);
+            padding: 0 200px;
+        }
+
+        .column {
+            float: left;
+            height: 100%;
+        }
+
+        .left {
+            width: 200px;
+            background-color: coral;
+            margin-left: -100%;
+            /* margin-left 负的向左移动,-100%,就到了上面 */
+            position: relative;
+            /*相对自身移动200*/
+            right: 200px;
+        }
+
+        .right {
+            width: 200px;
+            background-color: darkorchid;
+            margin-right: -200px;
+            /*margin-right 负值,自身不动,右侧元素移动,自身宽度变小,所以能够挤到上面去*/
+        }
+
+        .content {
+            width: 100%;
+            background-color: darkseagreen;
+        }
+
+        .clearfix::after {
+            content: '';
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+
+<body>
+    <header>我是头部</header>
+    <main class="clearfix">
+        <div class="content column">中间内容</div>
+        <div class="left column">左侧列表</div>
+        <div class="right column">右侧内容</div>
+    </main>
+    <footer>我是尾部</footer>
+</body>
+
+</html>
