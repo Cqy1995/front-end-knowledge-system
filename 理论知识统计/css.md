@@ -102,6 +102,47 @@ _层叠上下文的后代元素只参与和根元素的对比，不参与和根�
 2. 两侧使用margin负值,以便和中间内容横向重叠
 3. 防止中间内容被两侧覆盖,一个用padding,一个用margin
 
+#### flex布局
+flex为弹性布局,分为水平的主轴和垂直的交叉轴  
+容器属性
+- flex-direction:决定主轴的方向
+   - row:默认,主轴为水平方向,起点在左端
+   - row-reverse:主轴为水平方向,起点在右端
+   - column:主轴为垂直方向,起点在上沿
+   - column-reverse:主轴为垂直方向,起点在下沿
+- flex-wrap:默认在一条线上,如一个轴线排不下,进行换行.
+   - nowrap:默认,不换行
+   - warp:换行,第一行在上方
+   - warp-reverse:换行,第一行在下方
+- flex-flow:是flex-direction和flex-warp的简写形式,默认值为row nowrap;
+- justify-content:定义主轴的对齐方式
+   - flex-start:起点
+   - flex-end:终点
+   - center:中点对齐
+   - space-between:两端对齐
+   - space-around:默认,每个项目两侧间隔相等
+- align-items:交叉轴对齐方向
+   - flex-start:起点对齐
+   - flex-end:终点对齐
+   - center:中点对齐
+   - baseline:项目的第一行文字的基线对齐
+   - stretch:默认值,如果项目未设置宽高或设置auto,将占满整个容器高度.
+- align-content:定义多根轴线的对齐方式(一根轴线不起作用)
+   - flex-start:与交叉轴起点对齐
+   - flex-end:与交叉轴终点对齐
+   - center:与交叉轴中点对齐
+   - space-between:与交叉轴两端对齐,轴线之间的间隔平分
+   - space-around:每根轴线两侧的间距相等
+   - stretch:默认值,轴线占满交叉轴
+
+项目属性
+- order:定义项目的排列顺序,越小越靠前
+- flex-grow:定义项目放大比例,默认为0,即如果存在剩余空间,也不放大
+- flex-shrink:定义项目缩小比例,默认为1,即如果空间不足,该项目缩小
+- flex-basis:定义了在分配剩余空间之前,项目占据主轴空间.
+- flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
+- align-self:允许单个项目与其他项目不一样的对齐方式,可覆盖align-items属性.默认值auto
+   - val值与align-items的val一样
 
 ### 移动端 CSS
 
