@@ -144,6 +144,28 @@ flex为弹性布局,分为水平的主轴和垂直的交叉轴
 - align-self:允许单个项目与其他项目不一样的对齐方式,可覆盖align-items属性.默认值auto
    - val值与align-items的val一样
 
+
+#### line-height继承问题
+```
+<style>
+   body{
+      font-size:20px;
+      /* 设置不同的line-height */
+   }
+   p{
+      font-size:16px;
+   }
+</style>
+<body>
+   <p>设置不同的bodyline-height,看p标签的line-height是多少?</p>
+</body>
+```
+1. line-height:40px; => 40px
+2. line-height:2 => 32px(p的font-size为16,16x2=32)
+3. line-height:200% => 40px(body的font-size为20px,20x200%=40px)
+
+
+
 ### 移动端 CSS
 
 #### em 与 rem
