@@ -162,5 +162,44 @@ var child1 = new Child('xiaopao', 18);
 console.log(child1); 
 
 
+//es6 class继承
+//父类
+class People{
+    constructor(name){
+        this.name = name 
+    }
+    eat(){
+        console.log(`${this.name} eat something`);
+    }
+}
+//子类
+class Student extends People{//使用extends继承
+    constructor(name,number){
+        super(name)//使用super,调用父类
+        this.number = number;//学号
+    }  
+    sayHi(){
+        console.log(
+            `姓名${this.name},学号${this.number}`
+        )
+    }  
+}
+class Teacher extends People{
+    constructor(name,major){
+        super(name)
+        this.major = major
+    }
+    teach(){
+        console.log(`${this.nam}教${this.major}学科`);
+    }
+}
+const wanglaoshi = new Teacher('王老师','语文')
+console.log(wanglaoshi);
+const xialuo = new Student('夏洛','1001')
+console.log(xialuo);
 
-
+Function.prototype.mycall = function(content=window,...args){
+    content.fn = this
+    content.fn(...args)
+    delete(content.fn)
+}

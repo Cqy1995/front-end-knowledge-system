@@ -6,17 +6,27 @@ function mybind(bindthis, ...args) {
 
 Function.prototype.mybind = function (content = window, ...args) {
     content.fn = this;
-    return funciton(...newargs) {
+    return (...newargs) => {
         content.fn([...args, ...newargs])
         delete content.fn
     }
 }
 
-Function.prototype.symbolbind = funciton(content = window, ...args) {
+Function.prototype.symbolbind = function (content = window, ...args) {
     const symbolfn = new Symbol('fn')
     content[symbolfn] = this;
     return (...newargs) => {
         content[symbolfn]([...args, ...newargs])
         delete content[symbolfn]
+    }
+}
+
+
+Function.prototype.bind1 = function () {
+    const args = Array.prototype.slice.call(arguments);
+    const t = args.shift()
+    const self = this
+    return function(){
+        return self.apply(t,args)
     }
 }

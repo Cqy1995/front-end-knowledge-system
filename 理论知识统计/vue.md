@@ -180,9 +180,10 @@ const arrayMethods = Object.create(arrayProto)
 })
 ```
 
-### this.$nextTick原理
-当dom更新渲染完成后触发  
-**vue渲染是异步的,更新数据dom不是立即渲染**
+### this.$nextTick
+- 当dom更新渲染完成后触发
+
+**vue渲染是异步的,更新数据dom不是立即渲染,this.$nextTick原理**
 - 触发事件,创建一个执行栈,同步代码根据执行栈执行,此时不更新dom
 - 异步代码推送到队列中,如果遇到相同的更新dom操作,只会保留一个
 - 同步执行栈任务执行完毕后,执行异步队列任务,此时才更新demo
