@@ -212,6 +212,8 @@ js如何执行
 - Promise相当一个容器,它存放着未来要发生事件的结果
 - 有三种状态:pendding/resolve/reject,两种改变状态方式:进行中→成功与进行中→失败.状态一旦已决议将不能在改变,在进行中无法判断是请求开始还是快要结束
 - 有两个参数,第一参数resolve成功时调用,第二个参数reject失败是调用,成功调用then,失败调用catch
+  - 无论then或catch没有报错都返回resolved的promise,有报错永远都返回rejected的promise
+  
 
 #### 手写Promise
 ```
