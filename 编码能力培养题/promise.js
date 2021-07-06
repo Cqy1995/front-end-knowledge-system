@@ -53,7 +53,7 @@ Promise.resolve().then(()=>{
 }).then(()=>{
     console.log(3);
 })
-
+// 1 3
 Promise.resolve().then(()=>{
     console.log(1);
     throw new Error('error1')
@@ -62,7 +62,7 @@ Promise.resolve().then(()=>{
 }).then(()=>{
     console.log(3);
 })
-
+// 1 2 3
 Promise.resolve().then(()=>{
     console.log(1);
     throw new Error('error1')
@@ -71,4 +71,9 @@ Promise.resolve().then(()=>{
 }).catch(()=>{
     console.log(3);
 })
+// 1 2
 
+/*
+* then正常返回resolved,里面有报错则返回rejected
+* cathc正常返回resolved,里面有报错则返回rejected
+*/
