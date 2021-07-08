@@ -318,6 +318,8 @@ JSON.Stringify()与"{}"对比
    - &&（逻辑与）,从字面上来说，只有前后都是true的时候才返回true，否则返回false。
    - ||（逻辑或）,从字面上来说，只有前后都是false的时候才返回false，否则返回true。
 
+##### 强制转换
+parseInt,parseFloat,toString等
 
 ##### 隐式转换：
 
