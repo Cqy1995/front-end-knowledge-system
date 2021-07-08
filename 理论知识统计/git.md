@@ -35,6 +35,7 @@ git branch '分支名' 创建分支
 git branch 查看分支  
 git checkout '分支名' 切换分支  
 git branch -d '分支名' 删除分支（不能删除当前所在分支）  
+git push origin '分支名' 把当前分支推送到远程
 git push origin --delete '分支名' 删除远程分支  
 git checkout -b test 创建并切换分支  
 git branch -D '分支名' 强制删除分支  
@@ -48,3 +49,15 @@ git merge '分支名' 合并分支（合并分支，需要切换到要合并分�
 - git merge --abort 保留当前分支的代码，忽略其他分支的代码。
 - git merge --abort 保留当前分支的代码，忽略其他分支的代码。
 
+
+##### 合并分支到master
+- git fetch 拉取分支
+- git checkout '分支名'
+- git pull origin '分支名'
+- git checkout master
+- git merge '分支名'
+- git push orgin master
+
+#### 解决冲突
+- CONFLICT后为冲突的文件
+- 在vscode,对比文件,看保留那段代码
