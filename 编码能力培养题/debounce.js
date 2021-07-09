@@ -1,4 +1,4 @@
-const debounce = (func, time = 3000) => {
+const debounce = (func, time = 500) => {
     let timer = null;
     return (...args) => {
         if (timer) {
@@ -10,3 +10,21 @@ const debounce = (func, time = 3000) => {
         }, time)
     }
 }
+
+
+function debounce(fn, delay = 500) {
+    let timer = null;
+    return function () {
+        if (timer) {
+            clearTimeout(timer)
+        }
+        timer = setTimeout(() => {
+            fn.applay(this, arguments)
+            timer = null
+        }, delay)
+    }
+}
+
+inputbox.addEventListener('keyup', debounce(function() {
+
+}, 600))

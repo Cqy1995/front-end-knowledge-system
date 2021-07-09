@@ -188,3 +188,4 @@ const arrayMethods = Object.create(arrayProto)
 - 异步代码推送到队列中,如果遇到相同的更新dom操作,只会保留一个
 - 同步执行栈任务执行完毕后,执行异步队列任务,此时才更新demo
 - 然后触发nexttick回调
+
