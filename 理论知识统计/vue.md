@@ -10,7 +10,11 @@
 7. beforeDestory：组件销毁前触发，此时watchers，子组件和事件销毁。  
 8. Destoryed：组件销毁后触发。 
 
-     
+##### 带有子组件的生命周期:
+1. 渲染过程:  父beforeCreate->父created->父beforeMount->子beforeCreate->子created->子beforeMount->子mounted->父mounted
+2. 更新过程:　父beforeUpdate->子beforeUpdate->子updated->父updated  
+3. 销毁过程:  父beforeDestroy->子beforeDestroy->子destroyed->父destroyed
+
 ### 组件传值
 1. 通过propos传递  
 2. 通过$emit触发自定义事件
@@ -36,6 +40,8 @@ class Bus {
 
 // main.js
 Vue.prototype.$bus = new Bus() // 将$bus挂载到vue实例的原型上
+
+
 // 另一种方式
 Vue.prototype.$bus = new Vue() // Vue已经实现了Bus的功能
 ```
@@ -47,6 +53,8 @@ children2.vue
 ```
 this.$bus.$on('foo',this.handle);
 ```
+在监听一个事件的时候,通常是一个事件的名字,方便在beforeDestroy中进行解绑this.$bus.$off('foo',this.addTitleHandler).防止内存泄露
+
 5. parent或root
 兄弟组件  
 ```
@@ -94,9 +102,6 @@ inject:['foo']
 祖先与后代组件数据传递可选择attrs与listeners或者 Provide与 Inject  
 复杂关系的组件数据传递可以通过vuex存放共享的变量  
 
-### 组件上实现v-modle
-1. props接收value属性
-2. 新的value时$emit触发input事件
 
 ### vue双向绑定原理
 vue采用数据劫持+发布-订阅模式实现,通过Object.defineProperty()来劫持各个属性的getter,setter,在数据变化时发布消息给订阅者,触发相应的监听回调.
@@ -189,7 +194,7 @@ const arrayMethods = Object.create(arrayProto)
 - 同步执行栈任务执行完毕后,执行异步队列任务,此时才更新demo
 - 然后触发nexttick回调
 
-### VUE
+### VUEX
 vuex是状态管理模式，多个组件共享状态时使用。
 
 流程：     
@@ -204,3 +209,12 @@ vuex是状态管理模式，多个组件共享状态时使用。
 3. mutation：提交更新数据的方法，必须是同步的(如果需要异步使用action)。每个mutation 都有一个字符串的 事件类型 (type) 和 一个 回调函数 (handler)。回调函数就是我们实际进行状态更改的地方，并且它会接受 state 作为第一个参数，提交载荷作为第二个参数。
 4. action：和mutation的功能大致相同，不同之处在于 ==》1. Action 提交的是 mutation，而不是直接变更状态。 2. Action 可以包含任意异步操作。
 5. modules(就是mapAction) ：模块化vuex，可以让每一个模块拥有自己的state、mutation、action、getters,使得结构非常清晰，方便管理。 
+
+### 事件
+- 事件的evnet对象是原生的(event._proto_.constructor == 原生event)
+- 事件挂载到当前元素
+- 修饰符: .stop .prevent .capture .self .once .passive
+
+### 组件上实现v-modle
+1. props接收value属性
+2. 新的value时$emit触发input事件
