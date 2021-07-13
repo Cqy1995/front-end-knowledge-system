@@ -203,13 +203,21 @@ vuex是状态管理模式，多个组件共享状态时使用。
 - action通过commit把对应参数同步提交到mutation，mutation会修改state中对应的值。
 - 最后通过getter把对应值跑出去，在页面的计算属性中，通过，mapGetter来动态获取state中的值
 
-2.vuex五种属性:
+vuex五种属性:
 1. state：vuex的基本数据，用来存储变量
 2. geeter：从基本数据(state)派生的数据，相当于state的计算属性
 3. mutation：提交更新数据的方法，必须是同步的(如果需要异步使用action)。每个mutation 都有一个字符串的 事件类型 (type) 和 一个 回调函数 (handler)。回调函数就是我们实际进行状态更改的地方，并且它会接受 state 作为第一个参数，提交载荷作为第二个参数。
 4. action：和mutation的功能大致相同，不同之处在于 ==》1. Action 提交的是 mutation，而不是直接变更状态。 2. Action 可以包含任意异步操作。
 5. modules(就是mapAction) ：模块化vuex，可以让每一个模块拥有自己的state、mutation、action、getters,使得结构非常清晰，方便管理。 
 
+vuex使用api
+- dispatch
+- commit
+- mapState
+- mapGetters
+- mapActions
+- mapMutations
+  
 ### 事件
 - 事件的evnet对象是原生的(event._proto_.constructor == 原生event)
 - 事件挂载到当前元素
