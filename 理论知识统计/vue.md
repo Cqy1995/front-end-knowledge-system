@@ -184,6 +184,10 @@ const arrayMethods = Object.create(arrayProto)
 	})
 })
 ```
+### diff算法
+Vue的Diff算法,只比较同级的节点，若找不到与新节点类型相同的节点，则插入一个新节点，若有相同类型的节点则进行节点属性的更新，最后删除新节点列表中不包含的旧节点。    
+
+Vue中的Diff算法采用了React相似的思路，都是同层节点进行比较，在比较的过程中，使用了一些优先判断和就地复用策略，提高了Diff算法的效率。
 
 ### this.$nextTick
 - 当dom更新渲染完成后触发
@@ -226,3 +230,5 @@ vuex使用api
 ### 组件上实现v-modle
 1. props接收value属性
 2. 新的value时$emit触发input事件
+
+
