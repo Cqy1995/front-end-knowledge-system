@@ -184,8 +184,69 @@ const arrayMethods = Object.create(arrayProto)
 	})
 })
 ```
+### 虚拟DOM(Virtual Dom)
+背景
+- dom操作,引起页面大面积的回流或者重绘，很耗费性能
+- 之前用jq,可以自行控制dom,需要手动调整
+- vue如何有效控制DOM操作?
+vdom
+- 把dom计算,转化为js计算,js执行比较快
+- vdom使用objec模拟了dom节点，用diff算法新旧比较，只对已改变的dom节点进行变化,最小范围更新dom结构
+- tag属性代表标签,props中className代表class/id代表id,children对象为子元素
+
+
+```
+<div id="div1" class="container">
+  <p>vdom</p>
+  <ul style="font-size:20px">
+    <li>a</li>
+  </ul>
+</div>
+
+{
+  tag:'div',
+  props:{
+    className:'container'
+    id:'div1'
+  },
+  children:[
+    {
+      tag:'p',
+      children:'vdom'
+    },
+    {
+      tag:'ul',
+      propos::{
+        style:'font-size:20px'
+      },
+      children:[
+        {
+          tag:'li',
+          children:'a'
+        }
+      ]
+    }
+  ]
+}
+```
+
 ### diff算法
-Vue的Diff算法,只比较同级的节点，若找不到与新节点类型相同的节点，则插入一个新节点，若有相同类型的节点则进行节点属性的更新，最后删除新节点列表中不包含的旧节点。    
+Vue的Diff算法
+- 只比较同级的节点
+- tag不相同,则直接删除重建,不在深度比较
+- tag和key.都相同,不在深度比较
+
+snabbdom中  
+  - h函数转成vdom,
+  - patch函数可以初步渲染也可以局部更新
+    - setTextContent设置文字
+    - updateChildren(在新旧节点都有children时调用),
+      - 新旧节点各两个指针,
+        - 新开始旧开始,新开始旧结束,新结束旧开始,新结束旧结束,key进行匹配
+        - key没有匹配上创建一个新的的,key匹配上看条件,条件相同使用patchVnode,不相同创建
+    - patchVnode
+    - addVnodes removeVnodes
+
 
 Vue中的Diff算法采用了React相似的思路，都是同层节点进行比较，在比较的过程中，使用了一些优先判断和就地复用策略，提高了Diff算法的效率。
 

@@ -72,14 +72,41 @@
 
   <script>
     function observe (obj, vm) {
-    
+      /*
+      用于深度监听,一次性递归到底
+      新增删除属性,不会触发视图的更新(vue.set/vue.delete)
+
+      **/
+      if (typeof obj !== 'object' || obj == null) {
+        return obj
+      }
+      if (Array.isArray(obj)) {//如果是一个数组,就把定义的数组的方法给到这个数组对象
+        obj._proto_ = arrproto;
+      }
       Object.keys(obj).forEach(function (key) {
         defineReactive(vm, key, obj[key]);
       })
 
     }
+    /*
+    对数组进行双向绑定,需要重新定义原型
+    */
+    const oldArrayPropetype = Array.prototype;
+    //创建新对象,原型指向oldArrayPropetype,扩展新方法,不会影响原型
+    const arrproto = Object.create(oldArrayPropetype);
+    ['push','pop','shift','unshift'].forEach(methodname=>{
+      arrproto[methodname] = function (params) {
+        //触发视图的更新
+        oldArrayPropetype[methodname].call(this,...arguments)
+      }
+    })
+
 
     function defineReactive (obj, key, val) {
+      //深度监听,当val是一个对象的时候,需要深度监听
+      observe(val);
+
+
       var dep = new Dep();
 
       Object.defineProperty(obj, key, {
@@ -90,7 +117,9 @@
         },
         set: function (newVal) {
           if (newVal === val) return
+          observe(val);//设置新值的时候也需要深度监听
           val = newVal;
+          //触发更新视图
           // 作为发布者发出通知
           dep.notify();
         }
