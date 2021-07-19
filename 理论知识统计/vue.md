@@ -183,6 +183,7 @@ const arrayMethods = Object.create(arrayProto)
 	    },
 	})
 })
+
 ```
 ### 虚拟DOM(Virtual Dom)
 背景
@@ -231,10 +232,10 @@ const arrayMethods = Object.create(arrayProto)
 ```
 
 ### diff算法
-Vue的Diff算法
+Vue的Diff算法(时间复杂度On)
 - 只比较同级的节点
-- tag不相同,则直接删除重建,不在深度比较
-- tag和key.都相同,不在深度比较
+- 判断tag:tag不相同,则直接删除重建,不在深度比较
+- 判断tag+key:tag和key都相同,不在深度比较
 
 snabbdom中  
   - h函数转成vdom,
@@ -257,7 +258,7 @@ Vue中的Diff算法采用了React相似的思路，都是同层节点进行比�
   - render函数使用了with语法,改变作用域
   - vue组件可以使用render代替template(必须了解)
 
-### 组件渲染更新过程
+### 组件渲染更新过程(描述响应式原理)
 - [响应式](#vuemodel):监听data中属性getter,setter(包括数组)
 - [模板编译](#template):模板到render函数,再到vnode
 - [vdom](#vdom):新建patch(element,vnode)和更新patch(vnode,newVnode)
@@ -315,7 +316,29 @@ vuex使用api
 
 ### 组件上实现v-modle
 1. props接收value属性
-2. 新的value时$emit触发input事件
+2. model的prop属性和上面接受的属性相同
+3. model的event属性和下面的事件$emit名相同
+4. template中:value不能使用v-model,事件$emit一个事件名称
+```
+<template>
+  <input
+    type="text"
+    :value="text"
+    @input="$emit('change',$event.target.value)"
+  >
+</template>
+<script>
+  export dafault{
+    model:{
+      prop:'text',
+      event:'change'
+    }
+    props:{
+      text:String
+    }
+  }
+</script>
+```
 
 
 ### vue-router 
@@ -335,3 +358,54 @@ vuex使用api
 3. 不同
   - 表现相同,url不同
   - toB推荐用hash,toC可以考虑history,对url有要求可以使用history
+
+### 其他常见考的
+  - computed特点?有缓存,data不变不会重新计算
+  - data为什么是一个函数?因为一个组件相当于一个类,实例化的时候,data相当于一个属性,是对象的话,多个实例化,是数据不是独立的,是共享的.也和数据引用类型的存放有关.
+  - ajax放在哪个生命周期里面?mounted中,dom渲染完成在请求渲染.
+  - 如何将组件所有props传给子组件?通过$props
+  - 多个组件使用相同的逻辑,如何抽离?使用mixin
+  - 何时加载异步组件?加载大组件/路由异步加载
+  - 何时使用keep-alive?缓存组件,不需要重复渲染/如多个静态tab页/性能优化
+  - 何时使用beforeDestory?解绑DOM事件如addListenerEvent,window scroll/解除自定义事件event.$off/清除定时器
+  - 什么是作用域插槽?可使用组件里面的data
+    ```
+    <template>
+      <a :herf='url'>
+        <slot :website='website'>
+
+        </slot>
+      </a>
+    </template>
+    <script>
+      export default{
+        props:['url'],
+        data(){
+          return{
+            website:{
+              url:'http://baidu.com'
+              title:'baidu'
+              subtitle:'百度搜索'
+            }
+          }
+        }
+      }
+    </script>
+    <ScopedSlotDemo>
+      <template v-slot='slotProps'>
+        {{solotProps.website.title}}
+      </template>
+    </ScopedSlotDemo>
+    ```
+  - 如何配置Vue-router异步加载?通过import加载来实现
+    ```
+    export default new VueRouter({
+      routes:[
+        {
+          path:'/',
+          component:()=> import('../../components/navigator)
+        }
+      ]
+    })
+    ```
+  
