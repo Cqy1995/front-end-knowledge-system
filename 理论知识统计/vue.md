@@ -104,7 +104,7 @@ inject:['foo']
 
 
 ### vue双向绑定原理
-vue采用数据劫持+发布-订阅模式实现,通过Object.defineProperty()来劫持各个属性的getter,setter,在数据变化时发布消息给订阅者,触发相应的监听回调.
+<span id='vuemodel'>vue</span>采用数据劫持+发布-订阅模式实现,通过Object.defineProperty()来劫持各个属性的getter,setter,在数据变化时发布消息给订阅者,触发相应的监听回调.
 
 mvvm 的双向绑定:
 1. 数据劫持,实现数据监听器Observer,对数据对象所有属性进行监听,一旦改变拿到最新值并通知订阅者
@@ -189,7 +189,7 @@ const arrayMethods = Object.create(arrayProto)
 - dom操作,引起页面大面积的回流或者重绘，很耗费性能
 - 之前用jq,可以自行控制dom,需要手动调整
 - vue如何有效控制DOM操作?
-vdom
+<div id='vdom'>vdom</div>
 - 把dom计算,转化为js计算,js执行比较快
 - vdom使用objec模拟了dom节点，用diff算法新旧比较，只对已改变的dom节点进行变化,最小范围更新dom结构
 - tag属性代表标签,props中className代表class/id代表id,children对象为子元素
@@ -250,8 +250,33 @@ snabbdom中
 
 Vue中的Diff算法采用了React相似的思路，都是同层节点进行比较，在比较的过程中，使用了一些优先判断和就地复用策略，提高了Diff算法的效率。
 
+### <span id='template'>Template模板编译</span>
+- vue的template不是html,需要转成render函数的js代码,返回vnode.(template->render函数,使用vue-template-compiler)
+- 基于vnode再执行patch和diff
+- 在webpack和vue cli环境下,编译在开发环境,产生的模板都是render函数.渲染更新
+  - render函数使用了with语法,改变作用域
+  - vue组件可以使用render代替template(必须了解)
+
+### 组件渲染更新过程
+- [响应式](#vuemodel):监听data中属性getter,setter(包括数组)
+- [模板编译](#template):模板到render函数,再到vnode
+- [vdom](#vdom):新建patch(element,vnode)和更新patch(vnode,newVnode)
+三种情况
+1. 初次渲染
+  - 解析模板为render函数(在开发环境下完成,vue-loader)
+  - 触发响应式,监听data属性getter,setter
+  - 执行render函数,生成vnode,patch渲染
+2. 更新过程
+  - 修改data,触发setter(此前在getter中已被监听)
+  - 重新执行render函数,生成newnode
+  - patch(vnode,newVnode)
+3. 异步渲染
+  - [$nextTick](#nexttick)
+  - 汇总data的修改,一次性更新视图
+  - 减少dom操作,提高性能
+
 ### this.$nextTick
-- 当dom更新渲染完成后触发
+- <div id='nexttick'>当dom更新渲染完成后触发</div>
 
 **vue渲染是异步的,更新数据dom不是立即渲染,this.$nextTick原理**
 - 触发事件,创建一个执行栈,同步代码根据执行栈执行,此时不更新dom
@@ -293,3 +318,20 @@ vuex使用api
 2. 新的value时$emit触发input事件
 
 
+### vue-router 
+1. hash模式
+  - hash的变化,触发页面跳转(导致浏览器前进后退)
+  - hash变化不会刷新页面,spa必需的特点
+  - hash永远不会提交到server端
+  - 原理:
+    - window.onhashchange,参数event,event.oldURL/event.newURL
+2. histroy模式
+  - url规范的路由,但跳转时不刷新页面
+  - history.pushState
+  - window.onpopstate
+  - 原理:
+    - window.onpopstate,参数event,event.state/event.pathname
+    - 无论url什么样子,后端返回都是index.html(主文件)
+3. 不同
+  - 表现相同,url不同
+  - toB推荐用hash,toC可以考虑history,对url有要求可以使用history
