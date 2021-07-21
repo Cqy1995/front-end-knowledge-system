@@ -3,17 +3,13 @@
 ## 模块打包
 把各个模块按照特定的规则和顺序组织在一起，最终合为一个js的过程。
 
+## 为什么要使用模块打包？
+
 ## webpack 的优点
 支持多种模块的标准。包括AMD,CommonJS,ES6模块  
 有效的减少资源体积，提升首页渲染速度  
 处理各种文件如样式模版图片等  
 可以使用插件  
-
-## module,chunk,buildle
-1. 每个文件看作一个module  
-2. chunk是一组依赖关系的模块生成的代码块，用于代码合并与分割    
-比如某些公共模块，去重，更好的利用缓存。或者按需加载某些功能模块，优化加载时间。在webpack3及以前我们都利用CommonsChunkPlugin将一些公共代码分割成一个    chunk，实现单独加载。在webpack4 中CommonsChunkPlugin被废弃，使用SplitChunksPlugin   
-3. bundle是最后生成的包文件，一个chunk对应打一个包  
 
 ## commonJS 与 ES6 Module 区别
 1. commonJS运行在代码运行阶段，ES6 Module运行在代码编译阶段。
@@ -36,14 +32,17 @@
 3. 对转译后的模块进行依赖查找
 4. 对新找到的模块重复进行2/3，直到没有找到依赖模块。
 
-
-
-
-## 资源处理流程  
+### 资源处理流程  
 从入口文件开始检索，将具有依赖关系的模块生成一个依赖树，最终生成一个chunk（代码块），chunk与bundle（包）是对应的。
+ 
 
-###chunk
-一组有依赖关系的模块的封装
+
+
+## module,chunk,buildle
+1. 每个文件看作一个module  
+2. chunk是一组依赖关系的模块生成的代码块，用于代码合并与分割    
+比如某些公共模块，去重，更好的利用缓存。或者按需加载某些功能模块，优化加载时间。在webpack3及以前我们都利用CommonsChunkPlugin将一些公共代码分割成一个    chunk，实现单独加载。在webpack4 中CommonsChunkPlugin被废弃，使用SplitChunksPlugin   
+3. bundle是最后生成的包文件，一个chunk对应打一个包  
 
 ## loader 
 loader就像webpack翻译官，webpack本身只能处理JavaScript，为了能处理其他资源，必须把资源转译为webpack能够理解的资源。  
@@ -53,3 +52,20 @@ loader就像webpack翻译官，webpack本身只能处理JavaScript，为了能�
 
 loader可以是链式的，每一个拥有自己的配置。  
 loader本身是一个函数，第一loader的输入是源文件，之后所有的输入都是上一个的输出，最后一个直接输出给webpack。 
+
+##  pulgin
+
+
+## 如何使用懒加载
+
+## webpack常见性能优化
+
+## webpack4与webpack5之间的区别
+1. 升级前：package.json的dev-server命令改了："dev":"webpack serve --config build/ webpack.dev.js"
+  - 升级后："dev":"webpack-dev-server --config build/ webpack.dev.js"
+2. 升级后：const { merge } = require('webpack-merge')
+  - 升级前：const { smart } = require('webpack-merge')
+3. 升级后：const { CleanWebpackPlugin }= require('clean-webpack-plugin');
+  - 升级前：const CleanWebpackPlugin = require('clean-webpack-plugin');
+4. module.rules中/ loader:['xxx-loader'] 换成  use:['xxx-loader']
+5. output中，如果filename： 'bundle.[contentHash:8].js' 中 h要小写，不能大写
