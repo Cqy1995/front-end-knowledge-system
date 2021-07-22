@@ -69,3 +69,14 @@ loader本身是一个函数，第一loader的输入是源文件，之后所有�
   - 升级前：const CleanWebpackPlugin = require('clean-webpack-plugin');
 4. module.rules中/ loader:['xxx-loader'] 换成  use:['xxx-loader']
 5. output中，如果filename： 'bundle.[contentHash:8].js' 中 h要小写，不能大写
+
+## webpack基本配置
+1. 拆分配置(公共模块，pro，dev)与merge
+2. devsever开启代理proxy
+3. 处理es6，babel
+4. 处理样式：less-loader,css-loader,style-loader
+5. 处理图片file-loader
+   
+### 高级配置
+1. 多入口：entry多个，output中filename根据[name]输出，new htmlwebpackplugin配置多个。
+2. 抽离css文件：
