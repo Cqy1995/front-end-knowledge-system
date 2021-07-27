@@ -70,7 +70,7 @@ loader本身是一个函数，第一loader的输入是源文件，之后所有�
 3. 升级后：const { CleanWebpackPlugin }= require('clean-webpack-plugin');
   - 升级前：const CleanWebpackPlugin = require('clean-webpack-plugin');
 4. module.rules中/ loader:['xxx-loader'] 换成  use:['xxx-loader']
-5. output中,如果filename： 'bundle.[contentHash:8].js' 中 h要小写，不能大写
+5. output中，如果filename： 'bundle.[contentHash:8].js' 中 h要小写，不能大写
 
 ## webpack基本配置
 1. 拆分配置(公共模块，pro，dev)与merge
@@ -102,17 +102,93 @@ loader本身是一个函数，第一loader的输入是源文件，之后所有�
   - IgnorePlugin:避免引入无用模块(直接不引入,例如moment.js只引入中文语音包) 
     new webpack.IgnorePlugin(/\.\/locale/,/moment/)
   - noParse:避免重复打包(引入但不打包)
-    ```
+    ```js
       module.exports = {
         module:{
           noParse:[/vue\.min.js$/]
         }
       }
     ```
-  - happyPack
-  - ParallelUglifyPligin
-  - 热更新
-  - DllPlugin
+  - happyPack:开启多进程打包(较大项目中使用)
+    ```js 
+      const HappyPack = require('happypack');
+      module.exports = {
+        module:{
+          rules:[
+            {
+              test:/\.js$/,
+              exclude:/node_modules/,
+              loader:'happypack/loader?id=js'
+            },
+            {
+              test:/\.ts$/,
+              exclude:/node_modules/,
+              loader:'happypack/loader?id=ts'
+            }
+          ]
+        },
+        plugins:[
+          new HappyPack({
+            id:'js',
+            loaders:[{
+              loader:'babel-loader',
+              options:{}
+            }]
+          }),
+          new HappyPack({
+            id:'ts',
+            loader:[{
+              loader:'ts-loader',
+              options:{}
+            }]
+          })
+        ]
+      } 
+    ```
+  - ParallelUglifyPligin:多进程压缩js
+    ```js
+      const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
+      module.exports = {
+        plugin:[
+          new ParallelUglifyPlugin({
+            uglifyJS:{
+              output:{
+                beautify:false,//最紧凑的输出
+                comments:false,//删除所有注释
+              },
+              compress:{
+                drop_console:true,//删除所有console语句
+                collapse_vars:true,//内嵌定义了但只用到一次的变量
+              }
+            }
+          })
+        ]
+      }
+    ```
+  - 自动刷新与热更新
+    - 自动刷新watch:true,网页全部刷新,速度比较慢,而且状态会丢失
+    - 热更新:原理就是开启webpack-dev-server(WDS),客户端从server拉取更新后的资源,拉取的不是整个文件,而是chunk diff,WDS与浏览器维护一个websocket,资源变化推送更新事件
+      ```js
+        const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
+        module.exports = {
+          plugins:[
+            new HotModuleReplacementPlugin();
+          ],
+          devserver:{
+            hot:true
+          }
+        }
+        //上面配置会为每个页面绑定一个module.hot对象
+        //所以热更新需要自己手动定义,例如在index.js中
+        if(module.hot){
+          module.hot.accept();
+        }
+      ```
+  - DllPlugin:动态链接库插件(不需要每次打包都把vue/react等打包进来)
+    - webpack已内置DllPlugin支持
+    - DllPlugin 打包出dll文件
+    - DllReferencePlugin-使用dll文件
+
 2. 优化产出代码-提高产品性能
 
 
