@@ -57,9 +57,12 @@ webpack是开源的JavaScript模块打包工具,解决模块之间的依赖.
 
 ## loader 
 loader就像webpack翻译官，webpack本身只能处理JavaScript，为了能处理其他资源，必须把资源转译为webpack能够理解的资源。  
-配置loader实际上是定义模块的规则，需要注意两点。  
+配置loader实际上是定义模块的规则，每一个loader都是一个函数,webpack4之前,函数的输入与输出都必须是字符串,在webpack4以后,loader同是支持抽象语法树AST的传递,通过这种方法减少重复的代码解析.
+如果是最后一个loader,结果将直接给webpack进行处理,否则讲作为下一个loader的输入进行传递.
+需要注意几点。  
 1. 对哪些模块生效（test，include，exclude）。  
-2. 使用哪些loader。 
+2. 使用哪些loader。
+3. 可以链式调用 style标签 = style-loader(css-loader(sass-loader(SCSS)))
 
 loader可以是链式的，每一个拥有自己的配置。  
 loader本身是一个函数，第一loader的输入是源文件，之后所有的输入都是上一个的输出，最后一个直接输出给webpack。 
@@ -213,6 +216,9 @@ loader本身是一个函数，第一loader的输入是源文件，之后所有�
     - 在output中配置publicPath:'http://cdn.abc.com'//修改所有静态文件url的前缀
     - 把打包后的结果上传到cdn服务器上面
   - 使用production
+    - 开启压缩代码(如果压缩慢可以使用多进程压缩ParallelUglifyPligin
+    - vue/react会自动删除调试代码
+    - 启动Tree-Shaking(树-摇晃):把没有用到的函数去掉(必须用es6module才生效)
   - Scope Hosting
 
 
