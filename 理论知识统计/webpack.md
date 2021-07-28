@@ -154,7 +154,7 @@ loader本身是一个函数，第一loader的输入是源文件，之后所有�
         ]
       } 
     ```
-  - ParallelUglifyPligin:多进程压缩js
+  - ParallelUglifyPligin(派哦来fP拉个in):多进程压缩js
     ```js
       const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
       module.exports = {
@@ -174,7 +174,7 @@ loader本身是一个函数，第一loader的输入是源文件，之后所有�
         ]
       }
     ```
-  - 自动刷新与热更新
+  - 自动刷新与热更新(不能用于生产环境)
     - 自动刷新watch:true,网页全部刷新,速度比较慢,而且状态会丢失
     - 热更新:原理就是开启webpack-dev-server(WDS),客户端从server拉取更新后的资源,拉取的不是整个文件,而是chunk diff,WDS与浏览器维护一个websocket,资源变化推送更新事件
       ```js
@@ -193,12 +193,27 @@ loader本身是一个函数，第一loader的输入是源文件，之后所有�
           module.hot.accept();
         }
       ```
-  - DllPlugin:动态链接库插件(不需要每次打包都把vue/react等打包进来)
+  - DllPlugin:动态链接库插件(不需要每次打包都把vue/react等打包进来)(不用于生产环境)
     - webpack已内置DllPlugin支持
     - DllPlugin 打包出dll文件
     - DllReferencePlugin-使用dll文件
 
-2. 优化产出代码-提高产品性能
+2. 优化产出代码-提高产品性能(体积更小,合理分包不重复加载,速度更快内存使用更小)
+  - 小图片使用base64格式产出,在url-loader中设置limit(小于这个值用base64产出),outputPath(打包的目录)
+  - bundle加hash
+    ```js
+      output:{
+        filename:'[name].[contentHash:8].js',
+        path:dispath
+      }
+    ```
+  - 懒加载,通过import
+  - 提取公共代码SplitChunksPlugin
+  - 使用CDN加速
+    - 在output中配置publicPath:'http://cdn.abc.com'//修改所有静态文件url的前缀
+    - 把打包后的结果上传到cdn服务器上面
+  - 使用production
+  - Scope Hosting
 
 
 
