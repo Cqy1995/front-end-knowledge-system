@@ -21,7 +21,7 @@ webpack是开源的JavaScript模块打包工具,解决模块之间的依赖.
 - 可以使用插件机制,社区非常强大
 
 ## commonJS 与 ES6 Module 区别
-1. commonJS运行在代码运行阶段，ES6 Module运行在代码编译阶段。
+1. commonJS运行在代码运行阶段，ES6 Module运行在代码编译阶段。(由于es6 module运行在编译阶段,可以tree-shaking:用不到的模块可以不编译)
 2. commonJS获取的是一份导出值的拷贝，ES6 Module获取的是值动态的映射，这个映射是只读的。  
 3. ES6优点在与死代码的检测与排除，模块变量的类型检查，编辑器的优化。
 
@@ -219,19 +219,67 @@ loader本身是一个函数，第一loader的输入是源文件，之后所有�
     - 开启压缩代码(如果压缩慢可以使用多进程压缩ParallelUglifyPligin
     - vue/react会自动删除调试代码
     - 启动Tree-Shaking(树-摇晃):把没有用到的函数去掉(必须用es6module才生效)
-  - Scope Hosting
+  - Scope Hosting(s扣p 候挺):打包后,多个函数的内容放在一个函数里面,减少函数的作用域
+    - 多个函数合并一个函数,代码体积更小
+    - 创建的函数作用域更小
+    - 可读性更好
+    ```js
+      const ModuleConcatenationPlugin = require('webpack/lib/optimize/ModuleConcatenationPlugin')
+      module.exports = {
+        resolve:{
+          //针对npm中第三方模块优先采用 jsnext:main中指向ES6模块化语法的文件
+          mainFields:['jsnext:main','browser','main']
+        },
+        plugins:[
+          //开启 Scope Hoisting
+          new ModuleConvatenationPlugin()
+        ]
+      }
+    ```
+### 更多JavaScript打包工具
+1. Rollup更专注于JavaScript打包,没有格外的代码输出,体积更小,具备tree shaking特点,且输出多种形式的模块.
+2. parcel在处理流程上做了改进,以追求更快的打包速度.同时具备零配置特性,可以减少很多项目开发中花费在环境搭建的成本.
+   
 
+## babel
 
+### 环境搭建&基本配置
+```js
+npm install --save-dev @babel/core @babel/cli @babel/preset-env
+//.babelrc
+const presets = [
+  [
+    "@babel/env",//env里面预设了很多plugin,满足基本的es6/es7等=>es5
+    {
+      targets: {
+        edge: "17",
+        firefox: "60",
+        chrome: "67",
+        safari: "11.1",
+      },
+      useBuiltIns: "usage",
+      corejs: "3.6.4",
+    },
+  ],
+];
 
-babel-polyfill按需引入
+module.exports = { presets };
+```
+
+### babel-polyfill,根据浏览器当前的情况,做补丁做兼容(在老版本上面,没有Array的indexOf,polyfill会不全方法)
+- corejs是标准的库,所有es6,es7等新语法.(不支持generator函数)
+- regenerator支持generator
+- babel-polyfill即上面两者的集合(在babel7.4以后被弃用),现推荐直接使用corejs和regenerator  
+
+babel-polyfill按需引用(babel-polyfill弃用后的使用)  
 ```js
   {
     "presets":[
       [
         "@babel/preset-env",
         {
-          "useBuiltIns":"usage",
-          "corejs":3
+          "useBuiltIns":"usage",//按需引入
+          "corejs":3//corejs版本
         }
       ]
     ]
