@@ -1,7 +1,4 @@
-- 开始
-
-  - [概述](/README.md)
-
+  - [目录](/README.md)
     - [JavaScript](/理论知识统计/javascript.md)
     - [Promise](/理论知识统计/Promise.md)
     - [Css](/理论知识统计/css.md)
