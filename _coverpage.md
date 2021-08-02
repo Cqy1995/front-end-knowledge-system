@@ -3,14 +3,21 @@
 <!-- <a href="https://github.com/Cqy1995/front-end-knowledge-system">Github</a>
 <a href="#README">Get Started</a> -->
 
-[GitHub](https://github.com/Cqy1995/front-end-knowledge-system)
+> 个人开发经验及面试总结的知识体系
+
+- 工作中经常用到的知识点
+- 面试常见的高频题库
+- 编程能力题
+- 持续更新中...
+
 [Get Started](#README)
+[GitHub](https://github.com/Cqy1995/front-end-knowledge-system)
+
 
 
 
 <!-- 背景图片 -->
-![](images/back.jpg)
+<!-- ![](images/back.jpg) -->
 
 <!-- 背景颜色 -->
-
-![color](#f0f0f0)
+<!-- ![color](#f0f0f0) -->
