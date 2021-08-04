@@ -1,0 +1,19 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            //launch模式：由 vscode 来启动一个独立的具有 debug 模式的程序
+            //attach模式：附加于（也可以说“监听”）一个已经启动的程序（必须已经开启 Debug 模式）
+            "name": "Launch Program",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}\\编码能力培养题\\dataStructure.js"
+        }
+    ]
+}

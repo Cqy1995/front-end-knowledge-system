@@ -141,9 +141,26 @@ Object与Function
 ```
 Person===Person.prototype.constructor(constructor是prototype上的属性，这一点很容易被忽略掉。)
 person instanceof Person ==> true
-constructor和instanceof 的作用是不同的，感性地来说，constructor的限制比较严格，它只能严格对比对象的构造函数是不是指定的值；
-而instanceof比较松散，只要检测的类型在原型链上，就会返回true。
+constructor和instanceof 的作用是不同的，
+- constructor的限制比较严格，它只能严格对比对象的构造函数是不是指定的值；
+- instanceof比较松散，只要检测的类型在原型链上，就会返回true。
 ```
+instanceof原理并用代码实现的?
+原理:如果A能沿着原型链找到B的prototype,那么A instanceof B 为true
+解法:遍历A的原型链,如果找到B的prototype返回true否则返回false
+```js
+   const instanceOf = (A,B)=>{
+      let p = A;
+      while(p){
+         if(p === B.prototype){
+            return true
+         }
+         p = p.__proto__;
+      }
+      return false
+   }
+```
+
 
 #### 继承
   - 原型链继承，A与B两个对象，B.protype=new A()️只能继承原型对象上的属性，如果属性是引用类型，属性共享，多个函数不能继承,不能向父类型传递参数
