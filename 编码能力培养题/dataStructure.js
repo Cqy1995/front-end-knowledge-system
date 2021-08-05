@@ -84,3 +84,66 @@ let p = json;
 path.forEach((k)=>{
     p = p[k]
 })
+
+/**
+ * 集合的基本应用
+ * Set方法的使用
+*/
+//去重
+const arr = [1,1,2,3];
+const arr2 = [...new Set(arr)];
+//判断元素是否在集合中
+const set = new Set(arr);
+const has = set.has(1);
+//求交集
+const set2 = new Set([2,3,4]);
+const set3 = new Set([...set].filter(item => set2.has(item)));
+set使用
+let mySet = new Set();
+mySet.add(1)
+mySet.add(5)
+mySet.add(5)
+mySet.add('woshi5')
+mySet.add({a:1,b:2})
+
+const has = mySet.has(1)
+const hasstr = mySet.has('wo')
+
+mySet.delete(5)
+
+console.log(mySet);
+//迭代set
+for (const iterator of mySet) {
+    console.log(iterator);
+}
+for (const iterator of mySet.keys()) {
+    console.log(iterator);
+}
+for (const iterator of mySet.values()) {
+    console.log(iterator);
+}
+for (const iterator of mySet.entries()) {
+    console.log(iterator);
+}
+//与数组相互转换
+const myarr = Array.from(mySet);
+const mySet2 = new Set([1,2,3,3,4]);
+//交集
+const intersection = new Set([...mySet].filter(x => mySet2.has(x)));
+//差集
+const difference = new Set([...mySet].filter(x => !mySet2.has(x)));
+
+
+/**
+ * 字典 es6-Map
+ * 
+*/
+const m = new Map();
+//增
+m.set('a','aa');
+m.set('b','bb');
+//删
+m.delete('b');
+// m.clear();清空所有键值对
+//改
+m.set('a','aaba')
