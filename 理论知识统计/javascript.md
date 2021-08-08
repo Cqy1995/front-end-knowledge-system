@@ -1,57 +1,54 @@
 ## Javascript
 
 ### 类型(堆栈)与类型转换
+
 - 计算机内存
    - 栈:计算机为**原始类型**开辟一块内存空间
    - 堆:计算机为**引用类型**开辟的一块内存空间,存的是引用地址.
+
+> 类型：
 - 基本类型：Number,String,Boolean,Null,Undefined,Symbol,Bigint.（按值访问）  
    - undefined已经声明但没有赋值,代表未定义，不是保留字，有可能会被赋值，所以可以使用 void 0 代替。  
    - ⚠️undeclared在作业域中未声明的对象    
    - null空对象    
    - NaN,typeof NaN是number，特殊的数字，isNaN（）会先转换参数为数字在判断，是NaN为true反之false，Number.isNaN()不会转换直接判断，对判断会更加严格。  
 - 引用类型：Array,Object,Function,RegExp(正则)。（按引用访问）
-  
-##### 内置对象
+
+#### 内置对象
 -  基本类型:string,number,boolean => 通过String,Number,Boolean构造函数生成
-   - 装箱,拆箱
+   - 装箱(基本类型 => 引用类型)
+     1. 通过相应的基本类型构造函数,创建不过的变量
+     2. 调用这个变量的方法
+     3. 清空第一步创建的变量
+     4. 返回值
+   - 拆箱(引用类型 => 基本类型),valueOf方法,Primitive执行过程
+     1. 如果input是原始值，直接返回这个值；
+     2. 否则，如果input是对象，调用input.valueOf()，如果结果是原始值，返回结果；
+     3. 否则，调用input.toString()。如果结果是原始值，返回结果；
+     4. 否则，抛出错误。
+     ⚠️：如果转换的类型是String，2和3会交换执行，即先执行toString()方法。
 -  其他内置对象
    - Array Function Date ... Math
 
+#### 判断:
+1. typeof:检测数据类型,返回字符串
+   - typeof 检测基本类型，都会得到相应的类型（除了 null，所有判断变量是否是 null：(!a && typeof a == 'object')）。  
+      - 少null:检查数据类型,是以机器码码后三位,后三位是000的话就是object(null的机器码都是0)
+   - typeof 检测引用类型，基本都是 object,除了 function.  
+      - 多function:function比object多了内部的一个[[call]]方法
+   - Object.prototype.toString.call()可以判断任何类型
+2. instanceof
+   - instanceof,检测A对象是否是B对象实例化出来的,返回布尔,true/false
+   - instanceof 原型链 A instantceof B => true, B instanceof C => true, A instanceof C => true
 
-###### 装箱(基本类型 => 引用类型)
-1. 通过相应的基本类型构造函数,创建不过的变量
-2. 调用这个变量的方法
-3. 清空第一步创建的变量
-4. 返回值
-
-
-###### 拆箱(引用类型 => 基本类型),valueOf方法,Primitive执行过程：
-1. 如果input是原始值，直接返回这个值；
-2. 否则，如果input是对象，调用input.valueOf()，如果结果是原始值，返回结果；
-3. 否则，调用input.toString()。如果结果是原始值，返回结果；
-4. 否则，抛出错误。
-如果转换的类型是String，2和3会交换执行，即先执行toString()方法。
-
-
-**判断空对象的反复**
+##### 判断空对象的方法
 Object.keys(obj).length的长度
 JSON.Stringify()与"{}"对比
 
-##### 判断:
-**typeof:检测数据类型,返回字符串**
-- typeof 检测基本类型，都会得到相应的类型（除了 null，所有判断变量是否是 null：(!a && typeof a == 'object')）。  
-   - 少null:检查数据类型,是以机器码码后三位,后三位是000的话就是object(null的机器码都是0)
-- typeof 检测引用类型，基本都是 object,除了 function.  
-   - 多function:function比object多了内部的一个[[call]]方法
-- Object.prototype.toString.call()可以判断任何类型
-**instanceof**
-- instanceof,检测A对象是否是B对象实例化出来的,返回布尔,true/false
-- instanceof 原型链 A instantceof B => true, B instanceof C => true, A instanceof C => true
+#### 转换：
 
+⚠️：类型的转换总是得到 number,string,boolean.
 
-##### 转换：
-
-类型的转换总是得到 number,string,boolean.  
 - string=>number:Number('10'),+'10',ParseInt('10a'),parseInt 允许传入非数字字符 (例如 px)，其从左往右解析，遇到非数字字符就会停下。而 Number 不允许传入非数字字符。  
 - number=>string:String(10),10+'',10.tostring().  
 - 任何值=>boolean:Boolean(值)，!!值。
@@ -71,8 +68,8 @@ JSON.Stringify()与"{}"对比
 parseInt,parseFloat,toString等
 
 ##### 隐式转换：
-
-+操作符:
+> 
+- +操作符:
 
 ```
 1+'a'=>'1a'
@@ -81,7 +78,7 @@ parseInt,parseFloat,toString等
 false+true=>1
 ```
 
-\* == 操作符:
+- \* == 操作符:
 
 ```
 1 * '23' => 23
@@ -93,7 +90,7 @@ false+true=>1
 false转为number为0,'0' == 0 // '0'转为number为0
 ```
 
-< 和 > 比较符:
+- < 和 > 比较符:
 
 ```
 如果两边都是字符串，则比较字母表顺序
@@ -107,8 +104,6 @@ var a = {}
 a > 2 // false
 ```
 
-
-
 **js舍入误差**
 0.1+0.2=0.3000000000000004  
 计算是通过二进制进行计算,计算后二进制转10进制会存在舍入精度丢失
@@ -121,8 +116,6 @@ function(num1,num2){
    return (num1 * m + num2 * m)/m
 }
 ```
-
-
 
 #### array所有的方法
 ```
