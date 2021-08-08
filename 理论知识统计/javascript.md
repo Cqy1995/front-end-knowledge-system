@@ -6,7 +6,6 @@
    - 栈:计算机为**原始类型**开辟一块内存空间
    - 堆:计算机为**引用类型**开辟的一块内存空间,存的是引用地址.
 
-> 类型：
 - 基本类型：Number,String,Boolean,Null,Undefined,Symbol,Bigint.（按值访问）  
    - undefined已经声明但没有赋值,代表未定义，不是保留字，有可能会被赋值，所以可以使用 void 0 代替。  
    - ⚠️undeclared在作业域中未声明的对象    
@@ -68,8 +67,8 @@ JSON.Stringify()与"{}"对比
 parseInt,parseFloat,toString等
 
 ##### 隐式转换：
-> 
-- +操作符:
+
++操作符:
 
 ```
 1+'a'=>'1a'
@@ -78,7 +77,7 @@ parseInt,parseFloat,toString等
 false+true=>1
 ```
 
-- \* == 操作符:
+\* == 操作符:
 
 ```
 1 * '23' => 23
@@ -90,7 +89,7 @@ false+true=>1
 false转为number为0,'0' == 0 // '0'转为number为0
 ```
 
-- < 和 > 比较符:
+< 和 > 比较符:
 
 ```
 如果两边都是字符串，则比较字母表顺序
