@@ -77,3 +77,26 @@ Promise.resolve().then(()=>{
 * then正常返回resolved,里面有报错则返回rejected
 * cathc正常返回resolved,里面有报错则返回rejected
 */
+
+
+Promise.prototype.all = function(promises){
+    let results = [];
+    let proCount = 0;
+    let proLength   = +promises.length;
+    const myresults  =  new Promise((reslove,reject)=>{
+        for (const iterator of promises) {
+            Promise.resolve(iterator).then(function(res){
+                proCount++
+                results.push(res);
+                if (proLength  === proLength) {
+                    return reslove(results)
+                }
+            },
+            function(err){
+                return reject(err)
+            }
+            )
+        }
+    })
+    return myresults;  
+}

@@ -1,7 +1,156 @@
 ## Javascript
 
-### 函数的调用(this):this取值是在函数执行时确认
+### 类型(堆栈)与类型转换
+- 计算机内存
+   - 栈:计算机为**原始类型**开辟一块内存空间
+   - 堆:计算机为**引用类型**开辟的一块内存空间,存的是引用地址.
+- 基本类型：Number,String,Boolean,Null,Undefined,Symbol,Bigint.（按值访问）  
+   - undefined已经声明但没有赋值,代表未定义，不是保留字，有可能会被赋值，所以可以使用 void 0 代替。  
+   - ⚠️undeclared在作业域中未声明的对象    
+   - null空对象    
+   - NaN,typeof NaN是number，特殊的数字，isNaN（）会先转换参数为数字在判断，是NaN为true反之false，Number.isNaN()不会转换直接判断，对判断会更加严格。  
+- 引用类型：Array,Object,Function,RegExp(正则)。（按引用访问）
+  
+##### 内置对象
+-  基本类型:string,number,boolean => 通过String,Number,Boolean构造函数生成
+   - 装箱,拆箱
+-  其他内置对象
+   - Array Function Date ... Math
 
+
+###### 装箱(基本类型 => 引用类型)
+1. 通过相应的基本类型构造函数,创建不过的变量
+2. 调用这个变量的方法
+3. 清空第一步创建的变量
+4. 返回值
+
+
+###### 拆箱(引用类型 => 基本类型),valueOf方法,Primitive执行过程：
+1. 如果input是原始值，直接返回这个值；
+2. 否则，如果input是对象，调用input.valueOf()，如果结果是原始值，返回结果；
+3. 否则，调用input.toString()。如果结果是原始值，返回结果；
+4. 否则，抛出错误。
+如果转换的类型是String，2和3会交换执行，即先执行toString()方法。
+
+
+**判断空对象的反复**
+Object.keys(obj).length的长度
+JSON.Stringify()与"{}"对比
+
+##### 判断:
+**typeof:检测数据类型,返回字符串**
+- typeof 检测基本类型，都会得到相应的类型（除了 null，所有判断变量是否是 null：(!a && typeof a == 'object')）。  
+   - 少null:检查数据类型,是以机器码码后三位,后三位是000的话就是object(null的机器码都是0)
+- typeof 检测引用类型，基本都是 object,除了 function.  
+   - 多function:function比object多了内部的一个[[call]]方法
+- Object.prototype.toString.call()可以判断任何类型
+**instanceof**
+- instanceof,检测A对象是否是B对象实例化出来的,返回布尔,true/false
+- instanceof 原型链 A instantceof B => true, B instanceof C => true, A instanceof C => true
+
+
+##### 转换：
+
+类型的转换总是得到 number,string,boolean.  
+- string=>number:Number('10'),+'10',ParseInt('10a'),parseInt 允许传入非数字字符 (例如 px)，其从左往右解析，遇到非数字字符就会停下。而 Number 不允许传入非数字字符。  
+- number=>string:String(10),10+'',10.tostring().  
+- 任何值=>boolean:Boolean(值)，!!值。
+
+- valueOf():原始类型值?有=>返回 : 没有=>返回对象本身
+- toString():原始=>字符串类型;对象=>[object type]
+
+常用:
+1. 判断语句相等时,除了 == null之外,其他都一律用 ===
+2. if语句(判断的是falsely和truly变量)
+   - (0,NaN,'',null,undefined,false)为falsely变量,除此之外都是truly变量
+3. && 和 || 操作符
+   - &&（逻辑与）,从字面上来说，只有前后都是true的时候才返回true，否则返回false。
+   - ||（逻辑或）,从字面上来说，只有前后都是false的时候才返回false，否则返回true。
+
+##### 强制转换
+parseInt,parseFloat,toString等
+
+##### 隐式转换：
+
++操作符:
+
+```
+1+'a'=>'1a'
+1+false=>1
+'1'+false=>'1false'
+false+true=>1
+```
+
+\* == 操作符:
+
+```
+1 * '23' => 23
+1 * false => 0
+1 / 'aa' => NaN</br>
+==操作符: 3 == true // false
+3 转为number为3，true转为number为1
+'0' == false //true, '0'转为number为0
+false转为number为0,'0' == 0 // '0'转为number为0
+```
+
+< 和 > 比较符:
+
+```
+如果两边都是字符串，则比较字母表顺序
+'ca' < 'bd' // false
+'a' < 'b' // true
+其他情况下，转换为数字再比较：
+'12' < 13 // true
+false > -1 // true
+以上说的是基本类型的隐式转换，而对象会被ToPrimitive转换为基本类型再进行转换：
+var a = {}
+a > 2 // false
+```
+
+
+
+**js舍入误差**
+0.1+0.2=0.3000000000000004  
+计算是通过二进制进行计算,计算后二进制转10进制会存在舍入精度丢失
+解决方案:
+- parseFloat((0.1+0.2).toFixed(2))//数据小的时候可以这样
+- 
+```
+function(num1,num2){
+   m = Math.pow(10,2)
+   return (num1 * m + num2 * m)/m
+}
+```
+
+
+
+#### array所有的方法
+```
+/*es3方法*/
+push  pop shift unshift reverse sort splice //改变原数组
+slice concat toString join valueof
+
+/*es5*/
+indexOf lastIndexOf isArray
+foreach | map filter (every some) (reduce reduceRight) //迭代方法
+
+/*es6*/
+...拓展运算符
+from伪数组转数组  of创建有可变参数的数组
+find findIndex 找到测试第一个值和第一个值的索引 includes判断一个数组是否包含一个值返回布尔
+toLocaleString  toSource 
+entries values keys
+flat扁平化  flatMap循环后扁平化 
+copyWithin fill//改变原数组
+//**个别实例
+let ar = [1,2,3,4,5]
+ar.copyWithin(3,0,2) => [1, 2, 3, 1, 2]//要替换的位置，开始复制地方，结束的复制的地方
+
+let ar = [1,2,3,4,5]
+ar.fill(8,0,2)=>[8, 8, 3, 4, 5]//要填充内容，开始填充的位置，结束填充的位置
+```
+
+### 函数的调用
 -  作为独立函数调用，在非严格模式下 this 指向 windows，严格模式下指向 underfind。  
 -  作为对象的方法调用，this 指向该对象。  
 -  作为构造函数调用，看是独立函数调用还是属于方法调用。(因为构造函数**指向**的是使用构造函数的**实例**)  
@@ -9,7 +158,9 @@
    - 相同点：可以改变 this 指向，第一次参数都是 this 要指向的对象，都可以利用后续参数进行传参。  
    - 不同点：apply,call 是对函数的直接调用，bind 是返回一个函数，不直接调用，需要再次调用。
 
-**箭头函数**  
+⚠️：this取值是在函数执行时确认
+
+#### 箭头函数 
 - 写法简洁,是匿名函数.
 - this指向不同，永远指向其[执行上下文](#zhixing)的this,任何方法都改变不了其this(apply,call,bind)
 - 没有arguments对象,平常开发中使用rest参数...来进行参数的使用
@@ -17,7 +168,7 @@
 - 没有 new.target
 - 不存在变量提升
 
-**拓展**
+> 拓展
 <div id="new">new 都发生了什么？？<div>
 
 1. 创建一个新对象
@@ -263,160 +414,11 @@ js如何执行
       
    }
 ```
-### async与await
+#### async与await
 async是一个装饰器，默认返回一个promise对象resolve的值，因此可以对async对象直接使用then方法。
 await也是一个装饰器，放在async函数里面。作用是获取promise对象的决议值。遇到await会阻塞后面代码执行，直到async外同步代码执行后，执行await后的代码。
 
 
-### 类型(堆栈)与类型转换
-- 计算机内存
-   - 栈:计算机为**原始类型**开辟一块内存空间
-   - 堆:计算机为**引用类型**开辟的一块内存空间,存的是引用地址.
-- 基本类型：Number,String,Boolean,Null,Undefined,Symbol,Bigint.（按值访问）  
-   - undefined已经声明但没有赋值,代表未定义，不是保留字，有可能会被赋值，所以可以使用 void 0 代替。  
-   - ⚠️undeclared在作业域中未声明的对象    
-   - null空对象    
-   - NaN,typeof NaN是number，特殊的数字，isNaN（）会先转换参数为数字在判断，是NaN为true反之false，Number.isNaN()不会转换直接判断，对判断会更加严格。  
-- 引用类型：Array,Object,Function,RegExp(正则)。（按引用访问）
-  
-##### 内置对象
--  基本类型:string,number,boolean => 通过String,Number,Boolean构造函数生成
-   - 装箱,拆箱
--  其他内置对象
-   - Array Function Date ... Math
-
-
-###### 装箱(基本类型 => 引用类型)
-1. 通过相应的基本类型构造函数,创建不过的变量
-2. 调用这个变量的方法
-3. 清空第一步创建的变量
-4. 返回值
-
-
-###### 拆箱(引用类型 => 基本类型),valueOf方法,Primitive执行过程：
-1. 如果input是原始值，直接返回这个值；
-2. 否则，如果input是对象，调用input.valueOf()，如果结果是原始值，返回结果；
-3. 否则，调用input.toString()。如果结果是原始值，返回结果；
-4. 否则，抛出错误。
-如果转换的类型是String，2和3会交换执行，即先执行toString()方法。
-
-
-**判断空对象的反复**
-Object.keys(obj).length的长度
-JSON.Stringify()与"{}"对比
-
-##### 判断:
-**typeof:检测数据类型,返回字符串**
-- typeof 检测基本类型，都会得到相应的类型（除了 null，所有判断变量是否是 null：(!a && typeof a == 'object')）。  
-   - 少null:检查数据类型,是以机器码码后三位,后三位是000的话就是object(null的机器码都是0)
-- typeof 检测引用类型，基本都是 object,除了 function.  
-   - 多function:function比object多了内部的一个[[call]]方法
-- Object.prototype.toString.call()可以判断任何类型
-**instanceof**
-- instanceof,检测A对象是否是B对象实例化出来的,返回布尔,true/false
-- instanceof 原型链 A instantceof B => true, B instanceof C => true, A instanceof C => true
-
-
-##### 转换：
-
-类型的转换总是得到 number,string,boolean.  
-- string=>number:Number('10'),+'10',ParseInt('10a'),parseInt 允许传入非数字字符 (例如 px)，其从左往右解析，遇到非数字字符就会停下。而 Number 不允许传入非数字字符。  
-- number=>string:String(10),10+'',10.tostring().  
-- 任何值=>boolean:Boolean(值)，!!值。
-
-- valueOf():原始类型值?有=>返回 : 没有=>返回对象本身
-- toString():原始=>字符串类型;对象=>[object type]
-
-常用:
-1. 判断语句相等时,除了 == null之外,其他都一律用 ===
-2. if语句(判断的是falsely和truly变量)
-   - (0,NaN,'',null,undefined,false)为falsely变量,除此之外都是truly变量
-3. && 和 || 操作符
-   - &&（逻辑与）,从字面上来说，只有前后都是true的时候才返回true，否则返回false。
-   - ||（逻辑或）,从字面上来说，只有前后都是false的时候才返回false，否则返回true。
-
-##### 强制转换
-parseInt,parseFloat,toString等
-
-##### 隐式转换：
-
-+操作符:
-
-```
-1+'a'=>'1a'
-1+false=>1
-'1'+false=>'1false'
-false+true=>1
-```
-
-\* == 操作符:
-
-```
-1 * '23' => 23
-1 * false => 0
-1 / 'aa' => NaN</br>
-==操作符: 3 == true // false
-3 转为number为3，true转为number为1
-'0' == false //true, '0'转为number为0
-false转为number为0,'0' == 0 // '0'转为number为0
-```
-
-< 和 > 比较符:
-
-```
-如果两边都是字符串，则比较字母表顺序
-'ca' < 'bd' // false
-'a' < 'b' // true
-其他情况下，转换为数字再比较：
-'12' < 13 // true
-false > -1 // true
-以上说的是基本类型的隐式转换，而对象会被ToPrimitive转换为基本类型再进行转换：
-var a = {}
-a > 2 // false
-```
-
-
-
-**js舍入误差**
-0.1+0.2=0.3000000000000004  
-计算是通过二进制进行计算,计算后二进制转10进制会存在舍入精度丢失
-解决方案:
-- parseFloat((0.1+0.2).toFixed(2))//数据小的时候可以这样
-- 
-```
-function(num1,num2){
-   m = Math.pow(10,2)
-   return (num1 * m + num2 * m)/m
-}
-```
-
-
-
-#### array所有的方法
-```
-/*es3方法*/
-push  pop shift unshift reverse sort splice //改变原数组
-slice concat toString join valueof
-
-/*es5*/
-indexOf lastIndexOf isArray
-foreach | map filter (every some) (reduce reduceRight) //迭代方法
-
-/*es6*/
-...拓展运算符
-from伪数组转数组  of创建有可变参数的数组
-find findIndex 找到测试第一个值和第一个值的索引 includes判断一个数组是否包含一个值返回布尔
-toLocaleString  toSource 
-entries values keys
-flat扁平化  flatMap循环后扁平化 
-copyWithin fill//改变原数组
-//**个别实例
-let ar = [1,2,3,4,5]
-ar.copyWithin(3,0,2) => [1, 2, 3, 1, 2]//要替换的位置，开始复制地方，结束的复制的地方
-
-let ar = [1,2,3,4,5]
-ar.fill(8,0,2)=>[8, 8, 3, 4, 5]//要填充内容，开始填充的位置，结束填充的位置
-```
 
 
 ### 事件与事件流
