@@ -19,7 +19,7 @@
 1. 通过propos传递,通过$emit触发自定义事件
 2. 使用ref
 3. EventBus
-   - 第一种方法:通过vue实例
+   - 通过创建vue实例
     ```js
       Vue.prototype.$bus = new Vue() // Vue已经实现了Bus的功能
       //children1.vue 
@@ -28,7 +28,7 @@
       this.$bus.$on('foo',this.handle);
       注:在监听一个事件的时候,通常是一个事件的名字,方便在beforeDestroy中进行解绑this.$bus.$off('foo',this.addTitleHandler).防止内存泄露
     ```
-   - 
+   - 通过自定义bus
     ```js
     //bus.js  
     // 创建一个中央时间总线类
@@ -96,8 +96,8 @@ inject:['foo']
 <span id='vuemodel'>vue</span>采用数据劫持+发布-订阅模式实现,通过Object.defineProperty()来劫持各个属性的getter,setter,在数据变化时发布消息给订阅者,触发相应的监听回调.
 
 mvvm 的双向绑定:
-1. 数据劫持,实现数据监听器Observer,对数据对象所有属性进行监听,一旦改变拿到最新值并通知订阅者
-2. 模版的编译,实现指令解析器complie,对每个节点指令进行扫描和解析,根据指令模板替换数据,已经绑定相应的更新函数 
+1. 数据劫持,实现数据监听器Observer,对数据对象所有属性进行监听,在监听数据的过程中，会为 data 中的每一个属性生成一个主题对象 dep,一旦改变拿到最新值并通知订阅者.
+2. 模版的编译,实现指令解析器complie,对每个节点指令进行扫描和解析,根据指令模板替换数据(已经绑定相应的更新函数 会为每个与数据绑定相关的节点生成一个订阅者 watcher，watcher 会将自己添加到相应属性的 dep 中)
 3. 实现一个Watcher,作为Observer和complie的桥梁,
     - 能够订阅并接收每个属性变动的通知(在自身实例化时往属性订阅器(dep)里面添加自己)
     - 执行指令绑定相应的回调函数(待属性变化dep.notify()通知时,调用自身update,并且触发compile绑定的回调)
@@ -106,8 +106,7 @@ mvvm 的双向绑定:
 
 ![vue mvvm](https://raw.githubusercontent.com/Cqy1995/front-end-knowledge-system/main/images/vue-mvvm.png)
 
-```
-// 上文省略...
+```js
 defineReactive(obj,key,value){
     // 递归遍历
     this.observe(value)
@@ -149,43 +148,36 @@ vue.js 则是采用数据劫持结合发布者-订阅者模式的方式，通过
 MVVM作为数据绑定的入口，整合Observer、Compile 和 Watcher 三者，通过Observer来监听自己的model数据变化，通过Compile来解析编译模板指令，最终利用Watcher搭起Observer和Compile之间的通信桥梁，达到数据变化 -> 视图更新；视图交互变化(input) -> 数据model变更的双向绑定效果。   
 
 ### 双向绑定之数组
+```js
+  /*
+  对数组进行双向绑定,需要重新定义原型
+  */
+  const oldArrayPropetype = Array.prototype;
+  //创建新对象,原型指向oldArrayPropetype,扩展新方法,不会影响原型
+  const arrproto = Object.create(oldArrayPropetype);
+  ['push','pop','shift','unshift'].forEach(methodname=>{
+    arrproto[methodname] = function (params) {
+      //触发视图的更新
+      oldArrayPropetype[methodname].call(this,...arguments)
+    }
+  })
 ```
-const arrayProto = Array.prototype
-const arrayMethods = Object.create(arrayProto)
-;[
-  'push',
-  'pop',
-  'shift',
-  'unshift',
-  'splice',
-  'sort',
-  'reverse'
-].forEach(item=>{
-	Object.defineProperty(arrayMethods,item,{
-	    value:function mutator(){
-	    	//缓存原生方法，之后调用
-	    	const original = arrayProto[item]	
-	    	let args = Array.from(arguments)
-		    original.apply(this,args)
-		    const ob = this.__ob__
-		    ob.dep.notify()
-	    },
-	})
-})
 
-```
+
 ### 虚拟DOM(Virtual Dom)
-背景
+
+#### 背景
 - dom操作,引起页面大面积的回流或者重绘，很耗费性能
 - 之前用jq,可以自行控制dom,需要手动调整
 - vue如何有效控制DOM操作?
-<div id='vdom'>vdom</div>
+
+#### <div id='vdom'>vdom</div>
 - 把dom计算,转化为js计算,js执行比较快
 - vdom使用objec模拟了dom节点，用diff算法新旧比较，只对已改变的dom节点进行变化,最小范围更新dom结构
 - tag属性代表标签,props中className代表class/id代表id,children对象为子元素
 
 
-```
+```js
 <div id="div1" class="container">
   <p>vdom</p>
   <ul style="font-size:20px">

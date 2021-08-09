@@ -97,15 +97,14 @@ loader本身是一个函数，第一loader的输入是源文件，之后所有�
 2. devsever开启代理proxy
 3. 处理es6，babel
 4. 处理样式：less-loader,css-loader,style-loader
-5. 处理图片file-loader
-   
+5. 处理图片file-loader    
+
 ### 高级配置
 1. 多入口：entry多个，output中filename根据[name]输出，new htmlwebpackplugin配置多个。
 2. 抽离css文件：css处理进行拆分,MiniCssExtractPlugin抽离css,在optimization中minimizer使用TerserJSPlugin/OptimizeCSSAssetsPlugin进行css压缩
 3. 抽离公共代码和第三方模块SplitChunksPlugin
 4. 懒加载:import('./danamic-data.js').then(res=>{console.log(res)})
 5. 处理vue文件:vue-loader
-
 
 
 ## webpack常见性能优化
@@ -244,10 +243,11 @@ loader本身是一个函数，第一loader的输入是源文件，之后所有�
         ]
       }
     ```
+
 ### 更多JavaScript打包工具
 1. Rollup更专注于JavaScript打包,没有格外的代码输出,体积更小,具备tree shaking特点,且输出多种形式的模块.
-2. parcel在处理流程上做了改进,以追求更快的打包速度.同时具备零配置特性,可以减少很多项目开发中花费在环境搭建的成本.
-   
+2. parcel在处理流程上做了改进,以追求更快的打包速度.同时具备零配置特性,可以减少很多项目开发中花费在环境搭建的成本.  
+
 ### 如何产出一个lib
 ```js
   output:{
@@ -258,7 +258,9 @@ loader本身是一个函数，第一loader的输入是源文件，之后所有�
     //lib的全局变量名
     library:'lodash'
   }
-```
+```  
+
+
 ## babel
 
 ### 环境搭建&基本配置
