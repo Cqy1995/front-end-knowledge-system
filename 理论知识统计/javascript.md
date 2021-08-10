@@ -70,7 +70,7 @@ parseInt,parseFloat,toString等
 
 +操作符:
 
-```
+```js
 1+'a'=>'1a'
 1+false=>1
 '1'+false=>'1false'
@@ -79,7 +79,7 @@ false+true=>1
 
 \* == 操作符:
 
-```
+```js
 1 * '23' => 23
 1 * false => 0
 1 / 'aa' => NaN</br>
@@ -91,7 +91,7 @@ false转为number为0,'0' == 0 // '0'转为number为0
 
 < 和 > 比较符:
 
-```
+```js
 如果两边都是字符串，则比较字母表顺序
 'ca' < 'bd' // false
 'a' < 'b' // true
@@ -109,15 +109,15 @@ a > 2 // false
 解决方案:
 - parseFloat((0.1+0.2).toFixed(2))//数据小的时候可以这样
 - 
-```
+```js
 function(num1,num2){
    m = Math.pow(10,2)
    return (num1 * m + num2 * m)/m
 }
 ```
 
-#### array所有的方法
-```
+#### Array所有的方法
+```js
 /*es3方法*/
 push  pop shift unshift reverse sort splice //改变原数组
 slice concat toString join valueof
@@ -140,6 +140,11 @@ ar.copyWithin(3,0,2) => [1, 2, 3, 1, 2]//要替换的位置，开始复制地方
 
 let ar = [1,2,3,4,5]
 ar.fill(8,0,2)=>[8, 8, 3, 4, 5]//要填充内容，开始填充的位置，结束填充的位置
+```
+
+#### String所有的方法
+```js
+
 ```
 
 ### 函数的调用

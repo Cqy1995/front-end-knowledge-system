@@ -344,3 +344,42 @@ const postorderFdg = (root) => {
 }
 postorderFdg(bt)
 
+
+/**
+ * 图
+*/
+const graph = {
+    0: [1, 2],
+    1: [2],
+    2: [0, 3],
+    3: [3]
+}
+// 深度优先遍历
+const visited = new Set();
+const dfs = (n) =>{
+    console.log(n);
+    visited.add(n)
+    graph[n].forEach(c => {
+        if (!visited.has(c)) {
+            dfs(c)
+        }
+    });
+}
+dfs(2)
+
+//广度优先遍历
+const visited = new Set();
+visited.add(2);
+const stack = [2];
+while (stack.length) {
+    const q = stack.shift();
+    console.log(q);
+    graph[q].forEach(c => {
+        if (!visited.has(c)) {
+            stack.push(c)
+            visited.add(c)
+        }
+    });
+}
+
+
