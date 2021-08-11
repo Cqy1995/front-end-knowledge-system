@@ -260,6 +260,7 @@ const arrArgs = Array.protype.call(arguments)
 - 每个函数都有显示(prototype 属性)，指向原型对象。  
 - 每个对象有个隐示原型(**__proto__**属性)，指向该对象的原型。（普通对象没有 prototype 属性）。
 
+作用:原型上所有的方法和属性都可以被构造函数的实例共享
 
 ```
 function Person() {}
@@ -286,7 +287,7 @@ Object与Function
 - 原型上:Function继承了Object.prototype
 - 构造器上:Function构造了Object 
 
-```
+```js
 Person===Person.prototype.constructor(constructor是prototype上的属性，这一点很容易被忽略掉。)
 person instanceof Person ==> true
 constructor和instanceof 的作用是不同的，
