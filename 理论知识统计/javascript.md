@@ -242,8 +242,54 @@ const arrArgs = Array.protype.call(arguments)
    - 重点：一定要函数返回配合匿名函数；  
    - 备注：垃圾回收机制：为了防止内存泄漏，浏览器会周期性的清理用不到的内存（变量）。
 
-   - 闭包的使用场景：封装功能是（需要私有变量方法时）。  
-   - 防抖函数，节流函数，柯里化函数，在循环中给元素绑定事件。
+   - 闭包的使用场景：封装功能,创建私有变量。 
+     ```js
+     //用于面向对象编程,将函数与某些数据数据关联起来
+      function makesize(size){
+         return function(){
+            document.body.style.fontSize = `${size}px`
+         }
+      }
+      const size12 = makesize(12);
+      const size14 = makesize(14);
+      const size16 = makesize(16);
+
+      <a href="#" id="size-12">12</a>
+      <a href="#" id="size-14">14</a>
+      <a href="#" id="size-16">16</a>
+
+      document.getElementById('size-12').onclick = size12;
+      document.getElementById('size-14').onclick = size14;
+      document.getElementById('size-16').onclick = size16;
+      //用于创建私有变量
+      const Counter = (function(){
+         let privateCounter = 0;
+         function changeBy(val){
+            privateCounter += val
+         }
+         return {
+            increment(){
+               changeBy(1)
+            }
+            decrement(){
+               changeBy(-1)
+            }
+            value(){
+               return privateCounter
+            }
+         }
+      })()
+      var Counter1 = makeCounter();
+      var Counter2 = makeCounter();
+      console.log(Counter1.value()); /* logs 0 */
+      Counter1.increment();
+      Counter1.increment();
+      console.log(Counter1.value()); /* logs 2 */
+      Counter1.decrement();
+      console.log(Counter1.value()); /* logs 1 */
+      console.log(Counter2.value()); /* logs 0 *//
+     ```  
+   - 防抖函数，节流函数，柯里化函数，在循环中使用闭包(使用let,闭包,和匿名函数都可以)。
 
 **闭包的优缺点：**  
 - 优点：闭包减少全局变量，可重复使用，避免变量污染。
