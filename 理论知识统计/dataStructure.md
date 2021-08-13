@@ -53,7 +53,7 @@
             D:['A'],
             E:['D']
           }         
-        ``` 
+          ``` 
       - 链表
     - 常用操作:深度优先遍历和广度优先遍历
       - 深度优先遍历
@@ -88,11 +88,159 @@
         - 大小为k的堆中删除堆顶的时间复杂度O(logk)
       - 获取堆顶:返回数组的头部
       - 获取堆的大小:返回数组的长度
+
 ### 算法
 - 链表:遍历链表.删除链表节点
 - 树,图:深度与广度优先遍历
 - 数组:冒泡/选择/插入/归并/快速排序,顺序/二分搜索
-  
+ 
+### 排序与搜索 
+- 排序(js数组sort)
+  - 冒泡排序:比较所有相邻元素,如果第一个比第二个大,就交换它们,执行n-1轮 
+    - 时间复杂度O(n2)
+    ```js
+      Array.prototype.bubbleSort = function(){
+        for(let i=0;i< this.length - 1;i+=1){
+          for(let j=0;j<this.length -1 - i;j+=1){
+            //减i是因为后面已经冒泡过了,对剩余区间进行冒泡排序,回想冒泡的动画
+            if(this[j] >this.[j+1]){
+              const temp = this[j];
+              this[j] = this[j+1];
+              this[j+1] = temp;
+            }
+          }
+        }
+      }
+      const arr = [5,3,4,2,1];
+      arr.bubbleSort();
+    ``` 
+  - 选择排序:找到最小值,选中放在第一位,找到第二小的放在第二位,执行n-1次
+    - 时间复杂度O(n2)
+    ```js
+      Array.prototype.selectionSort = function(){
+        for(let i=0;i<this.length;i+=1){
+          let minIndex = i;
+          for(let j= i;j < this.length;j+=1){
+            if(this[j] < this[minIndex]){
+              minIndex = j
+            }
+          }
+          if(minIndex !== j){
+            const temp = this[j];
+            this[i] = this[minIndex];
+            this[minIndex] = temp;
+          }
+        }
+      }
+      const arr = [5,3,4,2,1];
+      arr.selectionSort();
+    ```  
+  - 插入排序(小型数组性能好):从第二个数开始往前比,比它大的就往后排,没有比他大就插入到后面,以此类推进行到最后一个数.
+    - 时间复杂度O(n2)
+    ```js
+      Array.prototype.insertionSort = function(){
+        for(let i =1;i<this.length;i+=1){
+          const temp = this[i];
+          let j = i;
+          while(j>0){
+            if(this[j-1] > temp){
+              this[j] = this[j -1];
+            }else{
+              break
+            }
+            j -= 1
+          }
+          this[j] = temp
+        }
+      }+
+    ``` 
+  - 归并排序(火狐sort):递归分成一个个子数组,然后进行合并
+    - 时间复杂度O(n*logN)
+    ```js
+      Array.prototype.mergeSort = function(){     
+        const rec = (arr)=>{
+          if(arr.length === 1)return arr;
+          const mid = Math.floor(arr.length / 2);
+          const left = arr.slice(0,mid)
+          const right = arr.slice(mid,arr.length);
+         const orderLeft  = rec(left);
+         const orderRight = rec(right);
+         const res = [];
+         while(orderLeft.length || orderRight.length ){
+           if(orderLeft.length && orderRight.length){
+              res.push(orderLeft[0] < orderRight[0] ? orderLeft.shift() :orderRight.shift())
+           }else if(orderLeft.length){
+              res.push(orderLeft.shift())
+           }else if(orderRight.length){
+              res.push(orderRight.shift())
+           }
+         }
+         return res;
+        }
+        const resarr = rec(this);
+        reaarr.forEach((n,i)=>{
+          this[i] = n
+        })
+      }
+    ```
+  - 快速排序:找一个基准,所有比基准放在前面,比基准大的放在后面,递归对基准前后子数组进行分区
+  - 时间复杂度:递归的时间复杂度O(logN)+分区循环(O(n)) = O(n*logn)
+  ```js
+    const rec = (arr)=>{
+      if(arr.length === 1){return arr}
+      const left = [];
+      const right = [];
+      const mid = arr[0];
+      for(let i = 1;i<arr.length;i+=1>){
+        if(arr[i] < mid){
+          left.push(arr[i])
+        }else{
+          right.push(arr[i])
+        }
+      }
+      return [...rec(left),mid,...rec(right)]
+    }
+    const res = rec(this);
+    res.forEach((n,i)=>{
+      this[i] = n;
+    })
+  ``` 
+- 搜索(js数组indexOf)
+  - 顺序搜索:遍历数组,找到跟目标值相等的元素,返回目标,没找到返回-1
+    - 时间复杂度O(n)
+      ```js
+        Array.prototype.sequentialSeach = function(){
+          for(let i =0;i<this.length;i+=1){
+            if(this[i] === item){
+              return i;
+            }
+          }
+          return -1;
+        }
+        const rse = [1,2,4,5,6].sequentialSeach(3)
+      ``` 
+  - 二分搜索:从数组中间元素开始,如果正好是目标值,则搜索结束,如果目标值大于或小于中间元素,则在那一半数组中在中间元素查找
+    - 时间复杂度O(logn)
+    ```js 
+      //前提是有序数组
+      Array.prototype.binarySearch = function (){
+        let low = 0;
+        let high = this.length -1;
+        while(low <= high){
+          const mid = Math.floor((low + high) / 2);
+          const elment = this[mid];
+          if(element < mid){
+            low = mid + 1
+          }else if(elment > mid){
+            high = mid -1
+          }else{
+            return mid
+          }
+        }
+        return -1
+      }
+    ```` 
+   
 ## 刷题
 - leetcode
 - 刷题顺序:按照类型刷题,相对集中训练
