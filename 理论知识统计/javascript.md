@@ -143,8 +143,17 @@ ar.fill(8,0,2)=>[8, 8, 3, 4, 5]//要填充内容，开始填充的位置，结�
 ```
 
 #### String所有的方法
-```js
-
+```
+chatAt:返回指定支付串; concat将一个或多个字符串与原字符串连接合并,返回新的字符串;
+includes:当前字符串是否包含参数里的字符,返回true/false;indexOf:返回第一个出现执行值的索引;lastIndexOf:返回最后一个出现的索引
+slice substring 截取开始,结束位置,唯一区别在于第二个参数为负值的时候,slice为第一个参数加第二个参数,substring为0
+substr 截取第二个参数为要截取的个数
+split  返回一下由string字符分割的数组
+replace替换,第一个参数要被替换的内容,第二个参数要替换的内容,替换内容为字符串只替换第一个匹配,可以是一个每次匹配都调用的回调函数;replaceAll,字符串也全都匹配.
+toUpperCase转大写 toLowerCase转小写 trim删除两端的空白字符 trimRight末端移除空白字符 trimLeft开头删除空格
+endsWith:判断字符串是否以给定的字符结尾.
+valueOf:返回string对象的原始值
+chatCodeAt返回索引UTF-16的代码(0-65535) codePointAt返回索引位置unicode码点值非负整数
 ```
 
 ### 函数的调用
