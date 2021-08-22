@@ -299,6 +299,7 @@ const arrArgs = Array.protype.call(arguments)
       console.log(Counter2.value()); /* logs 0 *//
      ```  
    - 防抖函数，节流函数，柯里化函数，在循环中使用闭包(使用let,闭包,和匿名函数都可以)。
+   - 回调函数也是闭包。（回调函数就是作为另一个函数的参数的函数.）
 
 **闭包的优缺点：**  
 - 优点：闭包减少全局变量，可重复使用，避免变量污染。
