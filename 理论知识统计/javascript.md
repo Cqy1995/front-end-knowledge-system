@@ -223,7 +223,20 @@ const arrArgs = Array.protype.call(arguments)
 -  全局函数有parseFloat,parseInt  
 -  全局构造函数有Object，Date,Math  
 
-
+##### 函数声明提升与变量声明提升
+- 函数声明提升会提升整体到作用域顶端
+- 变量声明提升，只会提升声明体，不会提升赋值体
+  - ```js
+   console.log(num)
+   var num = 5
+   //会打印undefined
+   //实际如下
+   var num
+   console.log(num)
+   num = 5;
+   //只声明没赋值，默认为undefiend
+    ``` 
+- 函数提升优先级高于变量声明提升
 
 ### 闭包
 
