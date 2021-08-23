@@ -36,14 +36,14 @@
    - typeof 检测引用类型，基本都是 object,除了 function.  
       - 多function:function比object多了内部的一个[[call]]方法
    - Object.prototype.toString.call()可以判断任何类型
-2. instanceof
+2. instanceof:检测构造函数的prototype是否在某个实例对象的原型链上.
    - instanceof,检测A对象是否是B对象实例化出来的,返回布尔,true/false
    - instanceof 原型链 A instantceof B => true, B instanceof C => true, A instanceof C => true
 
 ##### 判断空对象的方法
-Object.keys(obj).length的长度
-JSON.Stringify()与"{}"对比
-
+Object.keys(obj).length === 0
+JSON.Stringify() ==== "{}"
+for(let key in obj)遍历属性
 #### 转换：
 
 ⚠️：类型的转换总是得到 number,string,boolean.
@@ -420,13 +420,15 @@ js如何执行
 宏任务：同步 script（整体代码），setTimeout 回调函数，setInterval 回调函数，I/O,UI renderding。  
 微任务： process.nextTick, Promise 回调函数，Object.observe，MutationObserver。 
 
+!['eventloop img'](https://raw.githubusercontent.com/Cqy1995/front-end-knowledge-system/main/images/evenloop.jpg)   
 代码执行顺序：  
-1. 先执行同步阻塞任务，同步任务会等待上一个执行完毕以后执行下一个，当同步任务执行完毕，再执行异步任务，遇到异步任务会将异步任务的回调函数注册在异步任务队列里。注意，如果主线程上没有同步任务会直接调用异步任务的微任务。
-2. 执行宏任务，遇到微任务将都添加到微任务队列里。
-3. 当前宏任务执行完后,执行微任务队列，直到微任务队列全部执行完，微任务队列为空。
-4. 执行宏任务，如果在执行宏任务期间有微任务，将微任务添加到微任务队列里，执行完宏任务之后执行微任务，直到微任务队列全部执行完。
-5. 继续执行宏任务队列。
-6. 重复2,3,4,5....直到宏微任务为空
+1. 首先在call stack(执行栈)中,执行同步代码.(在JS执行栈中)
+2. 遇到异步代码放到webapi中(在webapi中)
+3. webapi会把异步代码的微任务推送到callback Queue(回调队列中)
+4. 第一步执行栈清空以后,把回调队列中的任务,推送到执行栈中(队列->执行栈)
+5. 在搜索宏任务前,会进行真实的dom渲染
+6. 执行栈清空,去webapi去搜索下一个宏任务
+7. 回到第一步,继续执行,直到多少宏任务与微任务执行完毕
 
 #### Promise
 
