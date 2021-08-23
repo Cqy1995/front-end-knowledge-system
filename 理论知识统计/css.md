@@ -215,6 +215,19 @@ initail-scale=1 是指初始化比例保持不变（响应式必要要有这个�
 3. 使用流式布局，使页面布局随着视口的改变而改变。
 4. 使用 viewport，避免浏览器使用虚拟的 veiwport。
 
-
+#### .5px与字体12px一下如何处理
+```css
+.hight5::after{
+   content:'';
+   dispaly:block;
+   height:1px;
+   trasform:scaleY(.5);
+}
+.fontsize10{
+   font-size:20px;
+   trasform:scale(.5);
+   trasform-origin:left;
+}
+```
 
 

@@ -223,7 +223,20 @@ const arrArgs = Array.protype.call(arguments)
 -  全局函数有parseFloat,parseInt  
 -  全局构造函数有Object，Date,Math  
 
-
+##### 函数声明提升与变量声明提升
+- 函数声明提升会提升整体到作用域顶端
+- 变量声明提升，只会提升声明体，不会提升赋值体
+  - ```js
+   console.log(num)
+   var num = 5
+   //会打印undefined
+   //实际如下
+   var num
+   console.log(num)
+   num = 5;
+   //只声明没赋值，默认为undefiend
+    ``` 
+- 函数提升优先级高于变量声明提升
 
 ### 闭包
 
@@ -299,6 +312,7 @@ const arrArgs = Array.protype.call(arguments)
       console.log(Counter2.value()); /* logs 0 *//
      ```  
    - 防抖函数，节流函数，柯里化函数，在循环中使用闭包(使用let,闭包,和匿名函数都可以)。
+   - 回调函数也是闭包。（回调函数就是作为另一个函数的参数的函数.）
 
 **闭包的优缺点：**  
 - 优点：闭包减少全局变量，可重复使用，避免变量污染。
