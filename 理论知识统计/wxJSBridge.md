@@ -45,3 +45,19 @@
     - moved:组件实例被移动到节点树另一个位置执行
     - detached:组件实例被从页面节点树移除时执行
     - error:每当组件方法抛出错误执行
+
+## 小程序目录结构
+- pages:页面文件夹
+- utils:工具类库
+- api:统一接口文件
+- component:组件
+- images:图片文件夹
+- app.js:入口文件小程序逻辑
+- app.json：公共配置
+- app.wxss：公共样式
+- project.config.js
+- project.private.config.js
+- siemap.json
+## 小程序原生组件为什么层级最高？如何解决？ 
+由于原生组件脱离webview渲染层外，所以原生组件的层级最高
+使用cover-view
