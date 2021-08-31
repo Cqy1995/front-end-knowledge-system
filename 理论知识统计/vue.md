@@ -389,7 +389,34 @@ vuex使用api
       ]
     })
     ```
-
+  - 自定义指令
+    - 全局自定义指令Vue.directive,局部自定义接收directives
+    - 钩子函数
+      - bind:第一次绑定元素（只调用一次），进行初始化操作
+      - inserted：被绑定元素插入父节点时调用
+      - update：VNode更新触发
+      - componentUpdated：所在组件VNode及子组件VNode全部更新调用
+      - unbind：解绑（只调用一次）
+    - 钩子函数的参数
+      - el：所绑定的元素，可用来操作dom
+      - binding：属性对象
+        - name:指令名 v-“name”
+        - value:指令绑定值
+        - oldValue:指令绑定前一个值
+        - expression:字符串形式的表达式
+        - arg：传给指令的参数
+        - modifiers：一个包含修饰符的对象
+      - vnode:vue编译生成的虚拟dom
+      - oldVnode：上一个虚拟节点
+  - 插件机制
+    - 使用插件：Vue.use()
+    - 开发插件：暴露一个install方法，第一个参数式vue构造器，第二个参数可选的选项对象
+    - 功能范围
+      - 添加全局方法或property
+      - 添加全局资源：指令/过滤器/过渡等，如vue-touch
+      - 通过全局混入插入一些组件选项。如vue-router
+      - 添加Vue实例方法，通过它们添加到Vue.prototype
+      - 一个库提供自己的api
 
 ### 组件和状态设计
 考察重点:数据驱动视图
