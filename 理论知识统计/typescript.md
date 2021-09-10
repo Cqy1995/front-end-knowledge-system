@@ -49,6 +49,12 @@ TypeScript是JavaScript超集,不仅包含了es5标准,也包含了es6/7/8未来
       }
       enum.blue => 'blue'
       enum[1] => red
+      //元组转es5
+      (function (Color) {
+         Color[Color["red"] = 1] = "red";
+         Color[Color["green"] = 3] = "green";
+         Color["blue"] = "blue";
+      })(Color || (Color = {}));
    ```
 
 9.  any:任何类型(当你不确定会是什么类型,或懒得定义复杂结构的时候使用)
