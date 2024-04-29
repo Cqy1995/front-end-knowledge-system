@@ -10,7 +10,7 @@
 - 编程能力题
 - 持续更新中...
 
-[Get Started](#README)
+[Get Started](https://front-end-knowledge-system.vercel.app/#/README)
 [GitHub](https://github.com/Cqy1995/front-end-knowledge-system)
 
 
