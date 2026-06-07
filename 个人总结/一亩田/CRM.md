@@ -307,7 +307,7 @@ addRoutes 后必须 replace: true，否则刷新白屏。
 迁移期非 inner 导航会 window.open 旧 CRM，测试容易误判为路由 bug。
 
 ### 历史老旧Angular项目对接的兼容问题，你是怎么一步步定位解决的？
-我们老 CRM 是 old_ctn 容器 + hash 路由 的早期单体，技术栈是 Angular 一代的遗留实现。新 CRM 是 Vue 子应用，不能一次性重写几百个菜单，所以采用 并行迁移。
+「我们不是把 Angular 代码迁进 Vue，而是 新旧并行：未迁完的菜单仍进老容器，已迁的走 Vue；再叠加微前端基座。兼容工作的核心是 路由、登录态、窗口策略、全局脚本冲突。」
 
 我排查兼容问题会先 看 URL 和 viewKey，分清走 Vue、走 iframe 老容器，还是跳微前端基座。老菜单在 router/old.ts 做 path 映射，页面用 iframe 加载 oldUrlBase + fullPath。
 
